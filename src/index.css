@@ -1,0 +1,148 @@
+@import 'tailwindcss';
+
+/* ----------------------------------------------------------------------------
+   Pathline design tokens
+   Warm, human, anti-LinkedIn. Color encodes meaning:
+   coral = brand/action · teal-green = presence/live · amber = why-now trigger
+---------------------------------------------------------------------------- */
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  /* canvas + ink */
+  --color-cream: #fbf6f0;
+  --color-surface: #ffffff;
+  --color-hairline: #efe9e0;
+  --color-hairline-strong: #e6dfd5;
+  --color-ink: #2c2c2a;
+  --color-ink-2: #5f5e5a;
+  --color-ink-3: #888780;
+  --color-ink-4: #b4b2a9;
+
+  /* coral — brand / primary action */
+  --color-coral-50: #faece7;
+  --color-coral-200: #f0997b;
+  --color-coral: #d85a30;
+  --color-coral-700: #993c1d;
+  --color-coral-900: #4a1b0c;
+
+  /* teal-green — presence / live / verified */
+  --color-live-50: #e1f5ee;
+  --color-live-200: #9fe1cb;
+  --color-live-400: #5dcaa5;
+  --color-live: #1d9e75;
+  --color-live-700: #0f6e56;
+  --color-live-900: #04342c;
+
+  /* amber — why-now trigger */
+  --color-amber-50: #faeeda;
+  --color-amber-200: #fac775;
+  --color-amber: #ef9f27;
+  --color-amber-700: #854f0b;
+  --color-amber-900: #412402;
+
+  /* iris — neutral avatar accent */
+  --color-iris-100: #cecbf6;
+  --color-iris: #534ab7;
+  --color-iris-900: #26215c;
+
+  /* device */
+  --color-bezel: #1c1c1e;
+  --color-night: #2c2c2a;
+  --color-night-2: #444441;
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    margin: 0;
+    background: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  button {
+    font-family: inherit;
+    cursor: pointer;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Motion — defined here (never inline). Tasteful, iOS-flavored.
+---------------------------------------------------------------------------- */
+@layer utilities {
+  @keyframes pl-pulse {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.45;
+      transform: scale(0.75);
+    }
+  }
+  .pl-pulse {
+    animation: pl-pulse 1.8s ease-in-out infinite;
+  }
+
+  @keyframes pl-ring {
+    0% {
+      transform: scale(1);
+      opacity: 0.55;
+    }
+    100% {
+      transform: scale(2.1);
+      opacity: 0;
+    }
+  }
+  .pl-ring {
+    animation: pl-ring 1.8s ease-out infinite;
+  }
+
+  @keyframes pl-wave {
+    0%,
+    100% {
+      transform: scaleY(0.28);
+    }
+    50% {
+      transform: scaleY(1);
+    }
+  }
+  .pl-wave-bar {
+    transform-origin: center;
+    animation: pl-wave 0.9s ease-in-out infinite;
+  }
+  .pl-wave-bar:nth-child(1) {
+    animation-delay: 0s;
+  }
+  .pl-wave-bar:nth-child(2) {
+    animation-delay: 0.12s;
+  }
+  .pl-wave-bar:nth-child(3) {
+    animation-delay: 0.24s;
+  }
+  .pl-wave-bar:nth-child(4) {
+    animation-delay: 0.36s;
+  }
+  .pl-wave-bar:nth-child(5) {
+    animation-delay: 0.18s;
+  }
+  .pl-wave-bar:nth-child(6) {
+    animation-delay: 0.3s;
+  }
+  .pl-wave-bar:nth-child(7) {
+    animation-delay: 0.06s;
+  }
+
+  .pl-noscroll::-webkit-scrollbar {
+    display: none;
+  }
+  .pl-noscroll {
+    scrollbar-width: none;
+  }
+}
