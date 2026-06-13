@@ -6,6 +6,10 @@ Pathline = a two-sided job marketplace; we build the **employer/recruiter** side
 presence + consent based matching. One-liner: "LinkedIn matches you to a keyword in a static
 graph. Pathline matches you to a person in the right moment."
 
+> Product thinking evolves as we pressure-test it. The crisp calls live in `DECISIONS.md`, the full
+> reasoning trail in `DESIGN-JOURNAL.md`, and the trust/fraud analysis in `THREAT-MODEL.md`.
+> **Where this file conflicts with those, those win.**
+
 ## The flow (recruiter POV — persona "Dana", hiring a Staff Product Engineer at Vela)
 0. **Push opener** (lock screen) — "Maya just opened a moment for your role · active now" → tap in.
 1. **Presence board** — a few candidates in an open moment *right now*. Header contrast: "5 open
@@ -21,14 +25,23 @@ graph. Pathline matches you to a person in the right moment."
 
 ## Unit of signal — replaces the resume (core thesis)
 The resume is dead because AI made all candidate-*authored* text worthless. So **candidates never
-author persuasive prose.** Signal = the things AI can't fake:
-- **Behavioral liveness** — active now, response time, show-up rate, "opened this moment." (passive, zero-friction)
+author persuasive prose.** The **load-bearing signal is participation-free** — it needs no third
+party and works on day one:
+- **Behavioral liveness** — active now, response time, show-up rate, "opened this moment." (passive)
 - **Verified facts — provenance without paperwork.** NEVER ask for documents/paystubs/background
-  checks. Credibility comes only from: one-click **work-email magic link** (employer + title, not
-  salary), **OAuth-connecting** things the candidate already owns (GitHub, portfolio, linked URL),
-  and **peer vouches** (double opt-in — the voucher attests). Every verified item **shows its source tag**.
-- **Earned track record** — reputation accrued on-platform (replies in ~12 min, showed up 8/8).
-- **The live conversation itself** — the real liveness proof; an AI profile collapses on a live call.
+  checks. Credibility comes from one-click **work-email magic link** (employer + title, not salary)
+  and **OAuth-connecting** things the candidate already owns (GitHub, portfolio, linked URL). Every
+  item **shows its source tag**.
+- **Declared intent** — structured chips (stage, comp, role); the only thing the candidate writes.
+- **The live conversation** — a liveness *layer*, not a guarantee. Real-time deepfakes exist, so
+  liveness is **necessary, not sufficient**; heavy identity + anti-deepfake checks are *composed*
+  downstream, not built (see `THREAT-MODEL.md`). Trust is layered.
+
+**Enrichment — quality signal, NOT pillars and NOT fraud controls:**
+- **Peer vouches** (double opt-in) and **earned track record** add quality and compound as the
+  network grows — but they're never relied on for fraud, and a candidate with neither is still
+  fully usable. (Why: vouches can't bootstrap, are Sybil-gameable, and depend on third-party
+  participation — see `DECISIONS.md` / `DESIGN-JOURNAL.md`.)
 - **Anonymized until mutual** — name/face reveal only when both start the live moment (protects
   passive supply + makes the reveal the emotional climax). No public profile page exists.
 

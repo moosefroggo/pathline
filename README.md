@@ -63,6 +63,8 @@ The prototype is one tight flow (tap straight through it):
 
 ## Key product & design decisions
 
+See **[DECISIONS.md](DECISIONS.md)** for the load-bearing calls and their rationale (e.g. *intent-as-input not candidates-as-output*; *cap on commitment & concurrency, never on discovery*; *silence becomes closure*; *don't price time-on-market*). The full reasoning trail — what we discovered, argued about, and resolved — is in **[DESIGN-JOURNAL.md](DESIGN-JOURNAL.md)**.
+
 - **Who initiates?** The recruiter — but **only into an open, consented moment.** It's never a cold message.
 - **What replaces the résumé?** The verified + behavioral + live signal above. Not authored prose.
 - **Transparency stance.** Salary band shown upfront, consent made a visible UI element, declared intent in the open.

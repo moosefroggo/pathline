@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Nectar's source brief — kept local, not committed
+ASSIGNMENT.md
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
