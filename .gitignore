@@ -25,3 +25,4 @@ ASSIGNMENT.md
 *.njsproj
 *.sln
 *.sw?
+.vercel
