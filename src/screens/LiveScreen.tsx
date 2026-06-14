@@ -118,7 +118,7 @@ export function LiveScreen({
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.35 }}
-                className="mt-2.5 text-title font-medium text-white"
+                className="mt-2.5 font-serif text-[26px] font-medium text-white"
               >
                 {c.name}
               </motion.div>

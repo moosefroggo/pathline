@@ -7,48 +7,51 @@
 ---------------------------------------------------------------------------- */
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  /* display serif — brand voice only (wordmark, moment count, reveal name) */
+  --font-serif: 'Fraunces', Georgia, 'Times New Roman', serif;
 
-  /* canvas + ink */
-  --color-cream: #fbf6f0;
+  /* canvas + ink — "Warm Signal": warm paper base, warmer/darker ink (AA-fixed) */
+  --color-cream: #fbf4ec;
   --color-surface: #ffffff;
-  --color-hairline: #efe9e0;
-  --color-hairline-strong: #e6dfd5;
-  --color-ink: #2c2c2a;
-  --color-ink-2: #5f5e5a;
-  --color-ink-3: #888780;
-  --color-ink-4: #b4b2a9;
+  --color-surface-alt: #fdf7f0;
+  --color-hairline: #f0e7dc;
+  --color-hairline-strong: #e7dcce;
+  --color-ink: #241e1b;
+  --color-ink-2: #5a524c;
+  --color-ink-3: #736a61;
+  --color-ink-4: #9a9087;
 
-  /* coral — brand / primary action */
-  --color-coral-50: #faece7;
-  --color-coral-200: #f0997b;
-  --color-coral: #d85a30;
-  --color-coral-700: #993c1d;
-  --color-coral-900: #4a1b0c;
+  /* coral — brand / primary action (deepened) */
+  --color-coral-50: #fceae2;
+  --color-coral-200: #f0a184;
+  --color-coral: #d94e27;
+  --color-coral-700: #a23415;
+  --color-coral-900: #3d150a;
 
-  /* teal-green — presence / live / verified */
-  --color-live-50: #e1f5ee;
-  --color-live-200: #9fe1cb;
-  --color-live-400: #5dcaa5;
-  --color-live: #1d9e75;
-  --color-live-700: #0f6e56;
-  --color-live-900: #04342c;
+  /* live — presence / verified (Transformative-Teal lean) */
+  --color-live-50: #e0f4ef;
+  --color-live-200: #93e0cd;
+  --color-live-400: #34bfa0;
+  --color-live: #0c8a74;
+  --color-live-700: #0a5f52;
+  --color-live-900: #04332b;
 
-  /* amber — why-now trigger */
-  --color-amber-50: #faeeda;
-  --color-amber-200: #fac775;
-  --color-amber: #ef9f27;
-  --color-amber-700: #854f0b;
-  --color-amber-900: #412402;
+  /* amber — why-now trigger (Amber Haze) */
+  --color-amber-50: #fbefd9;
+  --color-amber-200: #f7cb7e;
+  --color-amber: #dd861b;
+  --color-amber-700: #8a4f0c;
+  --color-amber-900: #3f2402;
 
-  /* iris — neutral avatar accent */
-  --color-iris-100: #cecbf6;
-  --color-iris: #534ab7;
-  --color-iris-900: #26215c;
+  /* iris — avatar accent (Aura indigo) */
+  --color-iris-100: #d7d4f7;
+  --color-iris: #4b45c9;
+  --color-iris-900: #211c5e;
 
   /* device */
-  --color-bezel: #1c1c1e;
-  --color-night: #2c2c2a;
-  --color-night-2: #444441;
+  --color-bezel: #16151a;
+  --color-night: #1b1a20;
+  --color-night-2: #3a3942;
 
   /* type scale — one modular set, used everywhere */
   --text-display: 60px;
@@ -154,8 +157,8 @@
   .pl-glow {
     background: radial-gradient(
       circle at center,
-      rgba(216, 90, 48, 0.34),
-      rgba(83, 74, 183, 0.16) 46%,
+      rgba(217, 78, 39, 0.36),
+      rgba(75, 69, 201, 0.2) 46%,
       transparent 72%
     );
     filter: blur(7px);

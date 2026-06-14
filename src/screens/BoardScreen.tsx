@@ -99,7 +99,7 @@ export function BoardScreen({ onSelect }: { onSelect: (c: Candidate) => void }) 
           {recruiter.role} · {recruiter.company}
         </div>
         <div className="mt-2.5 flex items-baseline gap-1.5">
-          <span className="text-subhead font-medium text-live-700">
+          <span className="font-serif text-[19px] font-medium text-live-700">
             {openMomentsCount} open moments
           </span>
           <span className="text-caption text-ink-3">right now · vs {atsBacklog} in your ATS</span>

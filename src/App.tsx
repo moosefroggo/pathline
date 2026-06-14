@@ -23,7 +23,7 @@ export default function App() {
           <span className="flex h-6 w-6 items-center justify-center rounded-[7px] bg-coral text-white">
             <IconLeaf size={15} stroke={2} />
           </span>
-          <span className="text-headline font-medium text-ink">Pathline</span>
+          <span className="font-serif text-[20px] font-medium text-ink">Pathline</span>
         </div>
         <div className="text-label text-ink-3">
           Meet in the moment — a recruiter-side prototype
