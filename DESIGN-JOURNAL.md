@@ -81,7 +81,39 @@ Crisp final calls live in [DECISIONS.md](DECISIONS.md); the adversarial/trust an
 
 ---
 
+### 17 · Validate it myself + find what doesn't work
+- **Argued.** Should we usability-test? A formal test answers the wrong question (usability ≠ strategy) and can't recruit recruiters by Sunday.
+- **Resolved.** Run a *self-driven, honestly-caveated* check (unmoderated, Lyssna/Maze) — the point is to *demonstrate independent validation* + surface a "here's what I tried that didn't work" finding, not to get bulletproof data.
+
+### 18 · A wide search for a *truly* different direction
+- **Discovered/Argued.** Brainstormed many alternatives: office-hours room, work-together, speed-rounds, reverse-auction, TikTok-duet, voice-notes, problem-first feed, drop-into-the-team. Each was pushed on ("that's just a moment with a tweak").
+- **Resolved (mostly set aside).** Most either drift off "the moment of connection," reintroduce evaluation, or fight mobile (below). Kept "solve together" as the one worth mocking.
+
+### 19 · Form factor → "the device line is the scope line"
+- **Argued.** "If it's a mobile app, isn't work-together hard?" Yes — real collaboration is a desktop activity.
+- **Resolved.** The **mobile/desktop boundary is the same as our scope boundary**: mobile-native = the connection moment (ours); desktop-native = deep evaluation/the funnel (not ours). Work-together fails on *both* axes at once — and that's not a coincidence.
+
+### 20 · Mobile is the *capability*, not the form factor
+- **Discovered.** The real thesis: a phone is always-on, in-pocket, camera-in-hand, and *personal* — so it can reach both people *in the moment, anywhere*, and let them connect *now*. Desktop physically can't catch the moment. "Desktop hiring tools are a dime a dozen *because* they're stuck in session-based, lean-in patterns."
+- **Resolved.** Counter-positioning, sharpened: the moment of connection is a **mobile-only capability**, not a feature desktop could bolt on.
+
+### 21 · First-principles reset → "evaluation is the enemy"
+- **Argued.** "Imagine our solution doesn't exist — start brand new on the moment of connection."
+- **Discovered.** Real connection never happens *while being evaluated* (it happens around shared problems, help, genuine interest, trusted intros). **Every hiring moment today — including ours — is secretly an evaluation, so both people perform, and the spark dies.**
+- **Resolved (principle).** Design a moment with **zero evaluation**, built around a shared real thing, where **the job is the punchline, not the premise.**
+
+### 22 · The fork under all the circling: two different products
+- **Discovered.** A "behavior analyzer that ranks the strongest matches" kept resurfacing — and it's a *different product*: **Product B** (rank-the-best via proof-of-work; Outship/AI-matching turf) vs **Product A** (presence + the moment + *no ranking, no evaluation*). The pull toward B is "the gravity of the obvious."
+- **Resolved.** Commit to **Product A** (connection, not analysis). Proof-of-work behavior is welcome only as a *byproduct of the moment*, never as an upfront ranker (consistent with `D-001`).
+
+### 23 · "Solve together" — mocked, then deliberately shelved → `D-005`
+- **Resolved.** The evaluation-free "solve, don't sell" shape is genuinely strong, so it's **mocked (2 screens) and documented as an explored alternative** — but kept *out* of the core because it drifts to evaluation, leans desktop, and adds friction. It's the "what I tried that didn't become the core, and why" story.
+
+## Where it landed
+- **Core bet — locked: Product A.** The mobile presence/moment is the hero (built). It's an evaluation-free *connection*, not a ranking/analysis engine. Reciprocity/accountability (SLAs, "silence becomes closure") and the *"job is the punchline"* principle are the through-line story; "solve together" is a documented alternative (`D-005`).
+- **Mobile is the capability**, not a form factor (Entry 20) — the sharpest version of the wedge.
+
 ## Still open
-- **Core bet not fully locked** — presence vs reciprocity vs agent. Current lean: reciprocity/accountability as the through-line, presence as a mechanic, AI as invisible plumbing. (Entry 12.)
-- **Scope boundary** — stay "the connection moment," or own the **accountable relationship through to offer** (the full anti-ghosting promise, a bigger product)? Leaning: own the accountability *layer* (clock + reputation), not the ATS. (Entry 15.)
-- **Build decision** — whether to add the recruiter-side "ask about this candidate" (verified-data assistant) and/or an SLA status-tracker screen to the prototype, or keep them as deck/vision.
+- **Scope boundary** — stay "the connection moment," or own the **accountable relationship through to offer** (bigger product)? Leaning: own the accountability *layer* (clock + reputation), not the ATS. (Entry 15.)
+- **Optional build** — whether to add an SLA status-tracker screen and/or mobile-native "ambient presence" touches to the prototype, or keep them as deck/vision.
+- **The deck + the self-run validation** — not yet started; the real remaining work before Sunday 8 PM.

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
-// Live ticking countdown for the "open window". Returns a coarse label like "2h 14m".
+// Live ticking countdown for the "open window". Returns a clock label
+// (h:mm:ss / m:ss) that visibly ticks every second, so the window feels perishable.
 export function useCountdown(initialSecs: number) {
   const [secs, setSecs] = useState(initialSecs)
   useEffect(() => {
@@ -9,8 +10,10 @@ export function useCountdown(initialSecs: number) {
   }, [])
   const h = Math.floor(secs / 3600)
   const m = Math.floor((secs % 3600) / 60)
-  const label = h > 0 ? `${h}h ${m}m` : `${m}m ${secs % 60}s`
-  return { secs, label }
+  const s = secs % 60
+  const pad = (n: number) => String(n).padStart(2, '0')
+  const label = h > 0 ? `${h}:${pad(m)}:${pad(s)}` : `${m}:${pad(s)}`
+  return { secs, label, expired: secs <= 0 }
 }
 
 // Counts up mm:ss — used for the live moment timer.

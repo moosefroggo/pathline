@@ -165,7 +165,7 @@ export const candidates: Candidate[] = [
     hue: 'iris',
     openedAgo: 'opened 5m ago',
     repliesIn: '~15 min',
-    windowSecs: 1 * 3600 + 22 * 60,
+    windowSecs: 50, // short on purpose — demos the perishable "window closed" state live
     trigger: 'Quietly exploring this week · candidate-shared',
     verified: [
       { label: 'Senior PM, 7 yrs', source: 'work email', sourceIcon: 'mail' },

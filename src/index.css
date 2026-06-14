@@ -49,6 +49,16 @@
   --color-bezel: #1c1c1e;
   --color-night: #2c2c2a;
   --color-night-2: #444441;
+
+  /* type scale — one modular set, used everywhere */
+  --text-display: 60px;
+  --text-title: 22px;
+  --text-headline: 17px;
+  --text-subhead: 15px;
+  --text-body: 13px;
+  --text-label: 12px;
+  --text-caption: 11px;
+  --text-micro: 10px;
 }
 
 @layer base {
@@ -68,6 +78,11 @@
   button {
     font-family: inherit;
     cursor: pointer;
+  }
+  :where(button, [role='button'], a):focus-visible {
+    outline: 2px solid var(--color-coral);
+    outline-offset: 2px;
+    border-radius: 10px;
   }
 }
 
@@ -117,26 +132,33 @@
     transform-origin: center;
     animation: pl-wave 0.9s ease-in-out infinite;
   }
-  .pl-wave-bar:nth-child(1) {
-    animation-delay: 0s;
+  .pl-wave-bar:nth-child(odd) {
+    animation-duration: 0.76s;
   }
-  .pl-wave-bar:nth-child(2) {
-    animation-delay: 0.12s;
+  .pl-wave-bar:nth-child(3n) {
+    animation-duration: 1.06s;
   }
-  .pl-wave-bar:nth-child(3) {
-    animation-delay: 0.24s;
-  }
-  .pl-wave-bar:nth-child(4) {
-    animation-delay: 0.36s;
-  }
-  .pl-wave-bar:nth-child(5) {
-    animation-delay: 0.18s;
-  }
-  .pl-wave-bar:nth-child(6) {
-    animation-delay: 0.3s;
-  }
-  .pl-wave-bar:nth-child(7) {
-    animation-delay: 0.06s;
+  .pl-wave-bar:nth-child(1) { animation-delay: 0s; }
+  .pl-wave-bar:nth-child(2) { animation-delay: 0.14s; }
+  .pl-wave-bar:nth-child(3) { animation-delay: 0.28s; }
+  .pl-wave-bar:nth-child(4) { animation-delay: 0.42s; }
+  .pl-wave-bar:nth-child(5) { animation-delay: 0.2s; }
+  .pl-wave-bar:nth-child(6) { animation-delay: 0.34s; }
+  .pl-wave-bar:nth-child(7) { animation-delay: 0.08s; }
+  .pl-wave-bar:nth-child(8) { animation-delay: 0.5s; }
+  .pl-wave-bar:nth-child(9) { animation-delay: 0.24s; }
+  .pl-wave-bar:nth-child(10) { animation-delay: 0.4s; }
+  .pl-wave-bar:nth-child(11) { animation-delay: 0.12s; }
+
+  /* warm glow behind the reveal — the moment is the hero */
+  .pl-glow {
+    background: radial-gradient(
+      circle at center,
+      rgba(216, 90, 48, 0.34),
+      rgba(83, 74, 183, 0.16) 46%,
+      transparent 72%
+    );
+    filter: blur(7px);
   }
 
   .pl-noscroll::-webkit-scrollbar {
@@ -144,5 +166,17 @@
   }
   .pl-noscroll {
     scrollbar-width: none;
+  }
+}
+
+/* respect reduced-motion — no looping animation for vestibular safety */
+@media (prefers-reduced-motion: reduce) {
+  .pl-pulse,
+  .pl-ring,
+  .pl-wave-bar {
+    animation: none !important;
+  }
+  .pl-ring {
+    opacity: 0.35;
   }
 }

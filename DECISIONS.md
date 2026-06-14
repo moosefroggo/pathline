@@ -4,6 +4,21 @@ A lightweight record of the load-bearing calls and *why*, so the reasoning survi
 
 ---
 
+## D-005 · "Solve together" — explored, kept as an *alternative*, not the core
+
+**Context.** Explored a different *shape* of the moment — **"solve, don't sell":** instead of two people talking, they work a **real slice of the role's work together, live**, so fit reveals itself as a *byproduct* (the *"evaluation is the enemy of connection"* principle). Mocked as two screens.
+
+**Decision.** Keep the **low-stakes mobile presence/moment as the core**; carry "solve together" as a **deeper-stage alternative**, not the headline.
+
+**Why (the three-part issue).**
+1. **It drifts toward evaluation** — the very thing that kills connection. A shared task quietly becomes "watch me work," and the moment turns into a live **assessment** (Outship's layer, which we excluded).
+2. **It's desktop-leaning** — real collaboration (code/design/docs) wants a keyboard and a big screen, which **fights the mobile-first thesis** (mobile is the *capability*, not a style choice — *the device line is the scope line*).
+3. **Higher friction** — a 15-min live collab is a much bigger ask than a 2-min moment; it raises the barrier to *first* contact, the opposite of frictionless presence.
+
+**Where it's still good.** As a *later* step (after the moment), for senior/considered roles where chemistry-of-working-together matters — and it's the most **deepfake-proof** signal of all. Documented + mocked as the "here's a direction I explored, the issue I hit, and the deliberate call I made" story.
+
+---
+
 ## D-004 · Don't price *time-on-market*; surface *accountability*, not *tenure*
 
 **Context.** Does a long-open role, or a candidate who's been searching a long time, count as signal? Bad signal, or unfair?

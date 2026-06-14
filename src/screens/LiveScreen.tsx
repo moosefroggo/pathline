@@ -12,14 +12,16 @@ import { Avatar } from '../components/bits'
 import { useStopwatch, useTimeout } from '../lib/hooks'
 import type { Candidate } from '../data'
 
+const WAVE = [10, 18, 26, 14, 22, 30, 16, 24, 12, 20, 9]
+
 function Waveform() {
   return (
-    <div className="flex h-7 items-end justify-center gap-[3px]">
-      {[10, 20, 26, 14, 22, 9, 18].map((h, i) => (
+    <div className="flex h-8 items-center justify-center gap-[3px]" aria-hidden="true">
+      {WAVE.map((h, i) => (
         <span
           key={i}
-          className={`pl-wave-bar w-[3px] rounded-[2px] bg-live-400 ${
-            h >= 24 ? 'h-[26px]' : h >= 18 ? 'h-[20px]' : h >= 12 ? 'h-[14px]' : 'h-[9px]'
+          className={`pl-wave-bar w-[3px] rounded-full bg-live-400 ${
+            h >= 26 ? 'h-8' : h >= 20 ? 'h-6' : h >= 14 ? 'h-4' : 'h-2.5'
           }`}
         />
       ))}
@@ -55,17 +57,25 @@ export function LiveScreen({
 
   return (
     <div className="flex flex-1 flex-col px-4 pb-5 text-white">
-      <div className="pt-3.5 text-center">
+      <div className="flex items-center justify-center pt-3.5 text-center">
         {phase === 'live' ? (
-          <span className="inline-flex items-center gap-1.5 rounded-lg bg-live/20 px-3 py-1 text-[11px] text-live-200">
+          <span className="inline-flex items-center gap-1.5 rounded-lg bg-live/20 px-3 py-1 text-caption text-live-200">
             <span className="h-1.5 w-1.5 rounded-full bg-live" /> Live · {label}
           </span>
         ) : (
-          <span className="text-[12px] text-ink-4">Connecting&hellip;</span>
+          <span className="text-label text-ink-4">Connecting&hellip;</span>
         )}
       </div>
 
-      <div className="flex flex-1 flex-col items-center pt-7 text-center">
+      {/* self-view, tucked into the corner so it never collides with the reveal */}
+      {phase === 'live' && (
+        <div className="absolute top-3 right-3 z-10 flex h-[58px] w-[44px] flex-col items-center justify-center gap-1 rounded-xl border border-white/15 bg-night-2 text-ink-4">
+          <IconVideo size={14} stroke={1.6} />
+          <span className="text-micro">You</span>
+        </div>
+      )}
+
+      <div className="flex flex-1 flex-col items-center pt-8 text-center">
         <AnimatePresence mode="wait">
           {phase === 'ringing' ? (
             <motion.div
@@ -86,25 +96,34 @@ export function LiveScreen({
               transition={{ type: 'spring', stiffness: 260, damping: 22 }}
               className="flex flex-col items-center"
             >
-              <Avatar initials={c.initials} hue={c.hue} size="xl" />
+              <div className="relative flex items-center justify-center">
+                <motion.span
+                  aria-hidden="true"
+                  initial={{ opacity: 0, scale: 0.6 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.7, ease: 'easeOut' }}
+                  className="pl-glow pointer-events-none absolute h-[210px] w-[210px] rounded-full"
+                />
+                <Avatar initials={c.initials} hue={c.hue} size="xl" />
+              </div>
               <motion.span
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.25 }}
-                className="mt-3 inline-flex items-center gap-1 rounded-md bg-white/10 px-2.5 py-1 text-[10px] text-[#f1efe8]"
+                className="mt-4 inline-flex items-center gap-1 rounded-md bg-white/10 px-2.5 py-1 text-micro text-[#f1efe8]"
               >
                 <IconLockOpen size={11} stroke={1.9} /> Identity unlocked
               </motion.span>
               <motion.div
-                initial={{ opacity: 0, y: 6 }}
+                initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.35 }}
-                className="mt-2 text-[19px] font-medium text-white"
+                className="mt-2.5 text-title font-medium text-white"
               >
                 {c.name}
               </motion.div>
-              <div className="mt-0.5 text-[12px] text-ink-4">{c.realRole}</div>
-              <div className="mt-4">
+              <div className="mt-1 text-label text-[#cfcdc6]">{c.realRole}</div>
+              <div className="mt-5">
                 <Waveform />
               </div>
             </motion.div>
@@ -116,19 +135,13 @@ export function LiveScreen({
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mt-5 max-w-[260px] rounded-2xl bg-white/95 px-3.5 py-2.5 text-[12px] leading-snug text-ink"
+              className="mt-6 max-w-[260px] rounded-2xl bg-white/95 px-3.5 py-2.5 text-body leading-snug text-ink"
             >
               &ldquo;{c.liveLine}&rdquo;
             </motion.div>
           )}
         </AnimatePresence>
       </div>
-
-      {phase === 'live' && (
-        <div className="absolute top-[88px] right-5 flex h-[74px] w-[54px] items-center justify-center rounded-xl border border-white/15 bg-night-2 text-[11px] text-ink-4">
-          You
-        </div>
-      )}
 
       <AnimatePresence>
         {showBook && (
@@ -140,8 +153,8 @@ export function LiveScreen({
             className="mb-4 flex w-full items-center gap-2 rounded-xl bg-white/95 px-3 py-2.5 transition active:scale-[0.98]"
           >
             <IconCalendar size={16} stroke={1.8} className="text-live-700" />
-            <span className="text-[12px] text-ink">Book 15 min · {c.bookSlot}</span>
-            <span className="ml-auto text-[11px] font-medium text-live-700">Add</span>
+            <span className="text-body text-ink">Book 15 min · {c.bookSlot}</span>
+            <span className="ml-auto text-caption font-medium text-live-700">Add</span>
           </motion.button>
         )}
       </AnimatePresence>
@@ -153,6 +166,7 @@ export function LiveScreen({
         <button
           type="button"
           onClick={onEnd}
+          aria-label="End the moment"
           className="flex h-11 w-11 items-center justify-center rounded-full bg-[#e24b4a] text-white transition active:scale-95"
         >
           <IconPhoneOff size={18} stroke={1.8} />
