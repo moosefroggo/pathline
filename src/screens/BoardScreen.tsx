@@ -53,12 +53,10 @@ function Card({ c, onSelect }: { c: Candidate; onSelect: () => void }) {
         <Avatar locked size="sm" />
         <div className="leading-tight">
           <div className="flex items-center gap-1.5 text-body font-medium text-ink">
-            {c.anonRole}
-            <span className="flex items-center gap-0.5 text-micro font-normal text-ink-3">
-              <IconLock size={10} stroke={1.8} /> name locked
-            </span>
+            <span className="whitespace-nowrap">{c.anonRole}</span>
+            <IconLock size={12} stroke={1.8} className="shrink-0 text-ink-3" />
           </div>
-          <div className="text-caption text-ink-2">{c.anonContext}</div>
+          <div className="whitespace-nowrap text-caption text-ink-2">{c.anonContext}</div>
         </div>
         <span className="ml-auto flex items-center gap-1 text-micro font-medium text-live-700">
           <LiveDot /> active
@@ -71,12 +69,12 @@ function Card({ c, onSelect }: { c: Candidate; onSelect: () => void }) {
         </span>
       </div>
 
-      <div className="mt-2.5 flex items-center gap-2.5 text-caption text-ink-2">
-        <span className="flex items-center gap-1 tabular-nums">
+      <div className="mt-2.5 flex items-center gap-2 whitespace-nowrap text-caption text-ink-2">
+        <span className="flex shrink-0 items-center gap-1 tabular-nums">
           <IconClock size={12} stroke={1.8} /> closes in {label}
         </span>
-        <span>· replies {c.repliesIn}</span>
-        <span className="ml-auto flex items-center gap-1 text-ink-3">
+        <span className="shrink-0 text-ink-3">replies {c.repliesIn}</span>
+        <span className="ml-auto flex shrink-0 items-center gap-1 text-ink-3">
           <IconCircleCheck size={12} stroke={1.9} /> opted in
         </span>
       </div>
@@ -189,11 +187,11 @@ export function BoardScreen({ onSelect }: { onSelect: (c: Candidate) => void }) 
         <div className="mt-2 text-label text-ink-2">
           {recruiter.role} · {recruiter.company}
         </div>
-        <div className="mt-2.5 flex items-baseline gap-1.5">
-          <span className="font-serif text-[19px] font-medium text-live-700">
+        <div className="mt-2.5">
+          <div className="font-serif text-[19px] font-medium whitespace-nowrap text-live-700">
             {openMomentsCount} open moments
-          </span>
-          <span className="text-caption text-ink-3">right now · vs {atsBacklog} in your ATS</span>
+          </div>
+          <div className="mt-0.5 text-caption text-ink-3">right now · vs {atsBacklog} in your ATS</div>
         </div>
       </div>
 

@@ -81,7 +81,7 @@ export const candidates: Candidate[] = [
     openedAgo: 'opened 40m ago',
     repliesIn: '~6 min',
     windowSecs: 1 * 3600 + 47 * 60,
-    trigger: 'Just wrapped a 6-mo contract · source tagged',
+    trigger: 'Just wrapped a 6-mo contract',
     verified: [
       { label: 'Full-stack PE, 5 yrs', source: 'work email', sourceIcon: 'mail' },
       { label: 'Open-source design system, 4k stars', source: 'GitHub', sourceIcon: 'github' },
@@ -108,7 +108,7 @@ export const candidates: Candidate[] = [
     openedAgo: 'opened 1h ago',
     repliesIn: '~20 min',
     windowSecs: 3 * 3600 + 2 * 60,
-    trigger: 'IPO lockup expired this week · candidate-shared',
+    trigger: 'IPO lockup expired this week',
     verified: [
       { label: 'Staff Eng, 8 yrs', source: 'work email', sourceIcon: 'mail' },
       { label: 'Led payments platform at scale', source: 'linked URL', sourceIcon: 'link' },
@@ -135,7 +135,7 @@ export const candidates: Candidate[] = [
     openedAgo: 'opened 18m ago',
     repliesIn: '~9 min',
     windowSecs: 2 * 3600 + 35 * 60,
-    trigger: 'Their team reorged this week · candidate-shared',
+    trigger: 'Their team reorged this week',
     verified: [
       { label: 'Design Engineer, 4 yrs', source: 'work email', sourceIcon: 'mail' },
       { label: 'Dribbble + live component library', source: 'linked URL', sourceIcon: 'link' },
@@ -162,7 +162,7 @@ export const candidates: Candidate[] = [
     openedAgo: 'opened 5m ago',
     repliesIn: '~15 min',
     windowSecs: 50, // short on purpose — demos the perishable window-closed state live
-    trigger: 'Quietly exploring this week · candidate-shared',
+    trigger: 'Quietly exploring this week',
     verified: [
       { label: 'Senior PM, 7 yrs', source: 'work email', sourceIcon: 'mail' },
       { label: 'Shipped 0→1 consumer product', source: 'linked URL', sourceIcon: 'link' },
