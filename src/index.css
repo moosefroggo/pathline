@@ -63,6 +63,19 @@
   --text-micro: 12px;
 }
 
+/* Animate gradient focal points for the breathing wave */
+@property --wave-x1 { syntax: '<percentage>'; inherits: false; initial-value: 22%; }
+@property --wave-y1 { syntax: '<percentage>'; inherits: false; initial-value: 16%; }
+@property --wave-x2 { syntax: '<percentage>'; inherits: false; initial-value: 80%; }
+@property --wave-y2 { syntax: '<percentage>'; inherits: false; initial-value: 8%; }
+
+@keyframes pl-bg-wave {
+  0%, 100% { --wave-x1: 22%; --wave-y1: 16%; --wave-x2: 80%; --wave-y2: 8%; }
+  25%       { --wave-x1: 28%; --wave-y1: 22%; --wave-x2: 74%; --wave-y2: 14%; }
+  50%       { --wave-x1: 18%; --wave-y1: 26%; --wave-x2: 82%; --wave-y2: 4%;  }
+  75%       { --wave-x1: 30%; --wave-y1: 12%; --wave-x2: 76%; --wave-y2: 18%; }
+}
+
 @layer base {
   html,
   body,
@@ -72,9 +85,10 @@
   body {
     margin: 0;
     background:
-      radial-gradient(circle at 22% 16%, rgba(185, 228, 215, 0.16), transparent 30%),
-      radial-gradient(circle at 80% 8%, rgba(166, 186, 183, 0.12), transparent 26%),
+      radial-gradient(circle at var(--wave-x1) var(--wave-y1), rgba(185, 228, 215, 0.16), transparent 30%),
+      radial-gradient(circle at var(--wave-x2) var(--wave-y2), rgba(166, 186, 183, 0.12), transparent 26%),
       var(--color-surface);
+    animation: pl-bg-wave 12s ease-in-out infinite;
     color: var(--color-ink);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
@@ -102,9 +116,10 @@
 @layer components {
   .pl-phone-surface {
     background:
-      radial-gradient(circle at 18% 2%, rgba(185, 228, 215, 0.18), transparent 34%),
-      radial-gradient(circle at 86% 18%, rgba(166, 186, 183, 0.12), transparent 31%),
+      radial-gradient(circle at var(--wave-x1) var(--wave-y1), rgba(185, 228, 215, 0.18), transparent 34%),
+      radial-gradient(circle at var(--wave-x2) var(--wave-y2), rgba(166, 186, 183, 0.12), transparent 31%),
       linear-gradient(165deg, rgba(37, 49, 47, 0.98), rgba(23, 33, 31, 0.98) 48%, rgba(15, 23, 21, 0.98));
+    animation: pl-bg-wave 12s ease-in-out infinite;
   }
 
   .pl-glass {
@@ -272,7 +287,9 @@
 @media (prefers-reduced-motion: reduce) {
   .pl-pulse,
   .pl-ring,
-  .pl-wave-bar {
+  .pl-wave-bar,
+  body,
+  .pl-phone-surface {
     animation: none !important;
   }
   .pl-ring {

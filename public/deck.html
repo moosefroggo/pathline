@@ -321,6 +321,22 @@
       font-size: 13px;
       line-height: 1.48;
     }
+    .card-hero {
+      border-color: rgba(185, 228, 215, 0.3);
+      background:
+        linear-gradient(145deg, rgba(185, 228, 215, 0.12), rgba(166, 186, 183, 0.04)),
+        rgba(15, 23, 21, 0.42);
+      box-shadow:
+        0 0 48px rgba(185, 228, 215, 0.1),
+        inset 0 1px 0 rgba(250, 248, 231, 0.12);
+    }
+    .card-hero .card-title { color: var(--presence); }
+    .card-hero .card-copy {
+      margin-top: 12px;
+      color: var(--cream-soft);
+      font-size: clamp(15px, 1.42vw, 19px);
+      line-height: 1.4;
+    }
     .stat {
       min-height: 142px;
       display: flex;
@@ -385,9 +401,9 @@
     .phone-embed-inner {
       width: 358px;
       height: 734px;
-      transform: scale(0.58);
+      transform: scale(0.72);
       transform-origin: top center;
-      margin: -8px 0 -308px;
+      margin: -8px 0 -206px;
     }
     .phone-embed iframe {
       width: 358px;
@@ -595,32 +611,39 @@
     .mark svg { width: 16px; height: 16px; stroke: var(--cream); }
     .mode-switch {
       position: fixed;
-      top: 22px;
-      right: 28px;
+      top: 20px;
+      right: 20px;
       z-index: 35;
       display: flex;
       align-items: center;
       gap: 4px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: rgba(15, 23, 21, 0.48);
+      border: 1px solid rgba(250, 248, 231, 0.09);
+      border-radius: 10px;
+      background: rgba(250, 248, 231, 0.06);
       padding: 4px;
-      color: var(--muted);
+      color: #a6bab7;
+      font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
       font-size: 12px;
-      font-weight: 700;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      font-weight: 500;
+      line-height: 1.5;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .mode-switch a {
+      color: #a6bab7;
+      text-decoration: none;
+      transition: color 0.15s ease;
     }
     .mode-switch a,
     .mode-switch span {
-      border-radius: 999px;
-      padding: 7px 12px;
+      border-radius: 7px;
+      padding: 6px 12px;
     }
     .mode-switch span {
-      background: rgba(185, 228, 215, 0.14);
-      color: var(--presence);
+      background: rgba(185, 228, 215, 0.15);
+      color: #b9e4d7;
     }
-    .mode-switch a:hover { color: var(--cream); }
+    .mode-switch a:hover { color: #faf8e7; }
     .nav {
       position: fixed;
       right: 28px;
@@ -688,9 +711,9 @@
     <span>Pathline</span>
   </div>
   <nav class="mode-switch" aria-label="Switch view">
-    <a href="/">app</a>
-    <span>deck</span>
-    <a href="/?style">style</a>
+    <a href="/">App</a>
+    <span>Deck</span>
+    <a href="/?style">Style</a>
   </nav>
 
   <main class="deck" id="deck">
@@ -706,13 +729,12 @@
               <li>Pathline gives that signal a safe channel</li>
             </ul>
           </div>
-          <div class="card with-icon">
+          <div class="card card-hero with-icon">
             <div class="doodle-icon" aria-hidden="true">
               <svg viewBox="0 0 48 48"><path class="fill-soft" d="M15 22c0-6 3.7-10 9.2-10s8.8 4 8.8 10"/><path d="M15 23c-.5-6.8 3-12 9-12 5.8 0 9.3 4.8 9 12"/><path d="M13 22.5c7.5-1.4 15.2-1.4 22.7.1 1.8.4 2.9 1.7 2.7 3.5l-1 9.9c-.2 1.6-1.4 2.8-3 3-6.9 1.1-13.8 1-20.8-.1-1.6-.3-2.7-1.5-2.9-3.1l-.8-9.9c-.2-1.7.7-3 2.1-3.4z"/><path d="M24 29v4"/><path class="soft" d="M9 17c1.5-1.4 3-2.5 4.8-3.4M36 13.7c1.6.8 2.9 1.8 4.2 3.1"/></svg>
             </div>
             <div class="card-title">Core bet</div>
             <p class="card-copy">Identity lock makes hidden supply safe.</p>
-            <p class="fine">Identity lock creates the supply.</p>
           </div>
         </div>
       </div>

@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   IconCalendar,
   IconLockOpen,
   IconMicrophone,
-  IconPhoneOff,
+  IconPhone,
   IconUser,
   IconVideo,
 } from '@tabler/icons-react'
 import { Avatar } from '../components/bits'
 import { useTimeout } from '../lib/hooks'
-import type { Candidate } from '../data'
+import { recruiter, type Candidate } from '../data'
 import { revealTransition, riseTransition, smoothEase } from '../lib/motion'
 
 const WAVE = [10, 18, 26, 14, 22, 30, 16, 24, 12, 20, 9]
@@ -42,8 +42,38 @@ export function LiveScreen({
   const [phase, setPhase] = useState<'ringing' | 'live'>('ringing')
   const [showCaption, setShowCaption] = useState(false)
   const [showBook, setShowBook] = useState(false)
+  const [cameraStream, setCameraStream] = useState<MediaStream | null>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   useTimeout(() => setPhase('live'), phase === 'ringing' ? 3200 : null)
+
+  useEffect(() => {
+    if (phase !== 'live') return
+
+    let activeStream: MediaStream | null = null
+
+    navigator.mediaDevices
+      .getUserMedia({ video: true, audio: false })
+      .then((mediaStream) => {
+        activeStream = mediaStream
+        setCameraStream(mediaStream)
+      })
+      .catch((err) => {
+        console.warn('Camera preview access denied or unavailable:', err)
+      })
+
+    return () => {
+      if (activeStream) {
+        activeStream.getTracks().forEach((track) => track.stop())
+      }
+    }
+  }, [phase])
+
+  useEffect(() => {
+    if (videoRef.current && cameraStream) {
+      videoRef.current.srcObject = cameraStream
+    }
+  }, [cameraStream])
 
   useEffect(() => {
     if (phase !== 'live') return
@@ -57,7 +87,7 @@ export function LiveScreen({
 
   return (
     <div className="flex flex-1 flex-col px-4 pb-5 text-white">
-      <div className="flex items-center justify-center pt-3.5 text-center">
+      <div className="flex items-center justify-center pt-[46px] text-center">
         {phase === 'live' ? (
           <span className="pl-glass-pill inline-flex items-center gap-1.5 rounded-lg px-3 py-1 text-caption text-live-200">
             <span className="h-1.5 w-1.5 rounded-full bg-live" /> Live
@@ -69,20 +99,20 @@ export function LiveScreen({
 
       {/* self-view, tucked into the corner so it never collides with the reveal */}
       {phase === 'live' && (
-        <div className="absolute top-3 right-3 z-10 h-[60px] w-[46px] overflow-hidden rounded-xl border border-hairline-strong shadow-[0_6px_16px_rgba(0,0,0,0.3)]">
-          <svg viewBox="0 0 46 60" preserveAspectRatio="xMidYMid slice" className="h-full w-full" aria-hidden="true">
-            <defs>
-              <linearGradient id="pl-selfbg" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stopColor="#26352f" />
-                <stop offset="1" stopColor="#141e1b" />
-              </linearGradient>
-            </defs>
-            <rect width="46" height="60" fill="url(#pl-selfbg)" />
-            <path d="M3 60 C3 46 13 40 23 40 C33 40 43 46 43 60 Z" fill="#4f635e" />
-            <rect x="19" y="31" width="8" height="11" rx="4" fill="#c9b194" />
-            <circle cx="23" cy="22" r="10" fill="#d3bb9b" />
-            <path d="M12.5 21 C12.5 12 33.5 12 33.5 21 C33.5 15.5 29 11.5 23 11.5 C17 11.5 12.5 15.5 12.5 21 Z" fill="#39473f" />
-          </svg>
+        <div className="absolute top-11 right-3 z-10 h-[108px] w-[80px] overflow-hidden rounded-2xl border border-hairline-strong shadow-[0_6px_20px_rgba(0,0,0,0.4)] bg-night">
+          {cameraStream ? (
+            <video
+              ref={videoRef}
+              autoPlay
+              playsInline
+              muted
+              className="h-full w-full object-cover scale-x-[-1]"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-night-2/60 backdrop-blur-md">
+              <Avatar initials={recruiter.initial} hue="coral" size="sm" />
+            </div>
+          )}
           <span className="absolute inset-x-0 bottom-0 bg-night/55 text-center text-[9px] leading-[13px] font-medium text-ink-2">
             You
           </span>
@@ -159,38 +189,42 @@ export function LiveScreen({
         </AnimatePresence>
       </div>
 
-      <AnimatePresence>
-        {showBook && (
-          <motion.button
-            type="button"
-            onClick={onBook}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={riseTransition}
-            className="pl-glass mb-4 flex w-full items-center gap-2 rounded-xl px-3 py-2.5 transition active:scale-[0.98]"
-          >
-            <IconCalendar size={16} stroke={1.8} className="text-live-700" />
-            <span className="text-body text-ink">Book 15 min · {c.bookSlot}</span>
-            <span className="ml-auto text-caption font-medium text-live-700">Book</span>
-          </motion.button>
-        )}
-      </AnimatePresence>
+      <motion.div
+        initial={{ height: 0, opacity: 0, marginBottom: 0 }}
+        animate={{
+          height: showBook ? 'auto' : 0,
+          opacity: showBook ? 1 : 0,
+          marginBottom: showBook ? 16 : 0,
+        }}
+        transition={riseTransition}
+        className="overflow-hidden w-full shrink-0"
+      >
+        <button
+          type="button"
+          onClick={onBook}
+          className="pl-glass flex w-full items-center gap-2 rounded-xl px-3 py-2.5 transition active:scale-[0.98]"
+        >
+          <IconCalendar size={16} stroke={1.8} className="text-live-700" />
+          <span className="text-body text-ink">Book 15 min · {c.bookSlot}</span>
+          <span className="ml-auto text-caption font-medium text-live-700">Book</span>
+        </button>
+      </motion.div>
 
       <div className="flex items-center justify-center gap-[18px]">
         <span className="pl-glass-soft flex h-11 w-11 items-center justify-center rounded-full text-ink">
           <IconMicrophone size={20} stroke={1.8} />
         </span>
+        <span className="pl-glass-soft flex h-11 w-11 items-center justify-center rounded-full text-ink">
+          <IconVideo size={20} stroke={1.8} />
+        </span>
         <button
           type="button"
           onClick={onEnd}
           aria-label="End the moment"
-          className="pl-primary-action flex h-11 w-11 items-center justify-center rounded-full transition active:scale-95"
+          className="flex h-11 w-11 items-center justify-center rounded-full bg-red-500 text-white shadow-[0_8px_20px_rgba(239,68,68,0.4)] transition active:scale-95"
         >
-          <IconPhoneOff size={20} stroke={1.8} />
+          <IconPhone size={20} stroke={1.8} className="rotate-[135deg]" />
         </button>
-        <span className="pl-glass-soft flex h-11 w-11 items-center justify-center rounded-full text-ink">
-          <IconVideo size={20} stroke={1.8} />
-        </span>
       </div>
     </div>
   )

@@ -27,13 +27,13 @@ const motionBase = {
 export const screenStackVariants = {
   enter: ({ direction, motion }: ScreenMotionState) => {
     if (motion === 'open') return { ...motionBase, opacity: 0, scale: 0.96, y: 26 }
-    if (motion === 'drill') return { ...motionBase, opacity: 0, scale: 1.025, x: 18 }
-    if (motion === 'return') return { ...motionBase, opacity: 0, scale: 0.985, x: direction > 0 ? 18 : -18 }
+    if (motion === 'drill') return { ...motionBase, x: '100%', opacity: 1 }
+    if (motion === 'return') return { ...motionBase, x: '-28%', opacity: 1 }
     if (motion === 'commit') return { ...motionBase, opacity: 0, scale: 0.96, y: 42 }
     if (motion === 'connect') return { ...motionBase, opacity: 0, scale: 1.04, filter: 'blur(12px)' }
     if (motion === 'complete') return { ...motionBase, opacity: 0, scale: 0.92, y: 34 }
     if (motion === 'reset') return { ...motionBase, opacity: 0, scale: 0.98, y: -24 }
-    return { ...motionBase, opacity: 0, x: direction > 0 ? '100%' : '-22%' }
+    return { ...motionBase, opacity: 0, x: direction > 0 ? '100%' : '-28%' }
   },
   center: () => ({
     ...motionBase,
@@ -41,16 +41,17 @@ export const screenStackVariants = {
     scale: 1,
     x: 0,
     y: 0,
+    filter: 'blur(0px)',
   }),
   exit: ({ direction, motion }: ScreenMotionState) => {
     if (motion === 'open') return { zIndex: 1, opacity: 0, scale: 1.015, y: -18 }
-    if (motion === 'drill') return { zIndex: 1, opacity: 0, scale: 0.965, x: -16 }
-    if (motion === 'return') return { zIndex: 1, opacity: 0, scale: 1.015, x: direction > 0 ? -18 : 18 }
+    if (motion === 'drill') return { zIndex: 1, x: '-28%', opacity: 1 }
+    if (motion === 'return') return { zIndex: 1, x: '100%', opacity: 1 }
     if (motion === 'commit') return { zIndex: 1, opacity: 0, scale: 0.965, y: -22 }
     if (motion === 'connect') return { zIndex: 1, opacity: 0, scale: 0.9, filter: 'blur(10px)' }
     if (motion === 'complete') return { zIndex: 1, opacity: 0, scale: 1.03, y: -30 }
     if (motion === 'reset') return { zIndex: 1, opacity: 0, scale: 0.96, y: 30 }
-    return { zIndex: direction > 0 ? 1 : 2, opacity: 1, x: direction > 0 ? '-22%' : '100%' }
+    return { zIndex: direction > 0 ? 1 : 2, opacity: 1, x: direction > 0 ? '-28%' : '100%' }
   },
 }
 

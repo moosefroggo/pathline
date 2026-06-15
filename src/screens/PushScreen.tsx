@@ -1,11 +1,11 @@
 import { IconChevronUp, IconLeaf } from '@tabler/icons-react'
 import { LiveDot } from '../components/bits'
-import { recruiter } from '../data'
+import { candidates, recruiter } from '../data'
 
 export function PushScreen({ onOpen }: { onOpen: () => void }) {
   return (
     <div className="flex flex-1 flex-col px-3 pb-6">
-      <div className="pt-9 text-center">
+      <div className="pt-16 text-center">
         <div className="text-body text-ink-2">Friday, June 12</div>
         <div className="text-[64px] leading-none font-medium text-ink">9:41</div>
       </div>
@@ -22,10 +22,10 @@ export function PushScreen({ onOpen }: { onOpen: () => void }) {
           <span className="text-caption tracking-wide text-ink-2">pathline</span>
           <span className="ml-auto text-caption text-ink-3">now</span>
         </div>
-        <div className="text-subhead font-medium text-ink">Senior PM available now</div>
+        <div className="text-subhead font-medium text-ink">{candidates[0].anonRole} available now</div>
         <div className="mt-1 flex items-start gap-1.5 text-caption leading-snug text-ink-2">
           <LiveDot className="mt-[5px] shrink-0" />
-          <span>Matched to your {recruiter.role} role</span>
+          <span>Active on your {recruiter.role} search</span>
         </div>
       </button>
 

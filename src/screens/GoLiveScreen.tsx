@@ -23,7 +23,7 @@ export function GoLiveScreen({
   const [mode, setMode] = useState<'audio' | 'video'>('audio')
   return (
     <div className="flex flex-1 flex-col px-5 pb-6">
-      <div className="pt-2.5">
+      <div className="pt-[42px]">
         <button
           type="button"
           onClick={onBack}

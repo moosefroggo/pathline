@@ -140,12 +140,12 @@ export default function App() {
 
   return (
     <div className="flex min-h-full flex-col items-center justify-center gap-7 px-4 py-10">
-      <nav aria-label="Switch view" className="pl-glass-pill fixed top-5 right-5 z-30 flex items-center gap-1 rounded-full p-1 text-caption font-medium">
-        <span className="rounded-full bg-live-200/15 px-3 py-1.5 text-live-700">App</span>
-        <a className="rounded-full px-3 py-1.5 text-ink-3 transition hover:text-ink" href="/deck.html">
+      <nav aria-label="Switch view" className="pl-glass-pill fixed top-5 right-5 z-30 flex items-center gap-1 rounded-[10px] p-1 text-caption font-medium">
+        <span className="rounded-[7px] bg-live-200/15 px-3 py-1.5 text-live-700">App</span>
+        <a className="rounded-[7px] px-3 py-1.5 text-ink-3 transition hover:text-ink" href="/deck.html">
           Deck
         </a>
-        <a className="rounded-full px-3 py-1.5 text-ink-3 transition hover:text-ink" href="/?style">
+        <a className="rounded-[7px] px-3 py-1.5 text-ink-3 transition hover:text-ink" href="/?style">
           Style
         </a>
       </nav>

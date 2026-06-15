@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { Draggable } from 'gsap/Draggable'
 import { InertiaPlugin } from 'gsap/InertiaPlugin'
-import { IconArrowRight, IconBolt, IconClock } from '@tabler/icons-react'
+import { IconArrowRight, IconBolt, IconClock, IconMessageCircle } from '@tabler/icons-react'
 import { Avatar, LiveDot } from './bits'
 import type { Candidate } from '../data'
 
@@ -10,7 +10,7 @@ gsap.registerPlugin(Draggable, InertiaPlugin)
 
 // Drag pixels per card step, and on-screen spacing between card centers.
 const STEP = 150
-const STEP_X = 92
+const STEP_X = 124
 
 function applyTransform(el: HTMLElement, offset: number) {
   const dist = Math.abs(offset)
@@ -28,27 +28,54 @@ function applyTransform(el: HTMLElement, offset: number) {
 }
 
 function CardFace({ c }: { c: Candidate }) {
+  const displayTags = c.declared
+    .filter((d) => {
+      const loc = c.anonLocation.toLowerCase()
+      const tag = d.toLowerCase()
+      return !tag.includes(loc) && !(loc === 'remote' && tag === 'remote')
+    })
+    .map((d) => {
+      if (d.includes('Series') || d.includes('Seed')) {
+        return `Seeking ${d}`
+      }
+      return d
+    })
+
   return (
-    <div className="pl-glass flex w-full flex-col rounded-[20px] p-3.5">
-      <div className="flex items-center gap-2.5">
+    <div className="pl-glass flex w-full h-[272px] flex-col rounded-[22px] px-5 py-6">
+      <div className="flex items-start gap-3">
         <Avatar locked size="sm" />
-        <div className="min-w-0 leading-tight">
-          <div className="truncate text-body font-medium text-ink">{c.anonRole}</div>
-          <div className="whitespace-nowrap text-caption text-ink-2">{c.anonContext}</div>
+        <div className="flex flex-1 items-start justify-between gap-2">
+          <div className="min-w-0 leading-tight">
+            <div className="truncate text-headline font-medium text-ink">{c.anonRole}</div>
+            <div className="whitespace-nowrap text-caption text-ink-3">{c.anonContext} · {c.anonLocation}</div>
+          </div>
+          <span className="flex shrink-0 items-center gap-1 text-micro font-medium text-live-700">
+            <LiveDot pulse={false} /> now
+          </span>
         </div>
-        <span className="ml-auto flex shrink-0 items-center gap-1 text-micro font-medium text-live-700">
-          <LiveDot pulse={false} /> now
-        </span>
       </div>
 
-      <div className="mt-3 flex items-start gap-1.5 text-caption text-amber-700">
+      <div className="mt-5 flex items-start gap-1.5 text-caption text-amber-700">
         <IconBolt size={14} stroke={1.8} className="mt-px shrink-0" />
         <span>{c.trigger}</span>
       </div>
 
-      <div className="mt-1.5 flex items-center gap-1.5 text-micro tabular-nums text-ink-3">
-        <IconClock size={14} stroke={1.8} className="shrink-0" />
-        {c.openedAgo}
+      <div className="mt-5 border-t border-hairline" />
+
+      <div className="mt-4 flex flex-wrap gap-1.5">
+        {displayTags.map((d) => (
+          <span key={d} className="pl-glass-soft rounded-md px-2.5 py-1 text-micro text-ink-3">
+            {d}
+          </span>
+        ))}
+      </div>
+
+      <div className="mt-auto pt-4 flex items-center text-micro tabular-nums text-ink-3">
+        <IconClock size={12} stroke={1.8} className="mr-1 shrink-0" />
+        <span>{c.openedAgo}</span>
+        <IconMessageCircle size={12} stroke={1.8} className="ml-auto mr-1 shrink-0" />
+        <span>{c.repliesIn}</span>
       </div>
     </div>
   )
@@ -70,9 +97,18 @@ export function PresenceCarousel({
   const [active, setActive] = useState(0)
   const n = candidates.length
 
+  // Wrap offset to [-n/2, n/2] so cards loop cyclically around center.
+  const wrapOffset = (offset: number) =>
+    ((offset % n) + n + n / 2) % n - n / 2
+
   const render = (pos: number) => {
-    cardRefs.current.forEach((el, i) => el && applyTransform(el, i - pos))
+    cardRefs.current.forEach((el, i) => {
+      if (!el) return
+      applyTransform(el, wrapOffset(i - pos))
+    })
   }
+
+  const normalizeIndex = (raw: number) => ((Math.round(raw) % n) + n) % n
 
   useEffect(() => {
     const stage = stageRef.current
@@ -89,7 +125,7 @@ export function PresenceCarousel({
       inertia: true,
       dragResistance: 0.18,
       maxDuration: 0.7,
-      bounds: { minX: -(n - 1) * STEP, maxX: 0 },
+      // No bounds — cyclic
       snap: (value) => Math.round(value / STEP) * STEP,
       onPress() {
         movedRef.current = false
@@ -105,10 +141,16 @@ export function PresenceCarousel({
         render(posRef.current)
       },
       onThrowComplete() {
-        setActive(Math.round(-this.x / STEP))
+        const idx = normalizeIndex(-this.x / STEP)
+        // Re-anchor proxy so drift doesn't accumulate
+        gsap.set(proxy, { x: -(posRef.current % n) * STEP })
+        dragRef.current?.update()
+        setActive(idx)
       },
       onDragEnd() {
-        if (!this.tween || !this.tween.isActive()) setActive(Math.round(-this.x / STEP))
+        if (!this.tween || !this.tween.isActive()) {
+          setActive(normalizeIndex(-this.x / STEP))
+        }
       },
     })[0]
     dragRef.current = drag
@@ -122,9 +164,17 @@ export function PresenceCarousel({
   }, [n])
 
   function goTo(i: number) {
-    const tweener = { p: posRef.current }
+    // Find shortest cyclic path from current position to target index.
+    const cur = posRef.current
+    const curMod = ((cur % n) + n) % n
+    let delta = i - curMod
+    if (delta > n / 2) delta -= n
+    if (delta < -n / 2) delta += n
+    const target = cur + delta
+
+    const tweener = { p: cur }
     gsap.to(tweener, {
-      p: i,
+      p: target,
       duration: 0.55,
       ease: 'power3.out',
       onUpdate() {
@@ -132,9 +182,11 @@ export function PresenceCarousel({
         render(tweener.p)
       },
       onComplete() {
+        const normalized = ((target % n) + n) % n
+        posRef.current = normalized
         const proxy = proxyRef.current
         if (proxy) {
-          gsap.set(proxy, { x: -i * STEP })
+          gsap.set(proxy, { x: -normalized * STEP })
           dragRef.current?.update()
         }
         setActive(i)
@@ -149,15 +201,15 @@ export function PresenceCarousel({
   }
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col justify-center gap-5">
-      <div ref={stageRef} className="pl-carousel-stage relative h-[190px] touch-none select-none">
+    <div className="flex min-h-0 flex-1 flex-col justify-center gap-2">
+      <div ref={stageRef} className="pl-carousel-stage relative h-[390px] touch-none select-none">
         {candidates.map((c, i) => (
           <div
             key={c.id}
             ref={(el) => {
               cardRefs.current[i] = el
             }}
-            className="pl-carousel-card absolute top-1/2 left-1/2 w-[256px]"
+            className="pl-carousel-card absolute top-[44%] left-1/2 w-[308px]"
             onClick={() => handleCard(i)}
           >
             <CardFace c={c} />
@@ -165,25 +217,24 @@ export function PresenceCarousel({
         ))}
       </div>
 
-      <div className="flex flex-col items-center gap-3 px-4">
+      <div className="flex flex-col items-center gap-2.5 px-4">
         <button
           type="button"
           onClick={() => onSelect(candidates[active])}
           className="pl-primary-action flex w-full items-center justify-center gap-1.5 rounded-[14px] py-3 text-subhead font-medium transition active:scale-[0.98]"
         >
-          Open moment <IconArrowRight size={16} stroke={1.8} />
+          View profile <IconArrowRight size={16} stroke={1.8} />
         </button>
         <div className="flex items-center gap-1.5" aria-hidden="true">
-          {candidates.map((c, i) => (
+          {candidates.map((_, i) => (
             <span
-              key={c.id}
+              key={i}
               className={`h-1.5 rounded-full transition-all duration-300 ${
                 i === active ? 'w-4 bg-live' : 'w-1.5 bg-ink-4/50'
               }`}
             />
           ))}
         </div>
-        <div className="text-micro text-ink-4">Swipe to browse other moments</div>
       </div>
     </div>
   )

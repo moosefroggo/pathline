@@ -130,15 +130,15 @@ export function StyleGuide() {
       <div aria-hidden="true" className="pl-style-glow pointer-events-none absolute inset-x-0 top-0 h-[460px]" />
       <nav
         aria-label="Switch view"
-        className="pl-glass-pill fixed top-5 right-5 z-30 flex items-center gap-1 rounded-full p-1 text-caption font-medium"
+        className="pl-glass-pill fixed top-5 right-5 z-30 flex items-center gap-1 rounded-[10px] p-1 text-caption font-medium"
       >
-        <a className="rounded-full px-3 py-1.5 text-ink-3 transition hover:text-ink" href="/">
+        <a className="rounded-[7px] px-3 py-1.5 text-ink-3 transition hover:text-ink" href="/">
           App
         </a>
-        <a className="rounded-full px-3 py-1.5 text-ink-3 transition hover:text-ink" href="/deck.html">
+        <a className="rounded-[7px] px-3 py-1.5 text-ink-3 transition hover:text-ink" href="/deck.html">
           Deck
         </a>
-        <span className="rounded-full bg-live-200/15 px-3 py-1.5 text-live-700">Style</span>
+        <span className="rounded-[7px] bg-live-200/15 px-3 py-1.5 text-live-700">Style</span>
       </nav>
 
       <div className="relative mx-auto max-w-[1040px]">

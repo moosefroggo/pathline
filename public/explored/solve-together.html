@@ -465,28 +465,28 @@
           <span class="brand-title">Pathline</span>
         </div>
         <p class="sidebar-desc" style="margin-top: 10px;">
-          <b>Explored alternative — "Solve Together."</b> Instead of an interview, the recruiter and a present candidate work a real slice of the role together for 15 minutes. Fit shows itself as a byproduct — no grading. Shown here at full fidelity, in the same Citron, Sage &amp; Neo-Brutalism system as the core presence prototype.
+          <b>Explored direction — Solve Together.</b> Instead of a live call, recruiter and candidate spend 15 minutes on a real problem from the role. Fit comes out of the work itself, not from pitching it.
         </p>
       </div>
 
       <div class="sidebar-section">
-        <h3 class="sidebar-title">Simulator Live Feed</h3>
+        <h3 class="sidebar-title">What you're seeing</h3>
         <div class="simulator-notes-card">
           <span class="notes-active-badge" id="notesActiveBadge">The Setup</span>
-          <h4 class="notes-title" id="notesTitle">A Real Slice of Work</h4>
+          <h4 class="notes-title" id="notesTitle">A real slice of the work</h4>
           <p class="notes-body" id="notesBody">
-            From a live moment, both opt into a 15-minute working session on a real problem from the role. No résumé, no grading — click "Start solving" to run the simulation.
+            Both parties opt in from a live moment, then work through a real problem together for 15 minutes. Nothing to grade, nothing to rehearse — hit Start solving to see it play out.
           </p>
         </div>
       </div>
 
       <div class="sidebar-section">
-        <h3 class="sidebar-title">Where It Landed</h3>
-        <p class="sidebar-desc">Compelling — un-fakeable, mutual, fit-as-byproduct. We kept it as a <b>deeper-stage option</b>, not the core, for three honest reasons:</p>
+        <h3 class="sidebar-title">Where it landed</h3>
+        <p class="sidebar-desc">Good idea — we kept it as a <b>later-stage option</b>, not the core:</p>
         <div class="wedge-list">
-          <div class="wedge-item"><span class="wedge-bullet"></span><span><span class="wedge-bold">Drifts toward evaluation.</span> The moment you "solve," someone is being judged — the very thing that kills connection.</span></div>
-          <div class="wedge-item"><span class="wedge-bullet"></span><span><span class="wedge-bold">Desktop-leaning.</span> Real work wants a keyboard, fighting the mobile-first, between-meetings thesis.</span></div>
-          <div class="wedge-item"><span class="wedge-bullet"></span><span><span class="wedge-bold">Higher friction.</span> 15 focused minutes is a bigger ask than a 2-minute live moment.</span></div>
+          <div class="wedge-item"><span class="wedge-bullet"></span><span><span class="wedge-bold">Still reads as evaluation.</span> Once there's a problem to work through, both parties start tracking who's performing.</span></div>
+          <div class="wedge-item"><span class="wedge-bullet"></span><span><span class="wedge-bold">Needs a keyboard.</span> Real collaborative work doesn't happen in a pocket between meetings.</span></div>
+          <div class="wedge-item"><span class="wedge-bullet"></span><span><span class="wedge-bold">Higher bar to commit.</span> 15 minutes is a much bigger ask than a 2-minute live moment.</span></div>
         </div>
       </div>
 
@@ -564,10 +564,10 @@
       clearAll();
       setTone(currentScreen === 'reveal');
       switch (currentScreen) {
-        case 'setup': renderSetup(); notes('The Setup', 'A Real Slice of Work', `From a live moment, both opt into a 15-minute working session on a real problem from the role. No résumé, no grading — click "Start solving" to run the simulation.`); break;
-        case 'solving': renderSolving(); notes('The Live Solve', 'Fit as a Byproduct', `You probe, the candidate reasons — out loud, in real time. There are no scores; you see how she works through a real problem instead of reading a pitch.`); break;
-        case 'reveal': renderReveal(); notes('The Reveal', 'Earned, Not Interviewed', `Because you both kept going, identity unlocks. You've seen how she handles a real problem — booking is the natural next step, not a gate.`); break;
-        case 'booked': renderBooked(); notes('Connected', 'No Résumé Read', `Scheduled. Fit emerged from the work itself — zero cold messages, zero résumés. Tap replay to run it again.`); break;
+        case 'setup': renderSetup(); notes('The Setup', 'A real slice of the work', `Both parties opt in from a live moment, then work through a real problem together for 15 minutes. Nothing to grade, nothing to rehearse — hit Start solving to see it play out.`); break;
+        case 'solving': renderSolving(); notes('Live solve', 'Fit from the work', `You ask, she reasons out loud. No scores — you see how she actually thinks, not how she pitches.`); break;
+        case 'reveal': renderReveal(); notes('The reveal', 'Identity unlocked', `You both stayed in it, so identity unlocks. You already know how she works — booking is the obvious next step.`); break;
+        case 'booked': renderBooked(); notes('Connected', 'No résumé read', `Scheduled. Fit came from 15 minutes of real work. Zero cold messages, zero résumés, zero take-homes.`); break;
       }
       if (!reduce) { viewContainer.classList.remove('view-enter'); void viewContainer.offsetWidth; viewContainer.classList.add('view-enter'); }
     }

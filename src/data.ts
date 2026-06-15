@@ -13,6 +13,7 @@ export interface Candidate {
   // anonymized identity (board + brief)
   anonRole: string
   anonContext: string
+  anonLocation: string
   // revealed identity (live moment only)
   name: string
   realRole: string
@@ -47,6 +48,7 @@ export const candidates: Candidate[] = [
     id: 'maya',
     anonRole: 'Senior PM',
     anonContext: 'Series-B fintech · 6 yrs',
+    anonLocation: 'NYC',
     name: 'Maya Chen',
     realRole: 'Senior PM · Northwind',
     initials: 'MC',
@@ -74,6 +76,7 @@ export const candidates: Candidate[] = [
     id: 'andre',
     anonRole: 'Product Engineer',
     anonContext: 'ex-Series A · 5 yrs',
+    anonLocation: 'Remote',
     name: 'Andre Osei',
     realRole: 'Product Engineer · freelance',
     initials: 'AO',
@@ -101,6 +104,7 @@ export const candidates: Candidate[] = [
     id: 'priya',
     anonRole: 'Staff Engineer',
     anonContext: 'public co · 8 yrs',
+    anonLocation: 'SF',
     name: 'Priya Nair',
     realRole: 'Staff Engineer · Lumen',
     initials: 'PN',
@@ -128,6 +132,7 @@ export const candidates: Candidate[] = [
     id: 'sam',
     anonRole: 'Design Engineer',
     anonContext: 'Series-A startup · 4 yrs',
+    anonLocation: 'NYC',
     name: 'Sam Reyes',
     realRole: 'Design Engineer · Tide',
     initials: 'SR',
@@ -155,6 +160,7 @@ export const candidates: Candidate[] = [
     id: 'jordan',
     anonRole: 'Senior PM',
     anonContext: 'big tech · 7 yrs',
+    anonLocation: 'Remote',
     name: 'Jordan Blake',
     realRole: 'Senior PM · Northstar',
     initials: 'JB',
