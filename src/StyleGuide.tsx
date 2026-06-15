@@ -236,7 +236,7 @@ export function StyleGuide() {
           <Section
             index="04"
             title="Materials"
-            note="A single glass system. Frosted layers over the sage canvas give the app its depth."
+            note="A single glass system. System materials and vibrancy over the sage canvas give the app its depth."
           >
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
               {materials.map((m) => (
