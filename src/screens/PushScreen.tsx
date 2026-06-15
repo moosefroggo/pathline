@@ -1,5 +1,4 @@
 import { IconChevronUp, IconLeaf } from '@tabler/icons-react'
-import { LiveDot } from '../components/bits'
 import { candidates, recruiter } from '../data'
 
 export function PushScreen({ onOpen }: { onOpen: () => void }) {
