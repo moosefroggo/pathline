@@ -34,7 +34,7 @@ export function BriefScreen({
           <div className="leading-tight">
             <div className="flex items-center gap-1.5 text-headline font-medium text-ink">
               {c.anonRole}
-              <IconLock size={12} stroke={1.8} className="text-ink-3" />
+              <IconLock size={16} stroke={1.8} className="text-ink-3" />
             </div>
             <div className="flex items-center gap-1.5 text-caption text-live-700">
               <LiveDot /> Replies in {c.repliesIn}
@@ -67,7 +67,7 @@ export function BriefScreen({
           {[
             { v: c.track.reply, l: 'avg reply' },
             { v: c.track.showed, l: 'showed up' },
-            { v: c.track.onsite, l: '→ onsite' },
+            { v: c.track.onsite, l: 'onsites' },
           ].map((t) => (
             <div key={t.l} className="pl-glass-soft rounded-xl px-1 py-2 text-center">
               <div className="text-subhead font-medium text-ink">{t.v}</div>
@@ -84,7 +84,7 @@ export function BriefScreen({
         </div>
 
         <div className="pl-glass-soft mt-3.5 flex items-center gap-2 rounded-xl px-3 py-2.5">
-          <IconLock size={15} stroke={1.8} className="text-ink-2" />
+          <IconLock size={16} stroke={1.8} className="text-ink-2" />
           <span className="text-caption leading-snug text-ink">
             Reveal happens after mutual start.
           </span>

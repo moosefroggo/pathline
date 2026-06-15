@@ -117,3 +117,22 @@ Crisp final calls live in [DECISIONS.md](DECISIONS.md); the adversarial/trust an
 - **Scope boundary** — stay "the connection moment," or own the **accountable relationship through to offer** (bigger product)? Leaning: own the accountability *layer* (clock + reputation), not the ATS. (Entry 15.)
 - **Optional build** — whether to add an SLA status-tracker screen and/or mobile-native "ambient presence" touches to the prototype, or keep them as deck/vision.
 - **The deck + the self-run validation** — not yet started; the real remaining work before Sunday 8 PM.
+
+---
+
+## My AI workflow on this project
+
+I used AI like a small product studio, not a single generator. I had it act as a researcher, PM, product leader, design leader, brand designer, motion designer, visual designer, copy editor, and implementation partner. The goal was to pressure-test the product from different angles quickly, then use my judgment to decide what stayed.
+
+The most useful pattern was not asking for finished answers. It was using AI to make the work easier to argue with. I would ask for strategy, deck structure, market validation, visual critique, or interface changes, then push back when the output felt too generic, too dramatic, too robotic, too orange, too AI-coded, or too hard to defend.
+
+A few examples of where I pushed back:
+- The deck started too dramatic, so I moved it toward simple PM/design language.
+- The style drifted away from the Hidden Gem glassmorphic reference, so I forced the app and deck back into that system.
+- The product kept drifting toward evaluation and proof-of-work, so I kept returning to the core wedge: fix the moment of connection, not the hiring funnel.
+- The countdown timers made the experience feel stressful, so I removed visible seconds and documented the decision.
+- The screen transitions were technically smooth but emotionally meaningless, so I changed them to match the intent of each beat.
+
+AI also helped me do the utility work fast: scanning the repo, reducing redundant copy, checking for awkward language, implementing UI changes, running build/lint, doing browser QA, and documenting decisions as the product evolved.
+
+The workflow was iterative: generate, critique, edit, test, document. The model gave me speed and breadth, but the important work was deciding what was strategically true, what felt human, and what I could defend in the review.

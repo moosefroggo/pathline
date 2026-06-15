@@ -34,40 +34,40 @@ export function GoLiveScreen({
       </div>
 
       <div className="flex flex-1 flex-col items-center pt-5 text-center">
-        <div className="mb-5 flex items-center gap-1.5 text-[12px] text-live-700">
+        <div className="mb-5 flex items-center gap-1.5 text-caption text-live-700">
           <LiveDot pulse={false} /> You&rsquo;re both here
         </div>
 
         <div className="relative">
           <span className="pl-glass-soft flex h-24 w-24 items-center justify-center rounded-full text-ink-3">
-            <IconUser size={40} stroke={1.5} />
+            <IconUser size={40} stroke={1.8} />
           </span>
           <span className="absolute right-1.5 bottom-1.5 h-3.5 w-3.5 rounded-full border-[3px] border-night bg-live" />
         </div>
 
-        <div className="mt-4 flex items-center gap-1.5 text-[17px] font-medium text-ink">
-          {c.anonRole} <IconLock size={13} stroke={1.8} className="text-ink-3" />
+        <div className="mt-4 flex items-center gap-1.5 text-headline font-medium text-ink">
+          {c.anonRole} <IconLock size={16} stroke={1.8} className="text-ink-3" />
         </div>
-        <div className="mt-1 text-[12px] text-ink-2">Ready for a short intro</div>
+        <div className="mt-1 text-caption text-ink-2">Ready for a short intro</div>
 
         <div className="pl-glass mt-5 grid w-[188px] grid-cols-2 gap-1.5 rounded-[10px] p-1">
           <button
             type="button"
             onClick={() => setMode('audio')}
-            className={`flex h-9 items-center justify-center gap-1.5 rounded-[7px] border border-transparent px-2 text-[12px] transition ${
+            className={`flex h-9 items-center justify-center gap-1.5 rounded-[7px] border border-transparent px-2 text-caption transition ${
               mode === 'audio' ? 'pl-glass-soft text-live-700' : 'text-ink-3'
             }`}
           >
-            <IconMicrophone size={13} stroke={1.8} className="shrink-0" /> Audio
+            <IconMicrophone size={14} stroke={1.8} className="shrink-0" /> Audio
           </button>
           <button
             type="button"
             onClick={() => setMode('video')}
-            className={`flex h-9 items-center justify-center gap-1.5 rounded-[7px] border border-transparent px-2 text-[12px] transition ${
+            className={`flex h-9 items-center justify-center gap-1.5 rounded-[7px] border border-transparent px-2 text-caption transition ${
               mode === 'video' ? 'pl-glass-soft text-live-700' : 'text-ink-3'
             }`}
           >
-            <IconVideo size={13} stroke={1.8} className="shrink-0" /> Video
+            <IconVideo size={14} stroke={1.8} className="shrink-0" /> Video
           </button>
         </div>
       </div>
@@ -75,16 +75,16 @@ export function GoLiveScreen({
       <button
         type="button"
         onClick={onStart}
-        className="pl-primary-action flex w-full items-center justify-center gap-1.5 rounded-[14px] py-3.5 text-[15px] font-medium transition active:scale-[0.98]"
+        className="pl-primary-action flex w-full items-center justify-center gap-1.5 rounded-[14px] py-3.5 text-subhead font-medium transition active:scale-[0.98]"
       >
         <IconBolt size={16} stroke={2} /> Start 2-min intro
       </button>
       <button
         type="button"
         onClick={onBack}
-        className="pl-glass mt-3 flex w-full items-center justify-center gap-1.5 rounded-[14px] py-3 text-[13px] font-medium text-ink transition active:scale-[0.98]"
+        className="pl-glass mt-3 flex w-full items-center justify-center gap-1.5 rounded-[14px] py-3 text-body font-medium text-ink transition active:scale-[0.98]"
       >
-        <IconMessageCircle size={15} stroke={1.8} /> Message Instead
+        <IconMessageCircle size={16} stroke={1.8} /> Message Instead
       </button>
     </div>
   )

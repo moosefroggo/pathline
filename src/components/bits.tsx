@@ -52,7 +52,7 @@ export function Avatar({
       <span
         className={`pl-glass-soft flex shrink-0 items-center justify-center rounded-full text-ink-3 ${sizeClasses[size]}`}
       >
-        <IconUser size={iconPx[size]} stroke={1.6} />
+        <IconUser size={iconPx[size]} stroke={1.8} />
       </span>
     )
   }
@@ -75,8 +75,8 @@ export function SourceTag({ source, sourceIcon }: Pick<VerifiedSignal, 'source' 
           ? IconUsers
           : IconMail
   return (
-    <span className="pl-glass-pill flex shrink-0 items-center gap-1 rounded-md px-2 py-[3px] text-[12px] text-ink-2">
-      <Icon size={12} stroke={1.7} />
+    <span className="pl-glass-pill flex shrink-0 items-center gap-1 rounded-md px-2 py-[3px] text-caption text-ink-2">
+      <Icon size={14} stroke={1.8} />
       {source}
     </span>
   )
@@ -86,11 +86,11 @@ export function SectionLabel({ icon, children }: { icon: ReactNode; children: Re
   return (
     <div className="mt-4 mb-2 flex items-center gap-1.5">
       <span className="flex items-center">{icon}</span>
-      <span className="text-[12px] text-ink-3">{children}</span>
+      <span className="text-caption text-ink-3">{children}</span>
     </div>
   )
 }
 
 export function Chip({ children }: { children: ReactNode }) {
-  return <span className="pl-glass-pill rounded-md px-2.5 py-1 text-[12px] text-ink">{children}</span>
+  return <span className="pl-glass-pill rounded-md px-2.5 py-1 text-caption text-ink">{children}</span>
 }

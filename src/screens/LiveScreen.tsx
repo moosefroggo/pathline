@@ -9,7 +9,7 @@ import {
   IconVideo,
 } from '@tabler/icons-react'
 import { Avatar } from '../components/bits'
-import { useStopwatch, useTimeout } from '../lib/hooks'
+import { useTimeout } from '../lib/hooks'
 import type { Candidate } from '../data'
 import { revealTransition, riseTransition, smoothEase } from '../lib/motion'
 
@@ -42,7 +42,6 @@ export function LiveScreen({
   const [phase, setPhase] = useState<'ringing' | 'live'>('ringing')
   const [showCaption, setShowCaption] = useState(false)
   const [showBook, setShowBook] = useState(false)
-  const { label } = useStopwatch(phase === 'live')
 
   useTimeout(() => setPhase('live'), phase === 'ringing' ? 3200 : null)
 
@@ -61,7 +60,7 @@ export function LiveScreen({
       <div className="flex items-center justify-center pt-3.5 text-center">
         {phase === 'live' ? (
           <span className="pl-glass-pill inline-flex items-center gap-1.5 rounded-lg px-3 py-1 text-caption text-live-200">
-            <span className="h-1.5 w-1.5 rounded-full bg-live" /> Live · {label}
+            <span className="h-1.5 w-1.5 rounded-full bg-live" /> Live
           </span>
         ) : (
           <span className="text-label text-ink-4">Connecting&hellip;</span>
@@ -71,7 +70,7 @@ export function LiveScreen({
       {/* self-view, tucked into the corner so it never collides with the reveal */}
       {phase === 'live' && (
         <div className="pl-glass-soft absolute top-3 right-3 z-10 flex h-[58px] w-[44px] flex-col items-center justify-center gap-1 rounded-xl text-ink-4">
-          <IconVideo size={14} stroke={1.6} />
+          <IconVideo size={14} stroke={1.8} />
           <span className="text-micro">You</span>
         </div>
       )}
@@ -87,7 +86,7 @@ export function LiveScreen({
             >
               <span className="pl-ring absolute h-[104px] w-[104px] rounded-full bg-live-200" />
               <span className="pl-glass-soft flex h-[104px] w-[104px] items-center justify-center rounded-full text-ink-4">
-                <IconUser size={44} stroke={1.4} />
+                <IconUser size={40} stroke={1.8} />
               </span>
             </motion.div>
           ) : (
@@ -114,7 +113,7 @@ export function LiveScreen({
                 transition={{ ...riseTransition, delay: 0.22 }}
                 className="pl-glass-pill mt-4 inline-flex items-center gap-1 rounded-md px-2.5 py-1 text-micro text-ink"
               >
-                <IconLockOpen size={11} stroke={1.9} /> Revealed
+                <IconLockOpen size={14} stroke={1.8} /> Revealed
               </motion.span>
               <motion.div
                 initial={{ opacity: 0, y: 8 }}
@@ -165,7 +164,7 @@ export function LiveScreen({
 
       <div className="flex items-center justify-center gap-[18px]">
         <span className="pl-glass-soft flex h-11 w-11 items-center justify-center rounded-full text-ink">
-          <IconMicrophone size={18} stroke={1.8} />
+          <IconMicrophone size={20} stroke={1.8} />
         </span>
         <button
           type="button"
@@ -173,10 +172,10 @@ export function LiveScreen({
           aria-label="End the moment"
           className="pl-primary-action flex h-11 w-11 items-center justify-center rounded-full transition active:scale-95"
         >
-          <IconPhoneOff size={18} stroke={1.8} />
+          <IconPhoneOff size={20} stroke={1.8} />
         </button>
         <span className="pl-glass-soft flex h-11 w-11 items-center justify-center rounded-full text-ink">
-          <IconVideo size={18} stroke={1.8} />
+          <IconVideo size={20} stroke={1.8} />
         </span>
       </div>
     </div>

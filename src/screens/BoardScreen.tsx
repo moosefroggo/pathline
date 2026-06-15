@@ -18,7 +18,6 @@ import {
   IconX,
 } from '@tabler/icons-react'
 import { Avatar, LiveDot } from '../components/bits'
-import { PresenceShader } from '../components/PresenceShader'
 import { useCountdown } from '../lib/hooks'
 import { atsBacklog, candidates, openMomentsCount, recruiter, type Candidate } from '../data'
 
@@ -47,7 +46,7 @@ function Card({ c, onSelect }: { c: Candidate; onSelect: () => void }) {
     <button
       type="button"
       onClick={onSelect}
-      className="pl-glass w-full rounded-2xl p-3 text-left transition active:scale-[0.98]"
+      className="pl-glass w-full rounded-2xl p-3 text-left transition duration-150 active:scale-[0.985] active:brightness-105"
     >
       <div className="flex items-center gap-2.5">
         <Avatar locked size="sm" />
@@ -192,12 +191,9 @@ export function BoardScreen({ onSelect }: { onSelect: (c: Candidate) => void }) 
         </div>
       </div>
 
-      <div className="pl-noscroll pl-presence-stack mt-3 flex min-h-0 flex-1 flex-col gap-2.5 overflow-y-auto px-4 pb-4">
-        <PresenceShader />
+      <div className="pl-noscroll mt-3 flex min-h-0 flex-1 flex-col gap-2.5 overflow-y-auto px-4 pb-4">
         {candidates.map((c) => (
-          <div key={c.id} className="pl-presence-card-shell">
-            <Card c={c} onSelect={() => onSelect(c)} />
-          </div>
+          <Card key={c.id} c={c} onSelect={() => onSelect(c)} />
         ))}
       </div>
 

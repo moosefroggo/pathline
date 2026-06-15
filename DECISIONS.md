@@ -4,6 +4,21 @@ A lightweight record of the load-bearing calls and *why*, so the reasoning survi
 
 ---
 
+## D-006 · No visible seconds timer in the connection flow
+
+**Context.** The prototype used live second-by-second timers in two places: the candidate cards counted down to a closing window, and the call state counted up during the live intro. That made the flow feel urgent, but also made it feel stressful.
+
+**Decision.** Remove visible seconds from the experience. Keep timing as soft state: "opened 2h ago," "ready for a short intro," and "Live."
+
+**Why.**
+1. **Presence should feel calm.** The product is about catching a real person at the right moment, not racing a clock.
+2. **A countdown changes behavior.** Recruiters may feel pushed to act fast instead of deciding carefully.
+3. **The clock is still product logic, not UI pressure.** Windows can expire in the model, but the interface should show availability as a state, not a ticking threat.
+
+**Consequence.** Pathline keeps the perishable-window idea, but presents it with lower anxiety. The reviewer can still understand scarcity, while the candidate/recruiter experience feels more human.
+
+---
+
 ## D-005 · "Solve together" — explored, kept as an *alternative*, not the core
 
 **Context.** Explored a different *shape* of the moment — **"solve, don't sell":** instead of two people talking, they work a **real slice of the role's work together, live**, so fit reveals itself as a *byproduct* (the *"evaluation is the enemy of connection"* principle). Mocked as two screens.

@@ -43,14 +43,14 @@ export function PhoneFrame({
       >
         <div className="absolute top-2 left-1/2 z-20 h-[26px] w-[104px] -translate-x-1/2 rounded-full bg-bezel" />
         <div
-          className={`relative z-10 flex items-center justify-between px-7 pt-3.5 text-[13px] font-medium ${
+          className={`relative z-10 flex items-center justify-between px-7 pt-3.5 text-body font-medium ${
             dark ? 'text-ink' : 'text-ink'
           }`}
         >
           <span>9:41</span>
           <span className="flex items-center gap-1.5">
             <SignalBars dark={dark} />
-            <IconWifi size={18} stroke={2.15} />
+            <IconWifi size={16} stroke={1.8} />
             <Battery dark={dark} />
           </span>
         </div>
