@@ -11,9 +11,9 @@ import { Avatar, Chip, LiveDot, SourceTag } from './components/bits'
 import { screenMotionTransitions, smoothEase } from './lib/motion'
 
 /**
- * Living style guide — a top-level view at /?style. It renders the *real*
- * components and motion tokens (imported, not redrawn) so it can't drift from
- * the product. Reachable from the nav pill alongside App and Deck.
+ * Living style guide at /?style. It renders the real components and motion
+ * tokens (imported, not redrawn) so it can't drift from the product.
+ * Reachable from the nav pill alongside App and Deck.
  */
 
 function Section({
@@ -63,7 +63,7 @@ function Spec({ label, children }: { label: string; children: ReactNode }) {
 
 const colorGroups: { group: string; swatches: { cls: string; name: string; hex: string; role: string }[] }[] = [
   {
-    group: 'Ink — text',
+    group: 'Ink · text',
     swatches: [
       { cls: 'bg-ink', name: 'ink', hex: '#faf8e7', role: 'primary text' },
       { cls: 'bg-ink-2', name: 'ink-2', hex: '#d7ded5', role: 'secondary' },
@@ -72,7 +72,7 @@ const colorGroups: { group: string; swatches: { cls: string; name: string; hex: 
     ],
   },
   {
-    group: 'Surface — canvas',
+    group: 'Surface · canvas',
     swatches: [
       { cls: 'bg-surface', name: 'surface', hex: '#17211f', role: 'app canvas' },
       { cls: 'bg-cream', name: 'cream', hex: '#25312f', role: 'raised' },
@@ -81,7 +81,7 @@ const colorGroups: { group: string; swatches: { cls: string; name: string; hex: 
     ],
   },
   {
-    group: 'Presence — live / verified',
+    group: 'Presence · live / verified',
     swatches: [
       { cls: 'bg-live-200', name: 'live-200', hex: '#b9e4d7', role: 'presence text' },
       { cls: 'bg-live-400', name: 'live-400', hex: '#8acdbd', role: 'waveform' },
@@ -105,7 +105,7 @@ const typeScale = [
   { cls: 'text-title', name: 'title', px: '22', sample: 'Title' },
   { cls: 'text-headline', name: 'headline', px: '17', sample: 'Headline' },
   { cls: 'text-subhead', name: 'subhead', px: '15', sample: 'Subheading' },
-  { cls: 'text-body', name: 'body', px: '13', sample: 'Body — the default reading size.' },
+  { cls: 'text-body', name: 'body', px: '13', sample: 'Body text at the default reading size.' },
   { cls: 'text-caption', name: 'caption · label · micro', px: '12', sample: 'Caption, label and micro all share 12px.' },
 ]
 
@@ -119,14 +119,15 @@ const materials = [
 
 const principles = [
   { t: 'Presence over volume', d: 'A few open moments now, not a wall of results.' },
-  { t: 'Warmth over efficiency', d: 'Human and trustworthy — never LinkedIn blue.' },
+  { t: 'Warmth over efficiency', d: 'Human and trustworthy, never LinkedIn blue.' },
   { t: 'Consent is visible', d: 'Identity stays locked until both sides choose.' },
   { t: 'The moment is the hero', d: 'Reserve choreography for the live reveal.' },
 ]
 
 export function StyleGuide() {
   return (
-    <div className="min-h-full w-full px-5 pt-16 pb-24 sm:px-10">
+    <div className="relative min-h-full w-full overflow-hidden bg-surface px-5 pt-16 pb-24 sm:px-10">
+      <div aria-hidden="true" className="pl-style-glow pointer-events-none absolute inset-x-0 top-0 h-[460px]" />
       <nav
         aria-label="Switch view"
         className="pl-glass-pill fixed top-5 right-5 z-30 flex items-center gap-1 rounded-full p-1 text-caption font-medium"
@@ -134,24 +135,24 @@ export function StyleGuide() {
         <a className="rounded-full px-3 py-1.5 text-ink-3 transition hover:text-ink" href="/">
           App
         </a>
-        <span className="rounded-full bg-live-200/15 px-3 py-1.5 text-live-700">Style</span>
         <a className="rounded-full px-3 py-1.5 text-ink-3 transition hover:text-ink" href="/deck.html">
           Deck
         </a>
+        <span className="rounded-full bg-live-200/15 px-3 py-1.5 text-live-700">Style</span>
       </nav>
 
-      <div className="mx-auto max-w-[1040px]">
+      <div className="relative mx-auto max-w-[1040px]">
         <header className="mb-10">
           <div className="mb-3 flex items-center gap-2">
             <span className="pl-glass-soft flex h-7 w-7 items-center justify-center rounded-[8px] text-live-700">
-              <IconLeaf size={16} stroke={2} />
+              <IconLeaf size={16} stroke={1.8} />
             </span>
             <span className="font-serif text-[22px] font-medium text-ink">Pathline</span>
           </div>
           <h1 className="font-serif text-[40px] leading-none font-medium text-ink">Style Guide</h1>
           <p className="mt-3 max-w-[60ch] text-body text-ink-3">
-            The design system behind the prototype — tokens first. Everything here renders the real
-            components and values, so it stays true to the product.
+            The design system behind the prototype, tokens first. Everything here renders the real
+            components and values, so it never drifts from what ships.
           </p>
         </header>
 
@@ -160,7 +161,7 @@ export function StyleGuide() {
           <Section
             index="01"
             title="Typography"
-            note="One modular sans scale (Inter) for UI. Fraunces serif is reserved for brand voice — the wordmark, the moment count, and the identity reveal."
+            note="One modular sans scale (Inter) for UI. Fraunces serif is reserved for the wordmark, the moment count, and the identity reveal."
           >
             <div className="flex flex-col gap-4">
               {typeScale.map((t) => (
@@ -183,7 +184,7 @@ export function StyleGuide() {
           <Section
             index="02"
             title="Color"
-            note="Deep sage for trust, warm cream ink for humanity, mint for presence. Some ramps are intentionally aliased (action and intent reuse the sage neutrals) — no generic-AI purple, no LinkedIn blue."
+            note="Deep sage for trust, warm cream ink for text, mint for presence. Some ramps are intentionally aliased (action and intent reuse the sage neutrals). No generic purple, no LinkedIn blue."
           >
             <div className="grid grid-cols-1 gap-x-8 gap-y-7 sm:grid-cols-2">
               {colorGroups.map((g) => (
@@ -205,7 +206,7 @@ export function StyleGuide() {
           <Section
             index="03"
             title="Iconography"
-            note="Tabler icons on a four-step size scale, paired to the adjacent text. Two stroke weights only: 1.8 default, 2 for emphasis and brand."
+            note="Tabler icons on a four-step size scale, paired to the adjacent text. One stroke weight throughout: 1.8."
           >
             <div className="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
               <Spec label="14 · inline (12px text)">
@@ -221,13 +222,13 @@ export function StyleGuide() {
                 <IconClock size={40} stroke={1.8} className="text-ink" />
               </Spec>
             </div>
-            <div className="grid grid-cols-2 gap-3">
-              <Spec label="stroke 1.8 · default">
-                <IconBolt size={28} stroke={1.8} className="text-ink" />
-              </Spec>
-              <Spec label="stroke 2 · emphasis">
-                <IconBolt size={28} stroke={2} className="text-ink" />
-              </Spec>
+            <div className="pl-glass flex items-center justify-center gap-6 rounded-2xl py-5 text-ink">
+              <IconBolt size={24} stroke={1.8} />
+              <IconClock size={24} stroke={1.8} />
+              <IconLock size={24} stroke={1.8} />
+              <IconLeaf size={24} stroke={1.8} />
+              <IconCircleCheck size={24} stroke={1.8} />
+              <IconMicrophone size={24} stroke={1.8} />
             </div>
           </Section>
 
@@ -235,7 +236,7 @@ export function StyleGuide() {
           <Section
             index="04"
             title="Materials"
-            note="A single glass system — frosted layers over the sage canvas — gives the app its quiet, premium depth."
+            note="A single glass system. Frosted layers over the sage canvas give the app its depth."
           >
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
               {materials.map((m) => (
@@ -292,7 +293,7 @@ export function StyleGuide() {
                     type="button"
                     className="pl-primary-action flex w-full items-center justify-center gap-1.5 rounded-[14px] py-3 text-subhead font-medium transition active:scale-[0.98]"
                   >
-                    <IconBolt size={16} stroke={2} /> Go live
+                    <IconBolt size={16} stroke={1.8} /> Go live
                   </button>
                   <button
                     type="button"
@@ -309,7 +310,7 @@ export function StyleGuide() {
           <Section
             index="06"
             title="Motion"
-            note="One easing curve, named transitions per navigation intent. A pulse means a live connection — nothing before it animates."
+            note="One easing curve, named transitions per navigation intent. A pulse means a live connection; nothing before it animates."
           >
             <div className="pl-glass mb-3 rounded-2xl px-4 py-3 text-body text-ink">
               easing ·{' '}
@@ -342,7 +343,7 @@ export function StyleGuide() {
         </div>
 
         <footer className="mt-12 flex items-center gap-1.5 border-t border-hairline pt-6 text-caption text-ink-4">
-          <IconMicrophone size={14} stroke={1.8} /> Pathline — fix the moment of connection.
+          <IconMicrophone size={14} stroke={1.8} /> Pathline · fix the moment of connection.
         </footer>
       </div>
     </div>
