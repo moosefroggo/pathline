@@ -3,7 +3,7 @@ import gsap from 'gsap'
 import { Draggable } from 'gsap/Draggable'
 import { InertiaPlugin } from 'gsap/InertiaPlugin'
 import { IconArrowRight, IconBolt, IconClock, IconMessageCircle } from '@tabler/icons-react'
-import { Avatar, LiveDot } from './bits'
+import { Avatar } from './bits'
 import type { Candidate } from '../data'
 
 gsap.registerPlugin(Draggable, InertiaPlugin)
@@ -45,14 +45,9 @@ function CardFace({ c }: { c: Candidate }) {
     <div className="pl-glass flex w-full h-[272px] flex-col rounded-[22px] px-5 py-6">
       <div className="flex items-start gap-3">
         <Avatar locked size="sm" />
-        <div className="flex flex-1 items-start justify-between gap-2">
-          <div className="min-w-0 leading-tight">
-            <div className="truncate text-headline font-medium text-ink">{c.anonRole}</div>
-            <div className="whitespace-nowrap text-caption text-ink-3">{c.anonContext} · {c.anonLocation}</div>
-          </div>
-          <span className="flex shrink-0 items-center gap-1 text-micro font-medium text-live-700">
-            <LiveDot pulse={false} /> now
-          </span>
+        <div className="min-w-0 leading-tight">
+          <div className="truncate text-headline font-medium text-ink">{c.anonRole}</div>
+          <div className="whitespace-nowrap text-caption text-ink-3">{c.anonContext} · {c.anonLocation}</div>
         </div>
       </div>
 
