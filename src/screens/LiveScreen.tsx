@@ -114,7 +114,7 @@ export function LiveScreen({
                 transition={{ ...riseTransition, delay: 0.22 }}
                 className="pl-glass-pill mt-4 inline-flex items-center gap-1 rounded-md px-2.5 py-1 text-micro text-ink"
               >
-                <IconLockOpen size={11} stroke={1.9} /> Identity Unlocked
+                <IconLockOpen size={11} stroke={1.9} /> Revealed
               </motion.span>
               <motion.div
                 initial={{ opacity: 0, y: 8 }}
@@ -157,8 +157,8 @@ export function LiveScreen({
             className="pl-glass mb-4 flex w-full items-center gap-2 rounded-xl px-3 py-2.5 transition active:scale-[0.98]"
           >
             <IconCalendar size={16} stroke={1.8} className="text-live-700" />
-            <span className="text-body text-ink">Book 15 Min · {c.bookSlot}</span>
-            <span className="ml-auto text-caption font-medium text-live-700">Add</span>
+            <span className="text-body text-ink">Book 15 min · {c.bookSlot}</span>
+            <span className="ml-auto text-caption font-medium text-live-700">Book</span>
           </motion.button>
         )}
       </AnimatePresence>

@@ -37,7 +37,7 @@ export function BriefScreen({
               <IconLock size={12} stroke={1.8} className="text-ink-3" />
             </div>
             <div className="flex items-center gap-1.5 text-caption text-live-700">
-              <LiveDot /> Active Now · replies in {c.repliesIn}
+              <LiveDot /> Replies in {c.repliesIn}
             </div>
           </div>
         </div>
@@ -86,7 +86,7 @@ export function BriefScreen({
         <div className="pl-glass-soft mt-3.5 flex items-center gap-2 rounded-xl px-3 py-2.5">
           <IconLock size={15} stroke={1.8} className="text-ink-2" />
           <span className="text-caption leading-snug text-ink">
-            Name &amp; Face unlock when you both go live.
+            Reveal happens after mutual start.
           </span>
         </div>
       </div>
@@ -97,7 +97,7 @@ export function BriefScreen({
           onClick={onStart}
           className="pl-primary-action flex w-full items-center justify-center gap-1.5 rounded-[14px] py-3.5 text-subhead font-medium transition active:scale-[0.98]"
         >
-          <IconBolt size={16} stroke={2} /> Start live moment · 2 min
+          <IconBolt size={16} stroke={2} /> Go live
         </button>
       </div>
     </div>

@@ -56,7 +56,7 @@ export const candidates: Candidate[] = [
     windowSecs: 2 * 3600 + 14 * 60,
     trigger: 'Layoffs at her co confirmed · Jun 10',
     verified: [
-      { label: 'Senior PM, 6 yrs', source: 'work email', sourceIcon: 'mail' },
+      { label: 'Company role confirmed', source: 'work email', sourceIcon: 'mail' },
       { label: 'Shipped a public payments product', source: 'linked URL', sourceIcon: 'link' },
       { label: '1,200+ commits this year', source: 'GitHub', sourceIcon: 'github' },
     ],
@@ -67,7 +67,7 @@ export const candidates: Candidate[] = [
     },
     track: { reply: '12 min', showed: '8 / 8', onsite: '2' },
     declared: ['0→1 product', 'Series A', '$190–210k', 'NYC / remote'],
-    liveLine: 'Vela’s stage is exactly what I’m looking for — when can we talk properly?',
+    liveLine: 'Vela’s stage is exactly what I’m looking for. When can we talk properly?',
     bookSlot: 'Tue 3:00 PM',
   },
   {
@@ -83,7 +83,7 @@ export const candidates: Candidate[] = [
     windowSecs: 1 * 3600 + 47 * 60,
     trigger: 'Just wrapped a 6-mo contract',
     verified: [
-      { label: 'Full-stack PE, 5 yrs', source: 'work email', sourceIcon: 'mail' },
+      { label: 'Product engineering role confirmed', source: 'work email', sourceIcon: 'mail' },
       { label: 'Open-source design system, 4k stars', source: 'GitHub', sourceIcon: 'github' },
       { label: 'Live portfolio of shipped apps', source: 'linked URL', sourceIcon: 'link' },
     ],
@@ -110,7 +110,7 @@ export const candidates: Candidate[] = [
     windowSecs: 3 * 3600 + 2 * 60,
     trigger: 'IPO lockup expired this week',
     verified: [
-      { label: 'Staff Eng, 8 yrs', source: 'work email', sourceIcon: 'mail' },
+      { label: 'Staff level confirmed', source: 'work email', sourceIcon: 'mail' },
       { label: 'Led payments platform at scale', source: 'linked URL', sourceIcon: 'link' },
       { label: '900+ commits this year', source: 'GitHub', sourceIcon: 'github' },
     ],
@@ -121,7 +121,7 @@ export const candidates: Candidate[] = [
     },
     track: { reply: '20 min', showed: '6 / 6', onsite: '3' },
     declared: ['Platform / infra', 'Series A–B', '$210–240k', 'Hybrid SF'],
-    liveLine: 'My lockup just cleared — I finally have the freedom to go early again.',
+    liveLine: 'My lockup just cleared. I finally have the freedom to go early again.',
     bookSlot: 'Wed 2:30 PM',
   },
   {
@@ -137,7 +137,7 @@ export const candidates: Candidate[] = [
     windowSecs: 2 * 3600 + 35 * 60,
     trigger: 'Their team reorged this week',
     verified: [
-      { label: 'Design Engineer, 4 yrs', source: 'work email', sourceIcon: 'mail' },
+      { label: 'Design engineering role confirmed', source: 'work email', sourceIcon: 'mail' },
       { label: 'Dribbble + live component library', source: 'linked URL', sourceIcon: 'link' },
       { label: '600+ commits this year', source: 'GitHub', sourceIcon: 'github' },
     ],
@@ -164,7 +164,7 @@ export const candidates: Candidate[] = [
     windowSecs: 50, // short on purpose — demos the perishable window-closed state live
     trigger: 'Quietly exploring this week',
     verified: [
-      { label: 'Senior PM, 7 yrs', source: 'work email', sourceIcon: 'mail' },
+      { label: 'Senior PM level confirmed', source: 'work email', sourceIcon: 'mail' },
       { label: 'Shipped 0→1 consumer product', source: 'linked URL', sourceIcon: 'link' },
       { label: 'Writes a 12k-sub product blog', source: 'linked URL', sourceIcon: 'link' },
     ],

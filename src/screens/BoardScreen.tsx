@@ -4,7 +4,6 @@ import {
   IconBriefcase,
   IconBuilding,
   IconChevronRight,
-  IconCircleCheck,
   IconClock,
   IconCreditCard,
   IconHelpCircle,
@@ -34,10 +33,10 @@ function Card({ c, onSelect }: { c: Candidate; onSelect: () => void }) {
             <div className="text-body font-medium text-ink-3">{c.anonRole}</div>
             <div className="text-caption text-ink-4">{c.anonContext}</div>
           </div>
-          <span className="ml-auto text-micro text-ink-4">window closed</span>
+          <span className="ml-auto text-micro text-ink-4">closed</span>
         </div>
         <div className="mt-2.5 flex items-center gap-1 text-caption text-ink-4">
-          <IconClock size={12} stroke={1.8} /> this moment just passed, be quicker next time
+          <IconClock size={12} stroke={1.8} /> window passed
         </div>
       </div>
     )
@@ -59,7 +58,7 @@ function Card({ c, onSelect }: { c: Candidate; onSelect: () => void }) {
           <div className="whitespace-nowrap text-caption text-ink-2">{c.anonContext}</div>
         </div>
         <span className="ml-auto flex items-center gap-1 text-micro font-medium text-live-700">
-          <LiveDot /> active
+          <LiveDot pulse={false} /> now
         </span>
       </div>
 
@@ -69,14 +68,11 @@ function Card({ c, onSelect }: { c: Candidate; onSelect: () => void }) {
         </span>
       </div>
 
-      <div className="mt-2.5 flex items-center gap-2 whitespace-nowrap text-caption text-ink-2">
+      <div className="mt-2 flex items-center gap-2.5 whitespace-nowrap text-micro text-ink-3">
         <span className="flex shrink-0 items-center gap-1 tabular-nums">
-          <IconClock size={12} stroke={1.8} /> closes in {label}
+          <IconClock size={11} stroke={1.8} /> closes in {label}
         </span>
-        <span className="shrink-0 text-ink-3">replies {c.repliesIn}</span>
-        <span className="ml-auto flex shrink-0 items-center gap-1 text-ink-3">
-          <IconCircleCheck size={12} stroke={1.9} /> opted in
-        </span>
+        <span className="shrink-0">replies {c.repliesIn}</span>
       </div>
     </button>
   )
@@ -189,9 +185,9 @@ export function BoardScreen({ onSelect }: { onSelect: (c: Candidate) => void }) 
         </div>
         <div className="mt-2.5">
           <div className="font-serif text-[19px] font-medium whitespace-nowrap text-live-700">
-            {openMomentsCount} open moments
+            {openMomentsCount} available now
           </div>
-          <div className="mt-0.5 text-caption text-ink-3">right now · vs {atsBacklog} in your ATS</div>
+          <div className="mt-0.5 text-caption text-ink-3">vs {atsBacklog} ATS records</div>
         </div>
       </div>
 

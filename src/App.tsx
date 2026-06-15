@@ -131,7 +131,7 @@ export default function App() {
           <span className="font-serif text-[20px] font-medium text-ink">Pathline</span>
         </div>
         <div className="text-label text-ink-3">
-          Pathline - recruiter demo
+          Recruiter demo
         </div>
       </div>
 

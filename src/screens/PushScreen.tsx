@@ -22,10 +22,10 @@ export function PushScreen({ onOpen }: { onOpen: () => void }) {
           <span className="text-[12px] tracking-wide text-ink-2">pathline</span>
           <span className="ml-auto text-[12px] text-ink-3">now</span>
         </div>
-        <div className="text-[15px] font-medium text-ink">A Senior PM just opened a moment</div>
+        <div className="text-[15px] font-medium text-ink">Senior PM available now</div>
         <div className="mt-1 flex items-start gap-1.5 text-[12px] leading-snug text-ink-2">
           <LiveDot className="mt-[5px] shrink-0" />
-          <span>Active Now · for your {recruiter.role} role</span>
+          <span>Matched to your {recruiter.role} role</span>
         </div>
       </button>
 

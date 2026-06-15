@@ -27,10 +27,10 @@ const sizeClasses: Record<AvatarSize, string> = {
 
 const iconPx: Record<AvatarSize, number> = { xs: 12, sm: 15, md: 22, lg: 40, xl: 44 }
 
-export function LiveDot({ className = '' }: { className?: string }) {
+export function LiveDot({ className = '', pulse = true }: { className?: string; pulse?: boolean }) {
   return (
     <span className={`relative inline-flex h-2 w-2 ${className}`}>
-      <span className="pl-pulse absolute inline-flex h-full w-full rounded-full bg-live" />
+      {pulse && <span className="pl-pulse absolute inline-flex h-full w-full rounded-full bg-live" />}
       <span className="relative inline-flex h-2 w-2 rounded-full bg-live" />
     </span>
   )
