@@ -9,6 +9,7 @@ import { GoLiveScreen } from './screens/GoLiveScreen'
 import { LiveScreen } from './screens/LiveScreen'
 import { BookedScreen } from './screens/BookedScreen'
 import { candidates, type Candidate } from './data'
+import { screenTransition } from './lib/motion'
 
 type Screen = 'push' | 'board' | 'brief' | 'golive' | 'live' | 'booked'
 
@@ -20,7 +21,7 @@ export default function App() {
     <div className="flex min-h-full flex-col items-center justify-center gap-7 px-4 py-10">
       <div className="flex flex-col items-center gap-1.5">
         <div className="flex items-center gap-2">
-          <span className="flex h-6 w-6 items-center justify-center rounded-[7px] bg-coral text-white">
+          <span className="pl-glass-soft flex h-6 w-6 items-center justify-center rounded-[7px] text-live-700">
             <IconLeaf size={15} stroke={2} />
           </span>
           <span className="font-serif text-[20px] font-medium text-ink">Pathline</span>
@@ -31,14 +32,14 @@ export default function App() {
       </div>
 
       <PhoneFrame tone={screen === 'live' ? 'dark' : 'light'}>
-        <AnimatePresence mode="wait">
+        <AnimatePresence initial={false}>
           <motion.div
             key={screen}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.18, ease: 'easeOut' }}
-            className="flex flex-1 flex-col"
+            initial={{ opacity: 0, y: 10, scale: 0.995 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.997 }}
+            transition={screenTransition}
+            className="flex min-h-0 flex-1 flex-col"
           >
             {screen === 'push' && <PushScreen onOpen={() => setScreen('board')} />}
             {screen === 'board' && (

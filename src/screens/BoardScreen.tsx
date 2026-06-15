@@ -11,6 +11,7 @@ import {
 } from '@tabler/icons-react'
 import { Avatar, LiveDot } from '../components/bits'
 import { useCountdown } from '../lib/hooks'
+import { riseTransition } from '../lib/motion'
 import { atsBacklog, candidates, openMomentsCount, recruiter, type Candidate } from '../data'
 
 function Card({ c, onSelect, index }: { c: Candidate; onSelect: () => void; index: number }) {
@@ -21,7 +22,7 @@ function Card({ c, onSelect, index }: { c: Candidate; onSelect: () => void; inde
       <motion.div
         initial={{ opacity: 1 }}
         animate={{ opacity: 0.6 }}
-        className="w-full rounded-2xl bg-surface/70 p-3 text-left"
+        className="pl-glass w-full rounded-2xl p-3 text-left"
       >
         <div className="flex items-center gap-2.5">
           <Avatar locked size="sm" />
@@ -42,10 +43,10 @@ function Card({ c, onSelect, index }: { c: Candidate; onSelect: () => void; inde
     <motion.button
       type="button"
       onClick={onSelect}
-      initial={{ y: 14, opacity: 0 }}
+      initial={{ y: 8, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ delay: 0.06 * index, type: 'spring', stiffness: 280, damping: 28 }}
-      className="w-full rounded-2xl bg-surface p-3 text-left transition active:scale-[0.98]"
+      transition={{ ...riseTransition, delay: 0.025 * index }}
+      className="pl-glass w-full rounded-2xl p-3 text-left transition active:scale-[0.98]"
     >
       <div className="flex items-center gap-2.5">
         <Avatar locked size="sm" />
@@ -64,7 +65,7 @@ function Card({ c, onSelect, index }: { c: Candidate; onSelect: () => void; inde
       </div>
 
       <div className="mt-2.5 flex flex-wrap gap-1.5">
-        <span className="flex items-center gap-1 rounded-md bg-amber-50 px-2 py-[3px] text-micro text-amber-700">
+        <span className="pl-glass-pill flex items-center gap-1 rounded-md px-2 py-[3px] text-micro text-amber-700">
           <IconBolt size={11} stroke={1.9} /> {c.trigger}
         </span>
       </div>
@@ -87,7 +88,7 @@ export function BoardScreen({ onSelect }: { onSelect: (c: Candidate) => void }) 
     <div className="flex flex-1 flex-col">
       <div className="px-4 pt-3">
         <div className="flex items-center gap-2">
-          <span className="flex h-[22px] w-[22px] items-center justify-center rounded-[7px] bg-coral text-white">
+          <span className="pl-glass-soft flex h-[22px] w-[22px] items-center justify-center rounded-[7px] text-live-700">
             <IconLeaf size={14} stroke={2} />
           </span>
           <span className="text-headline font-medium text-ink">Moments</span>
@@ -112,8 +113,8 @@ export function BoardScreen({ onSelect }: { onSelect: (c: Candidate) => void }) 
         ))}
       </div>
 
-      <div className="mt-auto flex items-center justify-around border-t border-hairline-strong px-2 pt-2.5 pb-3 text-ink-3">
-        <IconBolt size={22} stroke={1.8} className="text-coral" aria-label="Moments" />
+      <div className="pl-bottom-glass mt-auto flex items-center justify-around border-t border-hairline-strong px-2 pt-2.5 pb-3 text-ink-3">
+        <IconBolt size={22} stroke={1.8} className="text-live-700" aria-label="Moments" />
         <IconBriefcase size={22} stroke={1.8} aria-label="Roles" />
         <IconMessageCircle size={22} stroke={1.8} aria-label="Messages" />
         <IconUser size={22} stroke={1.8} aria-label="You" />

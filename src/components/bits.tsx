@@ -9,10 +9,10 @@ import {
 import type { AvatarHue, VerifiedSignal } from '../data'
 
 const hueClasses: Record<AvatarHue, string> = {
-  iris: 'bg-iris-100 text-iris-900',
-  coral: 'bg-coral-200 text-coral-900',
+  iris: 'pl-glass-soft text-ink',
+  coral: 'pl-glass-soft text-ink',
   live: 'bg-live-200 text-live-900',
-  amber: 'bg-amber-200 text-amber-900',
+  amber: 'pl-glass-soft text-ink',
 }
 
 export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
@@ -50,7 +50,7 @@ export function Avatar({
   if (locked) {
     return (
       <span
-        className={`flex shrink-0 items-center justify-center rounded-full bg-hairline-strong text-ink-3 ${sizeClasses[size]}`}
+        className={`pl-glass-soft flex shrink-0 items-center justify-center rounded-full text-ink-3 ${sizeClasses[size]}`}
       >
         <IconUser size={iconPx[size]} stroke={1.6} />
       </span>
@@ -75,7 +75,7 @@ export function SourceTag({ source, sourceIcon }: Pick<VerifiedSignal, 'source' 
           ? IconUsers
           : IconMail
   return (
-    <span className="flex shrink-0 items-center gap-1 rounded-md bg-hairline px-2 py-[3px] text-[10px] text-ink-2">
+    <span className="pl-glass-pill flex shrink-0 items-center gap-1 rounded-md px-2 py-[3px] text-[10px] text-ink-2">
       <Icon size={12} stroke={1.7} />
       {source}
     </span>
@@ -92,5 +92,5 @@ export function SectionLabel({ icon, children }: { icon: ReactNode; children: Re
 }
 
 export function Chip({ children }: { children: ReactNode }) {
-  return <span className="rounded-md bg-surface px-2.5 py-1 text-[11px] text-ink">{children}</span>
+  return <span className="pl-glass-pill rounded-md px-2.5 py-1 text-[11px] text-ink">{children}</span>
 }

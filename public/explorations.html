@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pathline — Design Explorations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'Fraunces', Georgia, serif;
+      --citron: #FAF8E7; --citron-light: #FFFEEB; --white: #FFFFFF;
+      --carbon: #1B1D16; --carbon-light: #2D3025;
+      --sage: #4B8D47; --sage-light: #F0F5EE;
+      --yellow: #FFD500; --yellow-light: #FFF9CC; --yellow-dark: #E6B800;
+      --amber: #EBA31A; --amber-light: #FFF9E6;
+      --slate-1: #3E4235; --slate-2: #585E4B; --slate-3: #7D856C; --slate-4: #D4D8C4;
+      --red: #C8482E;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-sans); background: var(--citron); color: var(--carbon);
+      -webkit-font-smoothing: antialiased; line-height: 1.5;
+    }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 56px 32px 100px; }
+    a { color: inherit; }
+
+    /* header */
+    .head { display: flex; flex-direction: column; gap: 14px; margin-bottom: 14px; }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .logo { width: 36px; height: 36px; background: var(--yellow); border: 2px solid var(--carbon); border-radius: 9px; display: flex; align-items: center; justify-content: center; box-shadow: 3px 3px 0 var(--carbon); }
+    .logo svg { width: 20px; height: 20px; }
+    .brand .nm { font-family: var(--font-serif); font-size: 22px; font-weight: 600; }
+    h1.title { font-family: var(--font-serif); font-size: clamp(34px, 5vw, 54px); font-weight: 600; line-height: 1.02; letter-spacing: -0.01em; max-width: 18ch; }
+    .intro { font-size: 16px; color: var(--slate-1); max-width: 70ch; }
+
+    /* legend */
+    .legend { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0 8px; padding: 14px 16px; background: var(--white); border: 1.5px solid var(--carbon); border-radius: 14px; box-shadow: 4px 4px 0 var(--carbon-light); }
+    .legend .lg { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--slate-2); }
+
+    .badge { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 3px 8px; border-radius: 6px; border: 1.5px solid var(--carbon); white-space: nowrap; }
+    .badge.ship { background: var(--yellow); color: var(--carbon); }
+    .badge.built { background: var(--sage-light); color: var(--sage); border-color: var(--sage); }
+    .badge.aside { background: var(--citron-light); color: var(--slate-3); border-color: var(--slate-4); }
+    .badge.reject { background: #FBE7E1; color: var(--red); border-color: var(--red); }
+
+    /* sections */
+    .section { margin-top: 56px; }
+    .kicker { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--sage); display: inline-flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .kicker::before { content: ''; width: 22px; height: 3px; background: currentColor; border-radius: 2px; }
+    .sec-title { font-family: var(--font-serif); font-size: clamp(24px, 3vw, 34px); font-weight: 600; margin-bottom: 6px; }
+    .sec-sub { font-size: 14px; color: var(--slate-2); max-width: 68ch; margin-bottom: 22px; }
+
+    /* palette cards */
+    .palettes { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .pal { background: var(--white); border: 2px solid var(--carbon); border-radius: 16px; box-shadow: 5px 5px 0 var(--carbon-light); overflow: hidden; }
+    .pal-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px 10px; }
+    .pal-head .pn { font-weight: 700; font-size: 15px; }
+    .pal-swatches { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .sw { height: 70px; border-top: 1.5px solid var(--carbon); display: flex; align-items: flex-end; padding: 6px; }
+    .sw span { font-size: 9px; font-weight: 700; background: rgba(255,255,255,0.85); padding: 1px 4px; border-radius: 3px; color: var(--carbon); }
+    .pal-note { padding: 12px 16px 16px; font-size: 13px; color: var(--slate-2); }
+
+    /* card grid */
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media (max-width: 860px) { .grid, .palettes { grid-template-columns: 1fr; } }
+    .card { background: var(--white); border: 1.5px solid var(--carbon); border-radius: 14px; box-shadow: 4px 4px 0 var(--carbon-light); padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+    .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+    .card .ct { font-weight: 700; font-size: 15px; }
+    .card .cb { font-size: 13px; color: var(--slate-2); }
+    .card .why { font-size: 12px; color: var(--slate-3); }
+    .card .why b { color: var(--carbon); font-weight: 600; }
+
+    /* flow strips */
+    .flowwrap { background: var(--white); border: 1.5px solid var(--carbon); border-radius: 14px; box-shadow: 4px 4px 0 var(--carbon-light); padding: 16px; margin-bottom: 14px; }
+    .flowwrap .fl-name { font-weight: 700; font-size: 14px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+    .flow { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .fstep { background: var(--citron-light); border: 1.5px solid var(--carbon-light); border-radius: 9px; padding: 7px 11px; font-size: 12.5px; font-weight: 600; box-shadow: 2px 2px 0 var(--carbon-light); }
+    .farrow { color: var(--slate-3); font-weight: 700; }
+
+    /* variation before/after */
+    .vars { display: flex; flex-direction: column; gap: 14px; }
+    .var { background: var(--white); border: 1.5px solid var(--carbon); border-radius: 14px; box-shadow: 4px 4px 0 var(--carbon-light); padding: 14px 16px; }
+    .var .vn { font-weight: 700; font-size: 14px; margin-bottom: 10px; }
+    .ba { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .chip { font-size: 12.5px; font-weight: 500; padding: 7px 12px; border-radius: 9px; border: 1.5px solid var(--slate-4); background: var(--citron-light); color: var(--slate-2); }
+    .chip.before { text-decoration: line-through; text-decoration-color: var(--red); text-decoration-thickness: 1.5px; }
+    .chip.after { background: var(--yellow); border-color: var(--carbon); color: var(--carbon); font-weight: 700; box-shadow: 2px 2px 0 var(--yellow-dark); }
+    .ba .ar { color: var(--carbon); font-weight: 800; font-size: 16px; }
+    .var .vwhy { font-size: 12px; color: var(--slate-3); margin-top: 9px; }
+
+    .foot { margin-top: 60px; padding-top: 20px; border-top: 1.5px solid var(--slate-4); font-size: 13px; color: var(--slate-3); display: flex; gap: 18px; flex-wrap: wrap; }
+    .foot a { font-weight: 600; color: var(--carbon); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <div class="head">
+      <div class="brand">
+        <span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#1B1D16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 2 2 4c0 4.4-3.6 8-8 8h-2c-1.1 0-2 .9-2 2z"/><path d="M9 14c0-2-1-3-3-3M9 20v2"/></svg></span>
+        <span class="nm">Pathline</span>
+      </div>
+      <h1 class="title">Design explorations.</h1>
+      <p class="intro">Every direction, concept, and element variation we explored on the way to the final prototype — what shipped, what we built as an alternative, what we set aside, and what we deliberately rejected. The exploration is the work.</p>
+    </div>
+
+    <div class="legend">
+      <span class="lg"><span class="badge ship">Shipped</span> in the final demo</span>
+      <span class="lg"><span class="badge built">Built &amp; explored</span> as an alternative</span>
+      <span class="lg"><span class="badge aside">Set aside</span> after pressure-testing</span>
+      <span class="lg"><span class="badge reject">Rejected</span> on principle</span>
+    </div>
+
+    <!-- VISUAL DIRECTIONS -->
+    <section class="section">
+      <div class="kicker">Visual directions</div>
+      <h2 class="sec-title">Two palettes, one principle: not LinkedIn blue.</h2>
+      <p class="sec-sub">Both directions chase warmth and presence over cold efficiency. We pressure-tested a soft warm palette, then pushed to something more distinctive and modern.</p>
+      <div class="palettes">
+        <div class="pal">
+          <div class="pal-head"><span class="pn">Warm Signal</span><span class="badge aside">Set aside</span></div>
+          <div class="pal-swatches">
+            <div class="sw" style="background:#fbf4ec"><span>Paper</span></div>
+            <div class="sw" style="background:#d94e27"><span>Coral</span></div>
+            <div class="sw" style="background:#0c8a74"><span>Teal</span></div>
+            <div class="sw" style="background:#dd861b"><span>Amber</span></div>
+          </div>
+          <div class="pal-note">Warm coral + paper cream + teal-green. AA-validated and friendly — but soft, and close to a "safe" startup look. Kept on the original React build.</div>
+        </div>
+        <div class="pal">
+          <div class="pal-head"><span class="pn">Citron, Sage &amp; Neo-Brutalism</span><span class="badge ship">Shipped</span></div>
+          <div class="pal-swatches">
+            <div class="sw" style="background:#FAF8E7"><span>Citron</span></div>
+            <div class="sw" style="background:#FFD500"><span>Yellow</span></div>
+            <div class="sw" style="background:#4B8D47"><span>Sage</span></div>
+            <div class="sw" style="background:#1B1D16"><span>Carbon</span></div>
+          </div>
+          <div class="pal-note">Vibrant canary yellow on citron, sage for presence, carbon ink — with flat black borders + hard offset shadows. Refreshing, crafty, unmistakably not a job board. No blues, no purples.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONCEPTS -->
+    <section class="section">
+      <div class="kicker">Product concepts</div>
+      <h2 class="sec-title">A wide search for a genuinely different shape.</h2>
+      <p class="sec-sub">We brainstormed many shapes for "the moment," and pushed on each — most collapsed into "a moment with a tweak," drifted toward evaluation, or recreated the funnel we set out to kill.</p>
+      <div class="grid">
+        <div class="card"><div class="card-top"><span class="ct">Meet-Live · the moment</span><span class="badge ship">Shipped</span></div><div class="cb">Presence board → anonymized brief → 2-min live moment → identity reveal.</div><div class="why"><b>The core.</b> Presence + consent, mobile-native.</div></div>
+        <div class="card"><div class="card-top"><span class="ct">Solve-Together</span><span class="badge built">Built</span></div><div class="cb">Work a real slice of the role together for 15 min; fit shows itself.</div><div class="why"><b>Deeper-stage alt.</b> Drifts to evaluation · desktop-leaning · higher friction.</div></div>
+        <div class="card"><div class="card-top"><span class="ct">Office-hours room</span><span class="badge aside">Set aside</span></div><div class="cb">Candidate opens a drop-in window; recruiters join.</div><div class="why">Just a moment with a lobby.</div></div>
+        <div class="card"><div class="card-top"><span class="ct">Drop-into-the-team</span><span class="badge aside">Set aside</span></div><div class="cb">Candidate sits in on a real team working session.</div><div class="why">Desktop-bound; high friction; voyeuristic.</div></div>
+        <div class="card"><div class="card-top"><span class="ct">Speed-rounds</span><span class="badge aside">Set aside</span></div><div class="cb">Back-to-back timed mini-meets, speed-dating style.</div><div class="why">"A moment with extra time," not a new shape.</div></div>
+        <div class="card"><div class="card-top"><span class="ct">Reverse-auction</span><span class="badge aside">Set aside</span></div><div class="cb">Employers bid for a candidate's time/attention.</div><div class="why">Turns connection into a marketplace transaction.</div></div>
+        <div class="card"><div class="card-top"><span class="ct">TikTok-duet</span><span class="badge aside">Set aside</span></div><div class="cb">Candidate clips + recruiter response clips.</div><div class="why">Back to authored media — the thing AI killed.</div></div>
+        <div class="card"><div class="card-top"><span class="ct">Voice-notes / problem-first feed</span><span class="badge aside">Set aside</span></div><div class="cb">Async voice or a feed of role problems to react to.</div><div class="why">Re-introduces asynchrony — the void's home.</div></div>
+        <div class="card"><div class="card-top"><span class="ct">"AI, pull me candidates"</span><span class="badge reject">Rejected</span></div><div class="cb">Natural-language sourcing that returns a ranked list.</div><div class="why"><b>D-001.</b> A list to skim = the funnel + the AI-gatekeeper dystopia.</div></div>
+        <div class="card"><div class="card-top"><span class="ct">Behavior analyzer (rank-the-best)</span><span class="badge reject">Rejected</span></div><div class="cb">Score candidates on proof-of-work, surface the strongest.</div><div class="why">A different product (analysis, not connection); evaluation is the enemy.</div></div>
+      </div>
+    </section>
+
+    <!-- FLOWS -->
+    <section class="section">
+      <div class="kicker">Flows &amp; screens</div>
+      <h2 class="sec-title">Two flows we built end-to-end.</h2>
+      <div class="flowwrap">
+        <div class="fl-name">Meet-Live <span class="badge ship">Shipped</span></div>
+        <div class="flow">
+          <span class="fstep">Push</span><span class="farrow">→</span>
+          <span class="fstep">Presence board</span><span class="farrow">→</span>
+          <span class="fstep">Moment brief</span><span class="farrow">→</span>
+          <span class="fstep">Go live</span><span class="farrow">→</span>
+          <span class="fstep">Identity reveal</span><span class="farrow">→</span>
+          <span class="fstep">Booked</span>
+        </div>
+      </div>
+      <div class="flowwrap">
+        <div class="fl-name">Solve-Together <span class="badge built">Built</span></div>
+        <div class="flow">
+          <span class="fstep">Setup / prompt</span><span class="farrow">→</span>
+          <span class="fstep">Live solve (chat)</span><span class="farrow">→</span>
+          <span class="fstep">Identity reveal</span><span class="farrow">→</span>
+          <span class="fstep">Booked</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ELEMENT VARIATIONS -->
+    <section class="section">
+      <div class="kicker">Element &amp; interaction variations</div>
+      <h2 class="sec-title">What changed at the component level.</h2>
+      <p class="sec-sub">The decisions inside the screens — each one moved from a first pass to the shipped treatment.</p>
+      <div class="vars">
+        <div class="var"><div class="vn">Solve-Together layout</div><div class="ba"><span class="chip before">2 static phones, side by side</span><span class="ar">→</span><span class="chip after">one clickable, animated flow</span></div><div class="vwhy">Brought the explored alternative to parity with the core prototype.</div></div>
+        <div class="var"><div class="vn">"Working it out together" thread</div><div class="ba"><span class="chip before">bulleted dot-list of lines</span><span class="ar">→</span><span class="chip after">chat bubbles (you right / them left)</span></div><div class="vwhy">A transcript didn't read as a conversation; bubbles do.</div></div>
+        <div class="var"><div class="vn">Primary button</div><div class="ba"><span class="chip before">coral fill, white text</span><span class="ar">→</span><span class="chip after">yellow fill, dark ink, hard shadow</span></div><div class="vwhy">White-on-yellow failed contrast; dark-on-yellow is the neo-brutalist signature.</div></div>
+        <div class="var"><div class="vn">Cards &amp; surfaces</div><div class="ba"><span class="chip before">soft rounded, gentle shadow</span><span class="ar">→</span><span class="chip after">flat black border + offset shadow</span></div><div class="vwhy">Gives the UI a crafted, intentional, un-templated feel.</div></div>
+        <div class="var"><div class="vn">Type pairing</div><div class="ba"><span class="chip before">Inter + Fraunces</span><span class="ar">→</span><span class="chip after">Outfit + Fraunces</span></div><div class="vwhy">Outfit's geometry pairs better with the bold neo-brutalist surfaces.</div></div>
+        <div class="var"><div class="vn">Identity</div><div class="ba"><span class="chip before">locked / anonymized avatar</span><span class="ar">→</span><span class="chip after">portrait + Fraunces name at reveal</span></div><div class="vwhy">Anonymized until mutual makes the reveal the emotional climax.</div></div>
+        <div class="var"><div class="vn">The reveal moment</div><div class="ba"><span class="chip after">glow orb + live waveform + name drop</span></div><div class="vwhy">Motion carries the peak — the moment is the hero.</div></div>
+        <div class="var"><div class="vn">Presence &amp; perishability</div><div class="ba"><span class="chip after">live countdown</span><span class="ar">+</span><span class="chip after">"window closed" expired state</span></div><div class="vwhy">A moment can pass — scarcity makes presence feel real.</div></div>
+      </div>
+    </section>
+
+    <!-- VALIDATION -->
+    <section class="section">
+      <div class="kicker">Validation approaches</div>
+      <h2 class="sec-title">Two ways we put it in front of recruiters.</h2>
+      <div class="grid">
+        <div class="card"><div class="card-top"><span class="ct">Clickable comparison</span><span class="badge built">Designed</span></div><div class="cb">Both live prototypes, equal fidelity, order counterbalanced — 8 questions.</div><div class="why">Usability + preference signal.</div></div>
+        <div class="card"><div class="card-top"><span class="ct">Mini gut-check</span><span class="badge built">Designed</span></div><div class="cb">Ideas described in words, single link, ~2 min — 6 questions.</div><div class="why">Fast concept resonance, no screens.</div></div>
+      </div>
+    </section>
+
+    <div class="foot">
+      <a href="/presence.html">Meet-Live →</a>
+      <a href="/explored/solve-together.html">Solve-Together →</a>
+      <a href="/deck.html">Deck →</a>
+    </div>
+
+  </div>
+</body>
+</html>

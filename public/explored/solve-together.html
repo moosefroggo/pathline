@@ -1,111 +1,708 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pathline — explored alternative: "solve together"</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3/dist/tabler-icons.min.css" rel="stylesheet" />
-    <style>
-      :root { --cream: #fbf6f0; --bezel: #1c1c1e; }
-      * { box-sizing: border-box; }
-      body {
-        margin: 0; min-height: 100vh; background: var(--cream);
-        font-family: 'Inter', system-ui, sans-serif; color: #2c2c2a;
-        display: flex; flex-direction: column; align-items: center;
-        padding: 48px 24px 64px; -webkit-font-smoothing: antialiased;
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pathline — Explored Alternative: Solve Together</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* -------------------------------------------------------------------------
+       Citron, Sage & Neo-Brutalism Hybrid — sibling of prototype-citron-sage.html
+       ------------------------------------------------------------------------- */
+    :root {
+      --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-serif: 'Fraunces', Georgia, serif;
+
+      --color-citron: #FAF8E7;
+      --color-citron-light: #FFFEEB;
+      --color-white: #FFFFFF;
+      --color-carbon: #1B1D16;
+      --color-carbon-light: #2D3025;
+      --color-sage: #4B8D47;
+      --color-sage-light: #F0F5EE;
+      --color-yellow: #FFD500;
+      --color-yellow-light: #FFF9CC;
+      --color-yellow-dark: #E6B800;
+      --color-amber: #EBA31A;
+      --color-amber-light: #FFF9E6;
+      --color-slate-1: #3E4235;
+      --color-slate-2: #585E4B;
+      --color-slate-3: #7D856C;
+      --color-slate-4: #D4D8C4;
+
+      --color-dark-bg: #151612;
+      --color-dark-surface: #2D3025;
+      --color-dark-border: #3E4235;
+      --color-dark-text: #F0F2EB;
+      --color-dark-text-muted: #8F9580;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--color-citron);
+      color: var(--color-carbon);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .presentation-container {
+      display: grid;
+      grid-template-columns: 1fr 450px;
+      min-height: 100vh;
+      width: 100%;
+    }
+    @media (max-width: 1024px) {
+      .presentation-container { grid-template-columns: 1fr; }
+    }
+
+    .simulator-side {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 40px 20px;
+      border-right: 1.5px solid var(--color-carbon-light);
+      position: relative;
+    }
+
+    .explored-stamp {
+      position: absolute;
+      top: 28px; left: 28px;
+      display: flex; align-items: center; gap: 8px;
+      background-color: var(--color-yellow);
+      border: 1.5px solid var(--color-carbon);
+      box-shadow: 3px 3px 0 var(--color-carbon);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 12px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      color: var(--color-carbon);
+    }
+
+    .presentation-sidebar {
+      background-color: var(--color-white);
+      border-left: 1.5px solid var(--color-carbon-light);
+      padding: 40px;
+      display: flex; flex-direction: column; gap: 32px;
+      overflow-y: auto; height: 100vh; position: sticky; top: 0;
+    }
+    @media (max-width: 1024px) {
+      .presentation-sidebar {
+        height: auto; position: relative; border-left: none;
+        border-top: 1.5px solid var(--color-carbon-light);
       }
-      .head { text-align: center; margin-bottom: 32px; }
-      .head h1 { font-size: 20px; font-weight: 500; margin: 0 0 6px; }
-      .head p { font-size: 13px; color: #5f5e5a; margin: 0; max-width: 540px; line-height: 1.5; }
-      .row { display: flex; gap: 40px; flex-wrap: wrap; justify-content: center; }
-      .cap { text-align: center; font-size: 12px; color: #888780; margin-top: 10px; }
-      i { font-style: normal; }
-    </style>
-  </head>
-  <body>
-    <div class="head">
-      <h1>Explored alternative — "solve together"</h1>
-      <p>
-        Instead of talking, two people work a real slice of the role's work together, live — so fit shows itself as a
-        byproduct, with no grading. Explored, then kept as a deeper-stage option (it drifts toward evaluation, leans
-        desktop, and adds friction). The low-stakes mobile moment stays the core.
-      </p>
-    </div>
-    <div class="row">
+    }
 
-      <div>
-        <div style="background:#1c1c1e; border-radius:40px; padding:7px;">
-          <div style="background:#FBF6F0; border-radius:33px; overflow:hidden; width:320px; min-height:560px;">
-            <div style="background:#1c1c1e; width:100px; height:23px; border-radius:0 0 14px 14px; margin:0 auto;"></div>
-            <div style="display:flex; justify-content:space-between; align-items:center; padding:7px 19px 0; font-size:12px; color:#2C2C2A; font-weight:500;"><span>9:41</span><span><i class="ti ti-wifi"></i> <i class="ti ti-battery-3"></i></span></div>
-            <div style="padding:10px 16px 0;">
-              <div style="font-size:13px; color:#5F5E5A;"><i class="ti ti-chevron-left"></i> Moments</div>
-              <div style="display:flex; align-items:center; gap:8px; margin-top:10px;">
-                <span style="width:30px;height:30px;border-radius:50%;background:#E6DFD5;display:flex;align-items:center;justify-content:center;font-size:14px;color:#888780;"><i class="ti ti-user"></i></span>
-                <div style="line-height:1.25;"><div style="display:flex;align-items:center;gap:5px;font-size:13px;font-weight:500;color:#2C2C2A;">Senior PM <i class="ti ti-lock" style="font-size:10px;color:#888780;"></i></div><div style="font-size:10px;color:#0F6E56;"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#1D9E75;"></span> active now</div></div>
-              </div>
-              <div style="text-align:center; padding:18px 0 4px;">
-                <span style="display:inline-flex;width:46px;height:46px;border-radius:50%;background:#FAEEDA;align-items:center;justify-content:center;color:#854F0B;font-size:22px;"><i class="ti ti-bulb"></i></span>
-                <div style="font-size:17px;font-weight:500;color:#2C2C2A;margin-top:10px;">Solve something together</div>
-                <div style="font-size:12px;color:#5F5E5A;margin-top:2px;">15 min · live, side by side</div>
-              </div>
-              <div style="background:#fff;border-radius:13px;padding:12px 13px;margin-top:8px;">
-                <div style="display:flex;align-items:center;gap:5px;font-size:10px;color:#888780;margin-bottom:6px;"><i class="ti ti-puzzle"></i> a real slice of the work</div>
-                <div style="font-size:13px;color:#2C2C2A;line-height:1.5;">Payments double-charge when a retry fires after a timeout. Where would you start?</div>
-              </div>
-              <div style="display:flex;align-items:flex-start;gap:8px;margin-top:12px;padding:0 2px;">
-                <i class="ti ti-mood-heart" style="color:#0F6E56;font-size:15px;margin-top:1px;"></i>
-                <span style="font-size:11px;color:#5F5E5A;line-height:1.45;">No grading. No right answer. You just <span style="color:#2C2C2A;">think through it together</span> — and see if you click.</span>
-              </div>
-            </div>
-            <div style="padding:14px 16px 16px;">
-              <div style="background:#D85A30;color:#fff;text-align:center;font-size:14px;font-weight:500;padding:12px;border-radius:13px;"><i class="ti ti-players"></i> Start solving · 15 min</div>
-              <div style="text-align:center;font-size:10px;color:#888780;margin-top:7px;">fit shows itself — no one's being evaluated</div>
-            </div>
-          </div>
-        </div>
-        <div class="cap">a · the setup</div>
-      </div>
+    .brand-header { display: flex; align-items: center; gap: 12px; }
+    .brand-logo {
+      width: 32px; height: 32px;
+      background-color: var(--color-yellow);
+      border: 1.5px solid var(--color-carbon-light);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 2px 2px 0px var(--color-carbon-light);
+    }
+    .brand-logo svg { width: 18px; height: 18px; }
+    .brand-title { font-family: var(--font-serif); font-size: 24px; font-weight: 600; color: var(--color-carbon); }
 
-      <div>
-        <div style="background:#1c1c1e; border-radius:40px; padding:7px;">
-          <div style="background:#FBF6F0; border-radius:33px; overflow:hidden; width:320px; min-height:560px;">
-            <div style="background:#1c1c1e; width:100px; height:23px; border-radius:0 0 14px 14px; margin:0 auto;"></div>
-            <div style="display:flex; justify-content:space-between; align-items:center; padding:7px 19px 0; font-size:12px; color:#2C2C2A; font-weight:500;"><span>9:41</span><span><i class="ti ti-wifi"></i> <i class="ti ti-battery-3"></i></span></div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 14px 9px;border-bottom:0.5px solid #E6DFD5;">
-              <span style="display:inline-flex;align-items:center;gap:5px;background:#E1F5EE;color:#0F6E56;font-size:11px;padding:4px 9px;border-radius:8px;"><span style="width:6px;height:6px;border-radius:50%;background:#1D9E75;"></span> Live · 04:12</span>
-              <span style="display:flex;align-items:center;gap:5px;">
-                <span style="display:inline-flex;align-items:center;gap:3px;font-size:10px;color:#993C1D;"><span style="width:16px;height:16px;border-radius:50%;background:#F0997B;display:flex;align-items:center;justify-content:center;font-size:8px;color:#4A1B0C;">Y</span> You</span>
-                <span style="display:inline-flex;align-items:center;gap:3px;font-size:10px;color:#26215C;"><span style="width:16px;height:16px;border-radius:50%;background:#CECBF6;display:flex;align-items:center;justify-content:center;font-size:8px;color:#26215C;">MC</span> Maya</span>
+    /* Phone */
+    .phone-bezel {
+      background-color: var(--color-carbon-light);
+      padding: 10px; border-radius: 46px;
+      box-shadow: 0px 20px 50px rgba(0,0,0,0.15), 6px 6px 0px var(--color-carbon);
+      border: 2px solid var(--color-carbon);
+    }
+    .phone-screen {
+      width: 342px; height: 700px; border-radius: 38px; overflow: hidden;
+      position: relative; display: flex; flex-direction: column;
+      transition: background-color 0.4s, color 0.4s;
+    }
+    .phone-screen.light-mode { background-color: var(--color-citron); color: var(--color-carbon); }
+    .phone-screen.dark-mode { background-color: var(--color-dark-bg); color: var(--color-dark-text); }
+
+    .phone-notch {
+      position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+      width: 104px; height: 26px; background-color: var(--color-carbon-light);
+      border-radius: 9999px; z-index: 50;
+    }
+    .phone-status-bar {
+      height: 48px; padding: 14px 26px 0; display: flex;
+      justify-content: space-between; align-items: center;
+      font-size: 13px; font-weight: 600; z-index: 40;
+    }
+    .phone-status-bar.light { color: var(--color-carbon); }
+    .phone-status-bar.dark { color: var(--color-dark-text-muted); }
+    .status-icons { display: flex; align-items: center; gap: 6px; }
+    .signal-bars { display: flex; align-items: flex-end; gap: 2px; }
+    .signal-bar { width: 3px; border-radius: 1px; }
+    .signal-bar.b1 { height: 4px; } .signal-bar.b2 { height: 6px; }
+    .signal-bar.b3 { height: 8px; } .signal-bar.b4 { height: 10px; }
+    .battery-icon { display: flex; align-items: center; gap: 1px; }
+    .battery-body { width: 22px; height: 11px; border-radius: 3px; border: 1px solid currentColor; padding: 1px; display: flex; }
+    .battery-level { height: 100%; width: 70%; border-radius: 1px; }
+    .battery-nub { width: 1.5px; height: 4px; background-color: currentColor; border-radius: 0 1px 1px 0; }
+
+    .phone-view-container { flex: 1; display: flex; flex-direction: column; overflow-y: auto; scrollbar-width: none; position: relative; }
+    .phone-view-container.view-enter { animation: viewfade 0.28s ease-out both; }
+    @keyframes viewfade { from { opacity: 0; } to { opacity: 1; } }
+    .phone-view-container::-webkit-scrollbar { display: none; }
+
+    /* Shared bits */
+    .avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      border: 1.5px solid var(--color-carbon);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700;
+      background-color: var(--color-slate-4); color: var(--color-slate-1);
+    }
+    .avatar.locked { background-color: var(--color-slate-4); color: var(--color-slate-2); }
+    .avatar.locked svg { width: 16px; height: 16px; }
+    .avatar.sm { width: 32px; height: 32px; }
+    .avatar.you  { background-color: var(--color-yellow); color: var(--color-carbon); }
+    .avatar.her  { background-color: var(--color-citron); color: var(--color-slate-1); }
+
+    .pulse-dot { width: 6px; height: 6px; background-color: var(--color-sage); border-radius: 50%; position: relative; }
+    .pulse-dot::before {
+      content: ''; position: absolute; width: 100%; height: 100%;
+      background-color: var(--color-sage); border-radius: 50%;
+      animation: pulse-ring 1.8s infinite ease-in-out; transform-origin: center;
+    }
+    @keyframes pulse-ring { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(2.2); opacity: 0; } }
+
+    .action-btn-yellow {
+      width: 100%; background-color: var(--color-yellow); color: var(--color-carbon);
+      border: 1.5px solid var(--color-carbon); border-radius: 14px; padding: 12px;
+      font-size: 15px; font-weight: 700; display: flex; align-items: center;
+      justify-content: center; gap: 6px; cursor: pointer;
+      box-shadow: 3px 3px 0px var(--color-carbon);
+      transition: transform 0.1s, box-shadow 0.1s, opacity 0.4s, translate 0.4s;
+    }
+    .action-btn-yellow:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0px var(--color-carbon); }
+    .action-btn-yellow svg { width: 16px; height: 16px; }
+    .action-btn-sub { text-align: center; font-size: 10px; color: var(--color-slate-3); font-weight: 500; margin-top: 8px; }
+
+    .back-btn { background: none; border: none; font-size: 13px; font-weight: 600; color: var(--color-slate-2); display: flex; align-items: center; gap: 2px; cursor: pointer; }
+    .back-btn svg { width: 16px; height: 16px; }
+
+    /* ---- SCREEN 1: SETUP ---- */
+    .setup-screen { display: flex; flex-direction: column; flex: 1; }
+    .setup-top { padding: 12px 16px 0; }
+    .setup-who { display: flex; align-items: center; gap: 10px; margin-top: 12px; }
+    .setup-who .title { font-size: 14px; font-weight: 700; color: var(--color-carbon); display: flex; align-items: center; gap: 6px; }
+    .setup-who .locked-chip { font-size: 10px; font-weight: 500; color: var(--color-slate-3); display: flex; align-items: center; gap: 2px; }
+    .setup-who .locked-chip svg { width: 9px; height: 9px; }
+    .setup-who .pres { font-size: 11px; font-weight: 600; color: var(--color-sage); display: flex; align-items: center; gap: 5px; margin-top: 2px; }
+
+    .setup-hero { text-align: center; padding: 22px 16px 4px; }
+    .setup-bulb {
+      width: 52px; height: 52px; margin: 0 auto; border-radius: 14px;
+      background-color: var(--color-yellow); border: 1.5px solid var(--color-carbon);
+      box-shadow: 3px 3px 0 var(--color-carbon);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .setup-bulb svg { width: 26px; height: 26px; }
+    .setup-hero h2 { font-family: var(--font-serif); font-size: 21px; font-weight: 600; color: var(--color-carbon); margin-top: 14px; }
+    .setup-hero .meta { font-size: 12px; color: var(--color-slate-2); margin-top: 2px; font-weight: 500; }
+
+    .prompt-card {
+      margin: 14px 16px 0; background-color: var(--color-white);
+      border: 1.5px solid var(--color-carbon); border-radius: 16px;
+      box-shadow: 3px 3px 0 var(--color-carbon-light); padding: 13px 14px;
+    }
+    .prompt-eyebrow { display: flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-slate-3); margin-bottom: 8px; }
+    .prompt-eyebrow svg { width: 13px; height: 13px; }
+    .prompt-text { font-size: 14px; line-height: 1.5; font-weight: 500; color: var(--color-carbon); }
+
+    .reassure { display: flex; align-items: flex-start; gap: 9px; margin: 14px 18px 0; }
+    .reassure svg { width: 16px; height: 16px; color: var(--color-sage); flex-shrink: 0; margin-top: 1px; }
+    .reassure span { font-size: 12px; line-height: 1.5; color: var(--color-slate-1); }
+    .reassure b { font-weight: 700; color: var(--color-carbon); }
+
+    .setup-foot { margin-top: auto; padding: 16px; }
+
+    /* ---- SCREEN 2: SOLVING ---- */
+    .solve-screen { display: flex; flex-direction: column; flex: 1; }
+    .solve-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 14px; border-bottom: 1.5px solid var(--color-carbon-light);
+    }
+    .live-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      background-color: var(--color-sage-light); color: var(--color-sage);
+      border: 1.5px solid var(--color-sage);
+      font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 8px;
+      font-variant-numeric: tabular-nums;
+    }
+    .live-chip .pulse-dot { background-color: var(--color-sage); }
+    .pair { display: flex; align-items: center; gap: 8px; }
+    .pair .p { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 600; color: var(--color-slate-2); }
+    .chip-av { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--color-carbon); display: inline-flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 700; }
+    .chip-av.you { background-color: var(--color-yellow); color: var(--color-carbon); }
+    .chip-av.her { background-color: var(--color-citron); color: var(--color-slate-1); }
+
+    .pinned {
+      display: flex; align-items: center; gap: 8px;
+      background-color: var(--color-citron-light);
+      border: 1.5px solid var(--color-carbon-light); border-radius: 11px;
+      padding: 9px 11px; margin: 12px 16px 0;
+      box-shadow: 2px 2px 0 var(--color-carbon-light);
+    }
+    .pinned svg { width: 13px; height: 13px; color: var(--color-amber); flex-shrink: 0; }
+    .pinned span { font-size: 11px; font-weight: 600; color: var(--color-slate-1); line-height: 1.35; }
+
+    .work-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-slate-3); margin: 14px 18px 8px; }
+
+    .thread { margin: 0 16px; display: flex; flex-direction: column; gap: 9px; padding-top: 2px; }
+    .msg { display: none; align-items: flex-end; gap: 7px; }
+    .msg.show { display: flex; animation: msgin 0.38s ease both; }
+    @keyframes msgin { from { opacity: 0; transform: translateY(8px) scale(0.98); } to { opacity: 1; transform: none; } }
+    .msg.you { justify-content: flex-end; }
+    .msg.her { justify-content: flex-start; }
+    .bavatar {
+      width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--color-carbon);
+      display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700;
+      flex-shrink: 0; background: var(--color-citron); color: var(--color-slate-1);
+    }
+    .bubble {
+      max-width: 76%; font-size: 12.5px; line-height: 1.4; padding: 8px 12px;
+      border: 1.5px solid var(--color-carbon); border-radius: 16px;
+    }
+    .msg.her .bubble { background: var(--color-white); color: var(--color-carbon); border-bottom-left-radius: 5px; box-shadow: 2px 2px 0 var(--color-carbon-light); }
+    .msg.you .bubble { background: var(--color-yellow); color: var(--color-carbon); font-weight: 500; border-bottom-right-radius: 5px; box-shadow: 2px 2px 0 var(--color-yellow-dark); }
+    .bubble em { font-style: italic; }
+    .typing { display: none; align-self: flex-start; align-items: center; gap: 6px; font-size: 10px; font-weight: 600; color: var(--color-slate-2); background: var(--color-white); border: 1.5px solid var(--color-carbon); border-radius: 14px; padding: 6px 11px; box-shadow: 2px 2px 0 var(--color-carbon-light); }
+    .typing.show { display: flex; }
+    .typing .tdot { width: 6px; height: 6px; border-radius: 50%; background-color: var(--color-sage); animation: tblink 1.1s infinite ease-in-out; }
+    @keyframes tblink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    .solve-foot { margin-top: auto; padding: 14px 16px 18px; opacity: 0; transform: translateY(10px); transition: opacity 0.45s ease, transform 0.45s ease; }
+    .solve-foot.show { opacity: 1; transform: translateY(0); }
+    .clicking { text-align: center; font-size: 12px; font-weight: 700; color: var(--color-sage); margin-bottom: 9px; }
+
+    /* ---- SCREEN 3: REVEAL (dark) ---- */
+    .reveal-screen { display: flex; flex-direction: column; flex: 1; padding: 16px 16px 20px; text-align: center; }
+    .reveal-top { display: flex; justify-content: center; padding-top: 10px; }
+    .reveal-top .chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      background-color: rgba(75,141,71,0.2); color: var(--color-sage-light);
+      font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 8px;
+    }
+    .reveal-top .chip .dotg { width: 6px; height: 6px; border-radius: 50%; background-color: var(--color-sage); }
+    .reveal-mid { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .reveal-orbwrap { position: relative; display: flex; align-items: center; justify-content: center; }
+    .reveal-glow {
+      position: absolute; width: 210px; height: 210px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,213,0,0.28) 0%, rgba(75,141,71,0.12) 50%, transparent 70%);
+      filter: blur(8px); pointer-events: none;
+      animation: glow-in 0.8s ease-out both;
+    }
+    @keyframes glow-in { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: scale(1); } }
+    .reveal-avatar {
+      width: 104px; height: 104px; border-radius: 50%;
+      border: 2px solid var(--color-yellow); background-color: var(--color-dark-surface);
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+      box-shadow: 0 0 20px rgba(255,213,0,0.4); z-index: 5;
+    }
+    .reveal-avatar svg { width: 104px; height: 104px; border-radius: 50%; }
+    .unlocked-label {
+      margin-top: 16px; font-size: 10px; font-weight: 700; color: #FFF9E6;
+      background-color: rgba(255,255,255,0.1); padding: 3px 10px; border-radius: 6px;
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+    .unlocked-label svg { width: 11px; height: 11px; }
+    .reveal-name { font-family: var(--font-serif); font-size: 26px; font-weight: 600; color: var(--color-white); margin-top: 10px; }
+    .reveal-title { font-size: 13px; color: var(--color-dark-text-muted); margin-top: 2px; }
+    .reveal-readout {
+      max-width: 268px; margin: 18px auto 0; background-color: var(--color-white);
+      border-radius: 16px; padding: 12px 15px; font-size: 12.5px; line-height: 1.5;
+      color: var(--color-carbon); text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .reveal-readout b { font-weight: 700; }
+    .book-overlay {
+      width: 100%; background-color: var(--color-white); border: 1.5px solid var(--color-yellow);
+      border-radius: 14px; padding: 11px 13px; display: flex; align-items: center; gap: 9px;
+      cursor: pointer; margin-top: 16px; text-align: left;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15); transition: transform 0.1s;
+    }
+    .book-overlay:active { transform: scale(0.98); }
+    .book-overlay svg { width: 16px; height: 16px; color: var(--color-sage); }
+    .book-label { font-size: 13px; font-weight: 600; color: var(--color-carbon); flex: 1; }
+    .book-add { font-size: 11px; font-weight: 700; color: var(--color-sage); }
+    .reveal-note { font-size: 10px; color: var(--color-dark-text-muted); font-weight: 500; margin-top: 10px; }
+
+    /* ---- SCREEN 4: BOOKED ---- */
+    .booked-screen { display: flex; flex-direction: column; flex: 1; padding: 24px 20px; align-items: center; text-align: center; }
+    .booked-body { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; }
+    .booked-avatar-wrap { position: relative; margin-bottom: 16px; }
+    .booked-avatar {
+      width: 96px; height: 96px; border-radius: 50%; overflow: hidden;
+      border: 1.5px solid var(--color-carbon); box-shadow: 3px 3px 0 var(--color-carbon);
+    }
+    .booked-avatar svg { width: 96px; height: 96px; }
+    .booked-check {
+      position: absolute; bottom: -4px; right: -4px; width: 28px; height: 28px; border-radius: 50%;
+      background-color: var(--color-sage); color: var(--color-white); border: 2px solid var(--color-citron);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .booked-check svg { width: 16px; height: 16px; }
+    .booked-title { font-size: 18px; font-weight: 700; color: var(--color-carbon); }
+    .booked-time {
+      margin-top: 8px; display: inline-flex; align-items: center; gap: 6px;
+      background-color: var(--color-white); border: 1.5px solid var(--color-carbon-light);
+      padding: 8px 14px; border-radius: 12px; font-size: 13px; font-weight: 600;
+      color: var(--color-carbon); box-shadow: 2px 2px 0 var(--color-carbon-light);
+    }
+    .booked-time svg { width: 16px; height: 16px; color: var(--color-sage); }
+    .booked-stats {
+      margin-top: 24px; background-color: var(--color-dark-bg); border: 1.5px solid var(--color-carbon);
+      border-radius: 18px; padding: 14px; width: 100%; color: var(--color-white);
+      box-shadow: 4px 4px 0 var(--color-carbon);
+    }
+    .booked-stats-hero { font-size: 13px; font-weight: 500; color: #FAF4D8; }
+    .booked-stats-sub { font-size: 12px; color: var(--color-slate-3); margin-top: 4px; }
+    .booked-metric { font-size: 11px; color: var(--color-slate-2); margin-top: 12px; font-weight: 600; }
+    .replay-btn {
+      width: 100%; background-color: var(--color-white); color: var(--color-carbon);
+      border: 1.5px solid var(--color-carbon); border-radius: 14px; padding: 10px;
+      font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px;
+      cursor: pointer; box-shadow: 2.5px 2.5px 0 var(--color-carbon); transition: transform 0.1s, box-shadow 0.1s;
+    }
+    .replay-btn:active { transform: translate(2px,2px); box-shadow: 0.5px 0.5px 0 var(--color-carbon); }
+    .replay-btn svg { width: 15px; height: 15px; }
+
+    /* Sidebar */
+    .sidebar-section { border-bottom: 1.5px solid var(--color-citron); padding-bottom: 24px; }
+    .sidebar-section:last-child { border-bottom: none; padding-bottom: 0; }
+    .sidebar-title { font-family: var(--font-serif); font-size: 20px; font-weight: 600; color: var(--color-carbon); margin-bottom: 12px; }
+    .sidebar-desc { font-size: 13px; line-height: 1.5; color: var(--color-slate-1); }
+    .sidebar-desc b { font-weight: 700; color: var(--color-carbon); }
+
+    .simulator-notes-card {
+      background-color: var(--color-citron); border: 1.5px solid var(--color-carbon-light);
+      border-radius: 16px; padding: 16px; box-shadow: 4px 4px 0px var(--color-carbon-light);
+      margin-top: 12px; position: relative;
+    }
+    .notes-active-badge {
+      position: absolute; top: -10px; right: 16px; background-color: var(--color-yellow);
+      border: 1.5px solid var(--color-carbon); color: var(--color-carbon); font-size: 9px;
+      font-weight: 700; text-transform: uppercase; padding: 2px 8px; border-radius: 6px;
+      box-shadow: 2px 2px 0px var(--color-carbon);
+    }
+    .notes-title { font-size: 13px; font-weight: 700; color: var(--color-carbon); margin-bottom: 6px; }
+    .notes-body { font-size: 12px; line-height: 1.45; color: var(--color-slate-1); }
+
+    .color-tokens-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 16px; }
+    .swatch-item {
+      border: 1.5px solid var(--color-carbon-light); border-radius: 12px; overflow: hidden;
+      box-shadow: 3px 3px 0px var(--color-carbon-light); background-color: var(--color-citron-light);
+      display: flex; flex-direction: column;
+    }
+    .swatch-color { height: 50px; border-bottom: 1.5px solid var(--color-carbon-light); }
+    .swatch-info { padding: 8px 10px; display: flex; flex-direction: column; gap: 2px; }
+    .swatch-name { font-size: 11px; font-weight: 700; color: var(--color-carbon); }
+    .swatch-hex { font-size: 9px; font-weight: 600; color: var(--color-slate-2); }
+
+    .wedge-list { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
+    .wedge-item { display: flex; gap: 10px; font-size: 12px; line-height: 1.4; color: var(--color-slate-1); }
+    .wedge-bullet { width: 6px; height: 6px; border-radius: 50%; background-color: var(--color-yellow-dark); margin-top: 6px; flex-shrink: 0; }
+    .wedge-bold { font-weight: 700; color: var(--color-carbon); }
+
+    .waveform-container { margin-top: 18px; display: flex; height: 30px; align-items: center; justify-content: center; gap: 3px; }
+    .waveform-bar { width: 3px; border-radius: 99px; background-color: var(--color-yellow); animation: wave-motion 1.2s infinite ease-in-out; transform-origin: center; }
+    @keyframes wave-motion { 0%,100% { transform: scaleY(0.28); } 50% { transform: scaleY(1); } }
+    .waveform-bar:nth-child(2) { animation-delay: 0.1s; animation-duration: 0.8s; }
+    .waveform-bar:nth-child(3) { animation-delay: 0.2s; animation-duration: 1.0s; }
+    .waveform-bar:nth-child(4) { animation-delay: 0.3s; animation-duration: 0.7s; }
+    .waveform-bar:nth-child(5) { animation-delay: 0.15s; animation-duration: 0.9s; }
+    .waveform-bar:nth-child(6) { animation-delay: 0.25s; animation-duration: 1.1s; }
+    .waveform-bar:nth-child(7) { animation-delay: 0.05s; animation-duration: 0.85s; }
+    .waveform-bar:nth-child(8) { animation-delay: 0.35s; animation-duration: 0.95s; }
+    .waveform-bar:nth-child(9) { animation-delay: 0.22s; animation-duration: 0.75s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pulse-dot::before, .reveal-glow, .waveform-bar, .msg.show, .typing .tdot { animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="presentation-container">
+
+    <!-- Left: phone simulator -->
+    <div class="simulator-side">
+      <div class="explored-stamp">Explored Alternative</div>
+
+      <div class="phone-bezel">
+        <div class="phone-screen light-mode" id="phoneScreen">
+          <div class="phone-notch"></div>
+          <div class="phone-status-bar light" id="phoneStatusBar">
+            <span id="statusBarTime">9:41</span>
+            <span class="status-icons">
+              <span class="signal-bars">
+                <span class="signal-bar b1"></span><span class="signal-bar b2"></span>
+                <span class="signal-bar b3"></span><span class="signal-bar b4"></span>
               </span>
-            </div>
-            <div style="padding:11px 14px 0;">
-              <div style="display:flex;align-items:center;gap:6px;background:#fff;border-radius:10px;padding:8px 11px;">
-                <i class="ti ti-pin" style="color:#854F0B;font-size:13px;"></i>
-                <span style="font-size:11px;color:#444441;line-height:1.35;">Double-charge on retry after timeout</span>
-              </div>
-              <div style="font-size:10px;color:#888780;margin:11px 2px 7px;">working it out together</div>
-              <div style="background:#fff;border-radius:12px;padding:11px 12px;">
-                <div style="display:flex;gap:7px;margin-bottom:11px;"><span style="width:7px;height:7px;border-radius:50%;background:#534AB7;margin-top:4px;flex-shrink:0;"></span><span style="font-size:12px;color:#26215C;line-height:1.4;">retry fires with no idempotency key → charge runs twice</span></div>
-                <div style="display:flex;gap:7px;margin-bottom:11px;"><span style="width:7px;height:7px;border-radius:50%;background:#D85A30;margin-top:4px;flex-shrink:0;"></span><span style="font-size:12px;color:#993C1D;line-height:1.4;">hash(order_id + amount) as the key?</span></div>
-                <div style="display:flex;gap:7px;margin-bottom:11px;"><span style="width:7px;height:7px;border-radius:50%;background:#534AB7;margin-top:4px;flex-shrink:0;"></span><span style="font-size:12px;color:#26215C;line-height:1.4;">yes — but write it <span style="font-style:italic;">before</span> the call, not after</span></div>
-                <div style="display:flex;gap:7px;"><span style="width:7px;height:7px;border-radius:50%;background:#D85A30;margin-top:4px;flex-shrink:0;"></span><span style="font-size:12px;color:#993C1D;line-height:1.4;">and a 24h TTL so retries dedupe cleanly</span></div>
-                <div style="display:flex;align-items:center;gap:5px;margin-top:11px;font-size:10px;color:#888780;"><span style="width:5px;height:5px;border-radius:50%;background:#CECBF6;"></span> Maya is typing…</div>
-              </div>
-            </div>
-            <div style="padding:13px 14px 16px;">
-              <div style="text-align:center;font-size:11px;color:#0F6E56;margin-bottom:8px;">this is clicking.</div>
-              <div style="background:#D85A30;color:#fff;text-align:center;font-size:13px;font-weight:500;padding:11px;border-radius:12px;">Keep going → book 15 min</div>
-              <div style="text-align:center;font-size:10px;color:#888780;margin-top:7px;">no scores · you just saw how she thinks</div>
-            </div>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h.01"/><path d="M8.5 16.5a5 5 0 0 1 7 0"/><path d="M5 13a10 10 0 0 1 14 0"/><path d="M1.5 9.5a15 15 0 0 1 21 0"/></svg>
+              <span class="battery-icon"><span class="battery-body"><span class="battery-level" id="batteryLevel"></span></span><span class="battery-nub"></span></span>
+            </span>
           </div>
+          <div class="phone-view-container" id="viewContainer"></div>
         </div>
-        <div class="cap">b · the live solve</div>
+      </div>
+    </div>
+
+    <!-- Right: presentation sidebar -->
+    <div class="presentation-sidebar">
+      <div class="sidebar-section">
+        <div class="brand-header">
+          <div class="brand-logo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1B1D16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 2 2 4c0 4.4-3.6 8-8 8h-2c-1.1 0-2 .9-2 2z"/><path d="M9 14c0-2-1-3-3-3M9 20v2"/></svg>
+          </div>
+          <span class="brand-title">Pathline</span>
+        </div>
+        <p class="sidebar-desc" style="margin-top: 10px;">
+          <b>Explored alternative — "Solve Together."</b> Instead of an interview, the recruiter and a present candidate work a real slice of the role together for 15 minutes. Fit shows itself as a byproduct — no grading. Shown here at full fidelity, in the same Citron, Sage &amp; Neo-Brutalism system as the core presence prototype.
+        </p>
       </div>
 
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">Simulator Live Feed</h3>
+        <div class="simulator-notes-card">
+          <span class="notes-active-badge" id="notesActiveBadge">The Setup</span>
+          <h4 class="notes-title" id="notesTitle">A Real Slice of Work</h4>
+          <p class="notes-body" id="notesBody">
+            From a live moment, both opt into a 15-minute working session on a real problem from the role. No résumé, no grading — click "Start solving" to run the simulation.
+          </p>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">Where It Landed</h3>
+        <p class="sidebar-desc">Compelling — un-fakeable, mutual, fit-as-byproduct. We kept it as a <b>deeper-stage option</b>, not the core, for three honest reasons:</p>
+        <div class="wedge-list">
+          <div class="wedge-item"><span class="wedge-bullet"></span><span><span class="wedge-bold">Drifts toward evaluation.</span> The moment you "solve," someone is being judged — the very thing that kills connection.</span></div>
+          <div class="wedge-item"><span class="wedge-bullet"></span><span><span class="wedge-bold">Desktop-leaning.</span> Real work wants a keyboard, fighting the mobile-first, between-meetings thesis.</span></div>
+          <div class="wedge-item"><span class="wedge-bullet"></span><span><span class="wedge-bold">Higher friction.</span> 15 focused minutes is a bigger ask than a 2-minute live moment.</span></div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">Design System Tokens</h3>
+        <div class="color-tokens-grid">
+          <div class="swatch-item"><div class="swatch-color" style="background-color:#FAF8E7"></div><div class="swatch-info"><span class="swatch-name">Citron Canvas</span><span class="swatch-hex">#FAF8E7</span></div></div>
+          <div class="swatch-item"><div class="swatch-color" style="background-color:#FFD500"></div><div class="swatch-info"><span class="swatch-name">Canary Yellow</span><span class="swatch-hex">#FFD500</span></div></div>
+          <div class="swatch-item"><div class="swatch-color" style="background-color:#4B8D47"></div><div class="swatch-info"><span class="swatch-name">Sage Presence</span><span class="swatch-hex">#4B8D47</span></div></div>
+          <div class="swatch-item"><div class="swatch-color" style="background-color:#1B1D16"></div><div class="swatch-info"><span class="swatch-name">Carbon Slate</span><span class="swatch-hex">#1B1D16</span></div></div>
+        </div>
+      </div>
     </div>
-  </body>
+
+  </div>
+
+  <script>
+    // ----- icons -----
+    const Icons = {
+      leaf: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 2 2 4c0 4.4-3.6 8-8 8h-2c-1.1 0-2 .9-2 2z"/><path d="M9 14c0-2-1-3-3-3M9 20v2"/></svg>`,
+      lock: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`,
+      lockOpen: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>`,
+      chevronLeft: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>`,
+      bulb: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V18h6v-1.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg>`,
+      puzzle: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h4V5a2 2 0 1 1 4 0v2h4a1 1 0 0 1 1 1v4h-2a2 2 0 1 0 0 4h2v4a1 1 0 0 1-1 1h-4v-2a2 2 0 1 0-4 0v2H5a1 1 0 0 1-1-1v-4h2a2 2 0 1 0 0-4H4V8a1 1 0 0 1 1-1z"/></svg>`,
+      heart: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>`,
+      pin: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6l-1 7 4 3v2H6v-2l4-3-1-7z"/><line x1="12" y1="16" x2="12" y2="22"/></svg>`,
+      players: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+      arrowRight: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`,
+      calendar: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
+      checkCircle: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`,
+      rotate: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>`,
+    };
+
+    const maya = {
+      name: 'Maya Chen', realRole: 'Senior PM · Northwind', bookSlot: 'Tue 3:00 PM',
+      avatarSVG: `<svg viewBox="0 0 100 100"><rect width="100%" height="100%" fill="#E3E8DC"/><circle cx="50" cy="40" r="18" fill="#5A6E58"/><path d="M25 80C25 65 35 58 50 58C65 58 75 65 75 80" fill="#5A6E58"/><circle cx="45" cy="38" r="2" fill="#FAF8E7"/><path d="M52 38C53 37 55 37 56 38" stroke="#FAF8E7" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M46 44C48 46 52 46 54 44" stroke="#FAF8E7" stroke-width="2" stroke-linecap="round" fill="none"/></svg>`
+    };
+
+    const messages = [
+      { who: 'you', text: `Walk me through where you'd start.` },
+      { who: 'her', text: `Retry fires with no idempotency key → the charge runs twice.` },
+      { who: 'you', text: `What would you key it on?` },
+      { who: 'her', text: `hash(order_id + amount), written <em>before</em> the call, with a 24h TTL.` },
+      { who: 'you', text: `Nice — and if two charges legitimately collide?` },
+      { who: 'her', text: `Scope the key per-merchant so collisions can't cross accounts.` },
+    ];
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const phoneScreen = document.getElementById('phoneScreen');
+    const phoneStatusBar = document.getElementById('phoneStatusBar');
+    const viewContainer = document.getElementById('viewContainer');
+    const notesActiveBadge = document.getElementById('notesActiveBadge');
+    const notesTitle = document.getElementById('notesTitle');
+    const notesBody = document.getElementById('notesBody');
+
+    let currentScreen = 'setup';
+    let timers = [];
+    let solveInterval = null;
+    const clearAll = () => { timers.forEach(clearTimeout); timers = []; if (solveInterval) { clearInterval(solveInterval); solveInterval = null; } };
+    const later = (fn, ms) => { const t = setTimeout(fn, ms); timers.push(t); return t; };
+
+    function setTone(dark) {
+      phoneScreen.className = 'phone-screen ' + (dark ? 'dark-mode' : 'light-mode');
+      phoneStatusBar.className = 'phone-status-bar ' + (dark ? 'dark' : 'light');
+      const c = dark ? '#F0F2EB' : 'var(--color-carbon)';
+      document.getElementById('statusBarTime').style.color = c;
+      document.querySelectorAll('.signal-bar').forEach(b => b.style.backgroundColor = c);
+      document.getElementById('batteryLevel').style.backgroundColor = c;
+    }
+
+    function notes(badge, title, body) { notesActiveBadge.innerText = badge; notesTitle.innerText = title; notesBody.innerText = body; }
+
+    function render() {
+      clearAll();
+      setTone(currentScreen === 'reveal');
+      switch (currentScreen) {
+        case 'setup': renderSetup(); notes('The Setup', 'A Real Slice of Work', `From a live moment, both opt into a 15-minute working session on a real problem from the role. No résumé, no grading — click "Start solving" to run the simulation.`); break;
+        case 'solving': renderSolving(); notes('The Live Solve', 'Fit as a Byproduct', `You probe, the candidate reasons — out loud, in real time. There are no scores; you see how she works through a real problem instead of reading a pitch.`); break;
+        case 'reveal': renderReveal(); notes('The Reveal', 'Earned, Not Interviewed', `Because you both kept going, identity unlocks. You've seen how she handles a real problem — booking is the natural next step, not a gate.`); break;
+        case 'booked': renderBooked(); notes('Connected', 'No Résumé Read', `Scheduled. Fit emerged from the work itself — zero cold messages, zero résumés. Tap replay to run it again.`); break;
+      }
+      if (!reduce) { viewContainer.classList.remove('view-enter'); void viewContainer.offsetWidth; viewContainer.classList.add('view-enter'); }
+    }
+
+    function renderSetup() {
+      viewContainer.innerHTML = `
+        <div class="setup-screen">
+          <div class="setup-top">
+            <button class="back-btn">${Icons.chevronLeft} Moments</button>
+            <div class="setup-who">
+              <span class="avatar locked sm">${Icons.lock}</span>
+              <div>
+                <div class="title">Senior PM <span class="locked-chip">${Icons.lock} name locked</span></div>
+                <div class="pres"><span class="pulse-dot"></span> active now · Series-B fintech</div>
+              </div>
+            </div>
+          </div>
+          <div class="setup-hero">
+            <div class="setup-bulb">${Icons.bulb}</div>
+            <h2>Solve something together</h2>
+            <div class="meta">15 min · live, side by side</div>
+          </div>
+          <div class="prompt-card">
+            <div class="prompt-eyebrow">${Icons.puzzle} a real slice of the work</div>
+            <div class="prompt-text">Payments double-charge when a retry fires after a timeout. Where would you start?</div>
+          </div>
+          <div class="reassure">
+            ${Icons.heart}
+            <span>No grading and no right answer — just two people <b>working through a real problem</b>.</span>
+          </div>
+          <div class="setup-foot">
+            <button class="action-btn-yellow" onclick="goTo('solving')">${Icons.players} Start solving · 15 min</button>
+            <div class="action-btn-sub">a real problem from the role · no grading</div>
+          </div>
+        </div>`;
+    }
+
+    function renderSolving() {
+      const rows = messages.map((m, i) => `
+        <div class="msg ${m.who}" data-i="${i}">
+          ${m.who === 'her' ? '<span class="bavatar">M</span>' : ''}<span class="bubble">${m.text}</span>
+        </div>`).join('');
+
+      viewContainer.innerHTML = `
+        <div class="solve-screen">
+          <div class="solve-bar">
+            <span class="live-chip"><span class="pulse-dot"></span> Live · <span id="solveTimer">0:00</span></span>
+            <span class="pair">
+              <span class="p"><span class="chip-av you">D</span> You</span>
+              <span class="p"><span class="chip-av her">M</span> Maya</span>
+            </span>
+          </div>
+          <div class="pinned">${Icons.pin}<span>Double-charge on retry after timeout</span></div>
+          <div class="work-label">working it out together</div>
+          <div class="thread" id="thread">
+            ${rows}
+            <div class="typing" id="typing"><span class="tdot"></span> Maya is thinking…</div>
+          </div>
+          <div class="solve-foot" id="solveFoot">
+            <div class="clicking">this is clicking.</div>
+            <button class="action-btn-yellow" onclick="goTo('reveal')">${Icons.arrowRight} Keep going → reveal &amp; book</button>
+            <div class="action-btn-sub">no scores · nothing to rehearse</div>
+          </div>
+        </div>`;
+
+      const msgEls = [...document.querySelectorAll('#thread .msg')];
+      const typing = document.getElementById('typing');
+      const foot = document.getElementById('solveFoot');
+      const timerEl = document.getElementById('solveTimer');
+
+      let secs = 0;
+      solveInterval = setInterval(() => { secs++; timerEl.innerText = Math.floor(secs/60) + ':' + String(secs%60).padStart(2,'0'); }, 1000);
+
+      if (reduce) { msgEls.forEach(m => m.classList.add('show')); foot.classList.add('show'); return; }
+
+      const step = 950;
+      msgEls.forEach((m, i) => {
+        if (m.classList.contains('her')) later(() => typing.classList.add('show'), i*step - 450);
+        later(() => { m.classList.add('show'); if (m.classList.contains('her')) typing.classList.remove('show'); }, i*step);
+      });
+      later(() => foot.classList.add('show'), msgEls.length*step + 250);
+    }
+
+    function renderReveal() {
+      viewContainer.innerHTML = `
+        <div class="reveal-screen">
+          <div class="reveal-top"><span class="chip"><span class="dotg"></span> You both kept going</span></div>
+          <div class="reveal-mid">
+            <div class="reveal-orbwrap">
+              <span class="reveal-glow"></span>
+              <div class="reveal-avatar">${maya.avatarSVG}</div>
+            </div>
+            <span class="unlocked-label">${Icons.lockOpen} Identity unlocked</span>
+            <div class="reveal-name">${maya.name}</div>
+            <div class="reveal-title">${maya.realRole}</div>
+            <div class="waveform-container">
+              <span class="waveform-bar" style="height:10px"></span><span class="waveform-bar" style="height:18px"></span>
+              <span class="waveform-bar" style="height:26px"></span><span class="waveform-bar" style="height:14px"></span>
+              <span class="waveform-bar" style="height:22px"></span><span class="waveform-bar" style="height:30px"></span>
+              <span class="waveform-bar" style="height:16px"></span><span class="waveform-bar" style="height:24px"></span>
+              <span class="waveform-bar" style="height:12px"></span>
+            </div>
+            <div class="reveal-readout">15 minutes on a <b>real problem from the role</b> — no résumé, no take-home.</div>
+          </div>
+          <button class="book-overlay" onclick="goTo('booked')">
+            ${Icons.calendar}<span class="book-label">Book 15 min · ${maya.bookSlot}</span><span class="book-add">Add</span>
+          </button>
+          <div class="reveal-note">no scores · no résumé</div>
+        </div>`;
+    }
+
+    function renderBooked() {
+      viewContainer.innerHTML = `
+        <div class="booked-screen">
+          <div class="booked-body">
+            <div class="booked-avatar-wrap">
+              <div class="booked-avatar">${maya.avatarSVG}</div>
+              <span class="booked-check">${Icons.checkCircle}</span>
+            </div>
+            <div class="booked-title">You're connected with ${maya.name}</div>
+            <div class="booked-time">${Icons.calendar} Booked · ${maya.bookSlot}</div>
+            <div class="booked-stats">
+              <div class="booked-stats-hero">Fit emerged in ~15 min of real work.</div>
+              <div class="booked-stats-sub">No take-home. No panel. No résumé screen.</div>
+            </div>
+            <div class="booked-metric">0 cold messages · 0 résumés read · 0 take-homes</div>
+          </div>
+          <button class="replay-btn" onclick="restart()">${Icons.rotate} Replay the demo</button>
+        </div>`;
+    }
+
+    function goTo(s) { currentScreen = s; render(); }
+    function restart() { currentScreen = 'setup'; render(); }
+
+    render();
+  </script>
+</body>
 </html>

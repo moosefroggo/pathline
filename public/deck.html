@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pathline - Case Study</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'Fraunces', Georgia, serif;
+      --gem-950: #0f1715;
+      --gem-900: #17211f;
+      --gem-850: #1e2b28;
+      --gem-800: #25312f;
+      --gem-700: #34443f;
+      --gem-600: #40544e;
+      --gem-500: #596d69;
+      --gem-300: #a6bab7;
+      --gem-200: #c8d4cf;
+      --presence: #b9e4d7;
+      --cream: #faf8e7;
+      --cream-soft: rgba(250, 248, 231, 0.72);
+      --muted: rgba(200, 212, 207, 0.72);
+      --line: rgba(250, 248, 231, 0.12);
+      --line-strong: rgba(250, 248, 231, 0.22);
+      --glass: rgba(23, 33, 31, 0.58);
+      --glass-soft: rgba(255, 255, 255, 0.045);
+      --shadow: rgba(0, 0, 0, 0.34);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 18% 18%, rgba(185, 228, 215, 0.17), transparent 28%),
+        radial-gradient(circle at 80% 8%, rgba(166, 186, 183, 0.12), transparent 26%),
+        linear-gradient(135deg, var(--gem-800), var(--gem-950));
+      color: var(--cream);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    .deck { position: relative; width: 100vw; height: 100vh; }
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      padding: 7vh 8vw;
+      overflow-y: auto;
+    }
+    .slide.active { display: flex; animation: enter 0.38s ease both; }
+    @keyframes enter {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .shell {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background:
+        linear-gradient(145deg, rgba(250, 248, 231, 0.08), rgba(250, 248, 231, 0.025)),
+        var(--glass);
+      box-shadow: 0 34px 90px var(--shadow), inset 0 1px 0 rgba(250, 248, 231, 0.1);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      padding: clamp(30px, 4.6vw, 62px);
+      position: relative;
+      overflow: hidden;
+    }
+    .shell::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 16% 18%, rgba(185, 228, 215, 0.13), transparent 28%),
+        radial-gradient(circle at 90% 2%, rgba(166, 186, 183, 0.11), transparent 22%);
+    }
+    .content { position: relative; z-index: 1; }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      width: fit-content;
+      margin-bottom: 18px;
+      border: 1px solid rgba(185, 228, 215, 0.2);
+      border-radius: 999px;
+      background: rgba(15, 23, 21, 0.38);
+      padding: 7px 11px;
+      color: var(--presence);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .kicker::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--presence);
+      box-shadow: 0 0 14px rgba(185, 228, 215, 0.58);
+    }
+    h1, h2 {
+      max-width: 13ch;
+      font-family: var(--font-serif);
+      font-size: clamp(42px, 6.2vw, 86px);
+      font-weight: 600;
+      letter-spacing: 0;
+      line-height: 0.94;
+    }
+    h2 { max-width: 14ch; font-size: clamp(38px, 5vw, 72px); }
+    .wide-title { max-width: 17ch; }
+    .accent { color: var(--presence); }
+    .sub {
+      max-width: 68ch;
+      margin-top: 22px;
+      color: var(--cream-soft);
+      font-size: clamp(16px, 1.55vw, 21px);
+      line-height: 1.55;
+    }
+    .note {
+      max-width: 66ch;
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .fine {
+      margin-top: 18px;
+      color: rgba(200, 212, 207, 0.58);
+      font-size: 11px;
+      line-height: 1.45;
+    }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 30px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 30px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 30px; }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background:
+        linear-gradient(145deg, rgba(250, 248, 231, 0.075), rgba(250, 248, 231, 0.025)),
+        rgba(15, 23, 21, 0.34);
+      box-shadow: inset 0 1px 0 rgba(250, 248, 231, 0.08);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      padding: 20px;
+    }
+    .card-title {
+      color: var(--cream);
+      font-size: 16px;
+      font-weight: 750;
+      line-height: 1.2;
+    }
+    .card-copy {
+      margin-top: 9px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.48;
+    }
+    .stat {
+      min-height: 142px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .stat-number {
+      font-family: var(--font-serif);
+      color: var(--cream);
+      font-size: clamp(35px, 4vw, 58px);
+      line-height: 0.9;
+    }
+    .stat-number small { font-size: 0.42em; }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    .tag {
+      border: 1px solid rgba(185, 228, 215, 0.18);
+      border-radius: 999px;
+      background: rgba(185, 228, 215, 0.08);
+      padding: 8px 12px;
+      color: var(--presence);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .flow { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; margin-top: 32px; }
+    .flow-step {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(250, 248, 231, 0.055);
+      padding: 15px 13px;
+      min-height: 112px;
+    }
+    .flow-index {
+      color: var(--presence);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .flow-label { margin-top: 18px; font-size: 14px; font-weight: 750; line-height: 1.25; }
+
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(320px, 0.78fr);
+      gap: 34px;
+      align-items: center;
+    }
+    .phone-card {
+      border: 1px solid var(--line-strong);
+      border-radius: 34px;
+      background: rgba(15, 23, 21, 0.5);
+      padding: 13px;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(250, 248, 231, 0.08);
+    }
+    .phone-screen {
+      min-height: 420px;
+      border-radius: 25px;
+      background: linear-gradient(180deg, var(--gem-800), var(--gem-900));
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .mini-status { display: flex; justify-content: space-between; color: var(--cream-soft); font-size: 12px; }
+    .mini-count { font-family: var(--font-serif); font-size: 34px; line-height: 0.95; }
+    .mini-card {
+      border: 1px solid rgba(250, 248, 231, 0.1);
+      border-radius: 18px;
+      background: rgba(15, 23, 21, 0.48);
+      padding: 13px;
+    }
+    .mini-card strong { display: block; font-size: 14px; }
+    .mini-card span { display: block; margin-top: 4px; color: var(--muted); font-size: 11px; }
+    .mini-pill {
+      display: inline-flex;
+      margin-top: 10px;
+      border-radius: 999px;
+      background: rgba(185, 228, 215, 0.1);
+      padding: 5px 8px;
+      color: var(--presence);
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .list { display: grid; gap: 14px; margin-top: 28px; }
+    .row { display: grid; grid-template-columns: 96px 1fr; gap: 16px; border-bottom: 1px solid var(--line); padding-bottom: 14px; }
+    .row:last-child { border-bottom: none; padding-bottom: 0; }
+    .row-label { color: var(--presence); font-size: 11px; font-weight: 850; letter-spacing: 0.09em; text-transform: uppercase; }
+    .row-copy { color: var(--cream-soft); font-size: 15px; line-height: 1.45; }
+    .row-copy span { color: var(--muted); }
+
+    .noise-map {
+      position: relative;
+      min-height: 340px;
+      margin-top: 30px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 78% 50%, rgba(185, 228, 215, 0.14), transparent 22%),
+        rgba(15, 23, 21, 0.34);
+      overflow: hidden;
+    }
+    .noise-dot {
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: rgba(250, 248, 231, 0.24);
+      box-shadow: 0 0 16px rgba(250, 248, 231, 0.08);
+    }
+    .noise-dot.live {
+      width: 22px;
+      height: 22px;
+      background: var(--presence);
+      box-shadow: 0 0 34px rgba(185, 228, 215, 0.72);
+    }
+    .noise-dot.d1 { left: 8%; top: 18%; }
+    .noise-dot.d2 { left: 15%; top: 62%; }
+    .noise-dot.d3 { left: 24%; top: 28%; }
+    .noise-dot.d4 { left: 31%; top: 74%; }
+    .noise-dot.d5 { left: 38%; top: 42%; }
+    .noise-dot.d6 { left: 46%; top: 19%; }
+    .noise-dot.d7 { left: 51%; top: 66%; }
+    .noise-dot.d8 { left: 58%; top: 34%; }
+    .noise-dot.d9 { left: 64%; top: 52%; }
+    .noise-dot.d10 { right: 292px; top: calc(50% - 11px); }
+    .noise-line {
+      position: absolute;
+      left: 17%;
+      right: 22%;
+      top: 50%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(185, 228, 215, 0.18), rgba(185, 228, 215, 0.56));
+    }
+    .noise-label {
+      position: absolute;
+      left: 30px;
+      bottom: 26px;
+      max-width: 250px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .noise-answer {
+      position: absolute;
+      right: 32px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 240px;
+      border: 1px solid rgba(185, 228, 215, 0.2);
+      border-radius: 22px;
+      background:
+        linear-gradient(145deg, rgba(185, 228, 215, 0.12), rgba(250, 248, 231, 0.035)),
+        rgba(15, 23, 21, 0.52);
+      padding: 20px;
+      box-shadow: inset 0 1px 0 rgba(250, 248, 231, 0.08);
+    }
+    .noise-answer-title {
+      color: var(--cream);
+      font-size: 18px;
+      font-weight: 750;
+    }
+    .noise-answer-copy {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .stat-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .stat-chip {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(250, 248, 231, 0.055);
+      padding: 13px;
+    }
+    .stat-chip b {
+      display: block;
+      color: var(--cream);
+      font-size: 22px;
+      font-weight: 750;
+      line-height: 1;
+    }
+    .stat-chip span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    .btn-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      background: rgba(250, 248, 231, 0.1);
+      color: var(--cream);
+      padding: 12px 16px;
+      font-size: 13px;
+      font-weight: 800;
+      box-shadow: inset 0 1px 0 rgba(250, 248, 231, 0.08);
+    }
+    .btn.primary { background: rgba(185, 228, 215, 0.15); color: var(--presence); }
+
+    .topbar {
+      position: fixed;
+      top: 22px;
+      left: 28px;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--cream);
+      font-weight: 800;
+    }
+    .mark {
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--line-strong);
+      border-radius: 9px;
+      background: rgba(250, 248, 231, 0.1);
+      display: grid;
+      place-items: center;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    .mark svg { width: 16px; height: 16px; stroke: var(--cream); }
+    .nav {
+      position: fixed;
+      right: 28px;
+      bottom: 22px;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .counter { color: rgba(250, 248, 231, 0.6); font-size: 12px; font-weight: 800; font-variant-numeric: tabular-nums; }
+    .nav button {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--line-strong);
+      border-radius: 12px;
+      background: rgba(250, 248, 231, 0.1);
+      color: var(--cream);
+      cursor: pointer;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .btn:focus-visible,
+    .nav button:focus-visible {
+      outline: 2px solid var(--presence);
+      outline-offset: 3px;
+    }
+    .nav svg { width: 18px; height: 18px; stroke: currentColor; }
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: var(--presence);
+      z-index: 40;
+      box-shadow: 0 0 18px rgba(185, 228, 215, 0.48);
+      transition: width 0.25s ease;
+    }
+    .hint { position: fixed; left: 28px; bottom: 30px; z-index: 30; color: rgba(250, 248, 231, 0.48); font-size: 11px; }
+
+    @media (max-width: 900px) {
+      .slide { padding: 9vh 5vw; }
+      .split, .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .phone-card { display: none; }
+      .shell { border-radius: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+  <div class="topbar">
+    <span class="mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 2 2 4c0 4.4-3.6 8-8 8h-2c-1.1 0-2 .9-2 2z"/><path d="M9 14c0-2-1-3-3-3M9 20v2"/></svg>
+    </span>
+    <span>Pathline</span>
+  </div>
+
+  <main class="deck" id="deck">
+    <section class="slide active">
+      <div class="shell">
+        <div class="content split">
+          <div>
+            <div class="kicker">Wedge</div>
+            <h1 class="wide-title">Senior talent is quietly open.</h1>
+            <p class="sub">The best candidates often cannot publicly signal "open to work" without creating career, reputation, or employer risk.</p>
+          <p class="note">Pathline is the private open-to-work layer for senior talent.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">Core bet</div>
+            <p class="card-copy">If identity stays protected until mutual interest, more senior people can safely signal private readiness for the right role.</p>
+            <p class="fine">Identity lock is not a flourish. It is the mechanism that creates supply.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="shell">
+        <div class="content">
+          <div class="kicker">Market shift</div>
+          <h2 class="wide-title">Visible supply is getting noisier.</h2>
+          <p class="sub">AI makes applications, resumes, and profile prose easier to manufacture. The recruiter still needs one clear answer.</p>
+          <div class="noise-map" aria-label="Many weak signals resolving into one live moment">
+            <span class="noise-line"></span>
+            <span class="noise-dot d1"></span>
+            <span class="noise-dot d2"></span>
+            <span class="noise-dot d3"></span>
+            <span class="noise-dot d4"></span>
+            <span class="noise-dot d5"></span>
+            <span class="noise-dot d6"></span>
+            <span class="noise-dot d7"></span>
+            <span class="noise-dot d8"></span>
+            <span class="noise-dot d9"></span>
+            <span class="noise-dot live d10"></span>
+            <div class="noise-label">A polished resume is no longer enough signal.</div>
+            <div class="noise-answer">
+              <div class="noise-answer-title">Verified private readiness</div>
+              <p class="noise-answer-copy">A relevant person is verified, opted in, protected, and available for a first conversation.</p>
+            </div>
+          </div>
+          <div class="stat-strip">
+            <div class="stat-chip"><b>+30%</b><span>LinkedIn applications reportedly rose over two years.</span></div>
+            <div class="stat-chip"><b>AI text</b><span>Candidate-authored materials are cheaper to generate and harder to trust.</span></div>
+            <div class="stat-chip"><b>Ghosting</b><span>No-response loops make timing and accountability part of the problem.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="shell">
+        <div class="content">
+          <div class="kicker">Gap</div>
+          <h2 class="wide-title">Recruiters see the wrong pools.</h2>
+          <p class="sub">Visible applicants are noisy. Senior passive talent is hidden. The missing pool is privately open, verified, and reachable now.</p>
+          <div class="grid-4">
+            <div class="card"><div class="card-title">Private</div><p class="card-copy">The candidate can signal without becoming public supply.</p></div>
+            <div class="card"><div class="card-title">Verified</div><p class="card-copy">Source-tagged facts beat polished claims.</p></div>
+            <div class="card"><div class="card-title">Relevant</div><p class="card-copy">The moment is scoped to one role.</p></div>
+            <div class="card"><div class="card-title">Present</div><p class="card-copy">The window is live, consented, and perishable.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="shell">
+        <div class="content">
+          <div class="kicker">Mechanism</div>
+          <h2 class="wide-title">Unlock hidden supply safely.</h2>
+          <div class="list">
+            <div class="row"><div class="row-label">Protect</div><div class="row-copy">Identity stays locked until both sides choose the live moment.</div></div>
+            <div class="row"><div class="row-label">Verify</div><div class="row-copy">Facts come from work email and connected accounts, not resume prose.</div></div>
+            <div class="row"><div class="row-label">Consent</div><div class="row-copy">The candidate opens a private window for this role and this timing.</div></div>
+            <div class="row"><div class="row-label">Reveal</div><div class="row-copy">The moment ends in a live intro, a booked next step, or a clean no.</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="shell">
+        <div class="content split">
+          <div>
+            <div class="kicker">Product</div>
+            <h2>Recruiter flow</h2>
+            <p class="sub">Dana is hiring a Staff Product Engineer. Pathline opens when a protected, verified candidate privately signals readiness.</p>
+            <div class="flow">
+              <div class="flow-step"><div class="flow-index">01</div><div class="flow-label">Push</div></div>
+              <div class="flow-step"><div class="flow-index">02</div><div class="flow-label">Presence board</div></div>
+              <div class="flow-step"><div class="flow-index">03</div><div class="flow-label">Moment brief</div></div>
+              <div class="flow-step"><div class="flow-index">04</div><div class="flow-label">Go live</div></div>
+              <div class="flow-step"><div class="flow-index">05</div><div class="flow-label">Identity reveal</div></div>
+              <div class="flow-step"><div class="flow-index">06</div><div class="flow-label">Book / close</div></div>
+            </div>
+            <div class="btn-row">
+              <a class="btn primary" href="/presence.html" target="_blank">Open prototype</a>
+              <a class="btn" href="/explored/solve-together.html" target="_blank">Explored alternative</a>
+            </div>
+          </div>
+          <div class="phone-card">
+            <div class="phone-screen">
+              <div class="mini-status"><span>9:41</span><span>Pathline</span></div>
+              <div class="mini-count"><span class="accent">5</span> open moments</div>
+              <div class="mini-card"><div class="card-title">Senior PM</div><span>Series-B fintech, identity locked</span><div class="mini-pill">active now</div></div>
+              <div class="mini-card"><div class="card-title">Staff Engineer</div><span>public co, work email verified</span><div class="mini-pill">opted in</div></div>
+              <div class="mini-card"><div class="card-title">Design Engineer</div><span>Series-A startup, private window open</span><div class="mini-pill">start live</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="shell">
+        <div class="content">
+          <div class="kicker">Trust</div>
+          <h2 class="wide-title">Trust builds in layers.</h2>
+          <p class="sub">Pathline does not ask recruiters to trust another fake-polished resume. It composes enough provenance, intent, and presence to start.</p>
+          <div class="grid-3">
+            <div class="card"><div class="card-title">Facts</div><p class="card-copy">Work email, connected links, source tags.</p></div>
+            <div class="card"><div class="card-title">Protection</div><p class="card-copy">Name and face reveal only after mutual choice.</p></div>
+            <div class="card"><div class="card-title">Intent</div><p class="card-copy">Role, stage, comp, and timing as structured chips.</p></div>
+          </div>
+          <p class="note">Liveness is one layer, not proof. Deeper identity and background checks stay downstream.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="shell">
+        <div class="content">
+          <div class="kicker">Business</div>
+          <h2 class="wide-title">Sell private access to readiness.</h2>
+          <div class="grid-3">
+            <div class="card"><div class="card-title">Buyer</div><p class="card-copy">Talent leaders hiring senior, sensitive, specialized roles.</p></div>
+            <div class="card"><div class="card-title">Pilot</div><p class="card-copy">Six to eight weeks across roles where passive supply matters.</p></div>
+            <div class="card"><div class="card-title">Pricing</div><p class="card-copy">Role-based subscription once qualified moments convert.</p></div>
+          </div>
+          <p class="note">Measure private windows opened, qualified first conversations, booked follow-ups, and recruiter confidence.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="shell">
+        <div class="content">
+          <div class="kicker">Risks</div>
+          <h2 class="wide-title">The hard parts are clear.</h2>
+          <div class="list">
+            <div class="row"><div class="row-label">Supply</div><div class="row-copy">Will senior candidates open private windows often enough?</div></div>
+            <div class="row"><div class="row-label">Trust</div><div class="row-copy">Will recruiters act before seeing name, face, or full resume?</div></div>
+            <div class="row"><div class="row-label">Fraud</div><div class="row-copy">Verified facts and liveness raise trust, but cannot carry the full burden.</div></div>
+            <div class="row"><div class="row-label">Fit</div><div class="row-copy">The product has to sit cleanly before the ATS and deeper checks.</div></div>
+          </div>
+          <p class="sub">The next step is to test the two riskiest assumptions: candidate consent to private availability and recruiter willingness to act on protected identity.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="nav">
+    <span class="counter" id="counter">01 / 08</span>
+    <button id="prev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <button id="next" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+  </div>
+  <div class="hint">Use arrow keys · click left/right</div>
+
+  <script>
+    const slides = [...document.querySelectorAll('.slide')];
+    const total = slides.length;
+    let current = 0;
+    const counter = document.getElementById('counter');
+    const progress = document.getElementById('progress');
+    const pad = (n) => String(n).padStart(2, '0');
+
+    function show(index) {
+      current = Math.max(0, Math.min(total - 1, index));
+      slides.forEach((slide, i) => slide.classList.toggle('active', i === current));
+      counter.textContent = `${pad(current + 1)} / ${pad(total)}`;
+      progress.style.width = `${((current + 1) / total) * 100}%`;
+    }
+    function next() { show(current + 1); }
+    function prev() { show(current - 1); }
+
+    document.getElementById('next').addEventListener('click', next);
+    document.getElementById('prev').addEventListener('click', prev);
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight' || event.key === ' ' || event.key === 'PageDown') {
+        event.preventDefault();
+        next();
+      } else if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+        event.preventDefault();
+        prev();
+      } else if (event.key === 'Home') {
+        show(0);
+      } else if (event.key === 'End') {
+        show(total - 1);
+      }
+    });
+    document.getElementById('deck').addEventListener('click', (event) => {
+      if (event.target.closest('a, button')) return;
+      event.clientX > window.innerWidth / 2 ? next() : prev();
+    });
+    show(0);
+  </script>
+</body>
+</html>

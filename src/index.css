@@ -1,57 +1,56 @@
 @import 'tailwindcss';
 
 /* ----------------------------------------------------------------------------
-   Pathline design tokens
-   Warm, human, anti-LinkedIn. Color encodes meaning:
-   coral = brand/action · teal-green = presence/live · amber = why-now trigger
+   Pathline design tokens — Hidden Gem direction
+   Deep sage = trust · warm cream = humanity · mint = presence · sage tint = consent/action
 ---------------------------------------------------------------------------- */
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
   /* display serif — brand voice only (wordmark, moment count, reveal name) */
   --font-serif: 'Fraunces', Georgia, 'Times New Roman', serif;
 
-  /* canvas + ink — "Warm Signal": warm paper base, warmer/darker ink (AA-fixed) */
-  --color-cream: #fbf4ec;
-  --color-surface: #ffffff;
-  --color-surface-alt: #fdf7f0;
-  --color-hairline: #f0e7dc;
-  --color-hairline-strong: #e7dcce;
-  --color-ink: #241e1b;
-  --color-ink-2: #5a524c;
-  --color-ink-3: #736a61;
-  --color-ink-4: #9a9087;
+  /* canvas + ink — Hidden Gem: private, premium, quietly alive */
+  --color-cream: #25312f;
+  --color-surface: #17211f;
+  --color-surface-alt: #1e2b28;
+  --color-hairline: #34443f;
+  --color-hairline-strong: #40544e;
+  --color-ink: #faf8e7;
+  --color-ink-2: #d7ded5;
+  --color-ink-3: #a6bab7;
+  --color-ink-4: #7f948f;
 
-  /* coral — brand / primary action (deepened) */
-  --color-coral-50: #fceae2;
-  --color-coral-200: #f0a184;
-  --color-coral: #d94e27;
-  --color-coral-700: #a23415;
-  --color-coral-900: #3d150a;
+  /* action alias — kept as coral in class names, rendered as Hidden Gem sage */
+  --color-coral-50: #34443f;
+  --color-coral-200: #a6bab7;
+  --color-coral: #596d69;
+  --color-coral-700: #c8d4cf;
+  --color-coral-900: #0f1715;
 
-  /* live — presence / verified (Transformative-Teal lean) */
-  --color-live-50: #e0f4ef;
-  --color-live-200: #93e0cd;
-  --color-live-400: #34bfa0;
-  --color-live: #0c8a74;
-  --color-live-700: #0a5f52;
-  --color-live-900: #04332b;
+  /* presence mint — live / verified / open moment */
+  --color-live-50: #dff5ee;
+  --color-live-200: #b9e4d7;
+  --color-live-400: #8acdbd;
+  --color-live: #76b9a8;
+  --color-live-700: #b9e4d7;
+  --color-live-900: #10241f;
 
-  /* amber — why-now trigger (Amber Haze) */
-  --color-amber-50: #fbefd9;
-  --color-amber-200: #f7cb7e;
-  --color-amber: #dd861b;
-  --color-amber-700: #8a4f0c;
-  --color-amber-900: #3f2402;
+  /* intent alias — kept as amber in class names, rendered as sage/neutral */
+  --color-amber-50: #283733;
+  --color-amber-200: #a6bab7;
+  --color-amber: #7f948f;
+  --color-amber-700: #c8d4cf;
+  --color-amber-900: #101715;
 
-  /* iris — avatar accent (Aura indigo) */
-  --color-iris-100: #d7d4f7;
-  --color-iris: #4b45c9;
-  --color-iris-900: #211c5e;
+  /* quiet avatar accent — no generic AI purple */
+  --color-iris-100: #c8d4cf;
+  --color-iris: #6f898b;
+  --color-iris-900: #182321;
 
   /* device */
-  --color-bezel: #16151a;
-  --color-night: #1b1a20;
-  --color-night-2: #3a3942;
+  --color-bezel: #0b0f0e;
+  --color-night: #0f1715;
+  --color-night-2: #1e2b28;
 
   /* type scale — one modular set, used everywhere */
   --text-display: 60px;
@@ -72,7 +71,10 @@
   }
   body {
     margin: 0;
-    background: var(--color-cream);
+    background:
+      radial-gradient(circle at 22% 16%, rgba(185, 228, 215, 0.16), transparent 30%),
+      radial-gradient(circle at 80% 8%, rgba(166, 186, 183, 0.12), transparent 26%),
+      var(--color-surface);
     color: var(--color-ink);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
@@ -90,22 +92,94 @@
 }
 
 /* ----------------------------------------------------------------------------
+   Hidden Gem material system — mirrors the deck glass language in-app.
+---------------------------------------------------------------------------- */
+@layer components {
+  .pl-phone-surface {
+    background:
+      radial-gradient(circle at 18% 2%, rgba(185, 228, 215, 0.18), transparent 34%),
+      radial-gradient(circle at 86% 18%, rgba(166, 186, 183, 0.12), transparent 31%),
+      linear-gradient(165deg, rgba(37, 49, 47, 0.98), rgba(23, 33, 31, 0.98) 48%, rgba(15, 23, 21, 0.98));
+  }
+
+  .pl-glass {
+    border: 1px solid rgba(250, 248, 231, 0.11);
+    background:
+      linear-gradient(145deg, rgba(250, 248, 231, 0.075), rgba(250, 248, 231, 0.025)),
+      rgba(23, 33, 31, 0.6);
+    box-shadow:
+      0 16px 40px rgba(0, 0, 0, 0.23),
+      inset 0 1px 0 rgba(250, 248, 231, 0.08);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
+  .pl-glass-soft {
+    border: 1px solid rgba(250, 248, 231, 0.08);
+    background: rgba(250, 248, 231, 0.055);
+    box-shadow: inset 0 1px 0 rgba(250, 248, 231, 0.06);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  .pl-glass-panel {
+    border: 1px solid rgba(250, 248, 231, 0.13);
+    background:
+      linear-gradient(145deg, rgba(250, 248, 231, 0.1), rgba(250, 248, 231, 0.028)),
+      rgba(23, 33, 31, 0.68);
+    box-shadow:
+      0 24px 60px rgba(0, 0, 0, 0.32),
+      inset 0 1px 0 rgba(250, 248, 231, 0.09);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
+
+  .pl-glass-pill {
+    border: 1px solid rgba(250, 248, 231, 0.09);
+    background: rgba(250, 248, 231, 0.06);
+    box-shadow: inset 0 1px 0 rgba(250, 248, 231, 0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .pl-primary-action {
+    border: 1px solid rgba(185, 228, 215, 0.24);
+    background:
+      linear-gradient(145deg, rgba(185, 228, 215, 0.22), rgba(166, 186, 183, 0.11)),
+      rgba(89, 109, 105, 0.36);
+    color: var(--color-ink);
+    box-shadow:
+      0 18px 40px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(250, 248, 231, 0.12);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .pl-bottom-glass {
+    background:
+      linear-gradient(180deg, rgba(37, 49, 47, 0), rgba(37, 49, 47, 0.86) 22%, rgba(23, 33, 31, 0.95));
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+}
+
+/* ----------------------------------------------------------------------------
    Motion — defined here (never inline). Tasteful, iOS-flavored.
 ---------------------------------------------------------------------------- */
 @layer utilities {
   @keyframes pl-pulse {
     0%,
     100% {
-      opacity: 1;
+      opacity: 0.86;
       transform: scale(1);
     }
     50% {
-      opacity: 0.45;
-      transform: scale(0.75);
+      opacity: 0.48;
+      transform: scale(0.82);
     }
   }
   .pl-pulse {
-    animation: pl-pulse 1.8s ease-in-out infinite;
+    animation: pl-pulse 2.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
   }
 
   @keyframes pl-ring {
@@ -119,7 +193,7 @@
     }
   }
   .pl-ring {
-    animation: pl-ring 1.8s ease-out infinite;
+    animation: pl-ring 2.15s cubic-bezier(0.22, 1, 0.36, 1) infinite;
   }
 
   @keyframes pl-wave {
@@ -133,32 +207,32 @@
   }
   .pl-wave-bar {
     transform-origin: center;
-    animation: pl-wave 0.9s ease-in-out infinite;
+    animation: pl-wave 1.12s cubic-bezier(0.45, 0, 0.55, 1) infinite;
   }
   .pl-wave-bar:nth-child(odd) {
-    animation-duration: 0.76s;
+    animation-duration: 1.02s;
   }
   .pl-wave-bar:nth-child(3n) {
-    animation-duration: 1.06s;
+    animation-duration: 1.22s;
   }
-  .pl-wave-bar:nth-child(1) { animation-delay: 0s; }
-  .pl-wave-bar:nth-child(2) { animation-delay: 0.14s; }
-  .pl-wave-bar:nth-child(3) { animation-delay: 0.28s; }
-  .pl-wave-bar:nth-child(4) { animation-delay: 0.42s; }
-  .pl-wave-bar:nth-child(5) { animation-delay: 0.2s; }
-  .pl-wave-bar:nth-child(6) { animation-delay: 0.34s; }
-  .pl-wave-bar:nth-child(7) { animation-delay: 0.08s; }
-  .pl-wave-bar:nth-child(8) { animation-delay: 0.5s; }
-  .pl-wave-bar:nth-child(9) { animation-delay: 0.24s; }
-  .pl-wave-bar:nth-child(10) { animation-delay: 0.4s; }
-  .pl-wave-bar:nth-child(11) { animation-delay: 0.12s; }
+  .pl-wave-bar:nth-child(1) { animation-delay: -0.04s; }
+  .pl-wave-bar:nth-child(2) { animation-delay: -0.16s; }
+  .pl-wave-bar:nth-child(3) { animation-delay: -0.28s; }
+  .pl-wave-bar:nth-child(4) { animation-delay: -0.4s; }
+  .pl-wave-bar:nth-child(5) { animation-delay: -0.52s; }
+  .pl-wave-bar:nth-child(6) { animation-delay: -0.64s; }
+  .pl-wave-bar:nth-child(7) { animation-delay: -0.76s; }
+  .pl-wave-bar:nth-child(8) { animation-delay: -0.88s; }
+  .pl-wave-bar:nth-child(9) { animation-delay: -1s; }
+  .pl-wave-bar:nth-child(10) { animation-delay: -1.12s; }
+  .pl-wave-bar:nth-child(11) { animation-delay: -1.24s; }
 
-  /* warm glow behind the reveal — the moment is the hero */
+  /* Hidden Gem glow behind the reveal — the moment is the hero */
   .pl-glow {
     background: radial-gradient(
       circle at center,
-      rgba(217, 78, 39, 0.36),
-      rgba(75, 69, 201, 0.2) 46%,
+      rgba(185, 228, 215, 0.35),
+      rgba(166, 186, 183, 0.2) 48%,
       transparent 72%
     );
     filter: blur(7px);

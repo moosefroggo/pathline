@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import { IconWifi } from '@tabler/icons-react'
 
 function SignalBars({ dark }: { dark: boolean }) {
-  const bar = dark ? 'bg-[#f1efe8]' : 'bg-ink'
+  const bar = dark ? 'bg-ink' : 'bg-ink'
   return (
     <span className="flex items-end gap-[2px]">
       <span className={`h-[4px] w-[3px] rounded-[1px] ${bar}`} />
@@ -14,8 +14,8 @@ function SignalBars({ dark }: { dark: boolean }) {
 }
 
 function Battery({ dark }: { dark: boolean }) {
-  const line = dark ? 'border-[#f1efe8]' : 'border-ink'
-  const fill = dark ? 'bg-[#f1efe8]' : 'bg-ink'
+  const line = dark ? 'border-ink' : 'border-ink'
+  const fill = dark ? 'bg-ink' : 'bg-ink'
   return (
     <span className="flex items-center gap-[1px]">
       <span className={`flex h-[11px] w-[22px] items-center rounded-[3px] border ${line} p-[1.5px]`}>
@@ -38,13 +38,13 @@ export function PhoneFrame({
     <div className="rounded-[44px] bg-bezel p-2 shadow-2xl">
       <div
         className={`relative flex h-[718px] w-[342px] flex-col overflow-hidden rounded-[36px] ${
-          dark ? 'bg-night' : 'bg-cream'
+          dark ? 'bg-night' : 'pl-phone-surface'
         }`}
       >
         <div className="absolute top-2 left-1/2 z-20 h-[26px] w-[104px] -translate-x-1/2 rounded-full bg-bezel" />
         <div
           className={`relative z-10 flex items-center justify-between px-7 pt-3.5 text-[13px] font-medium ${
-            dark ? 'text-[#f1efe8]' : 'text-ink'
+            dark ? 'text-ink' : 'text-ink'
           }`}
         >
           <span>9:41</span>
@@ -54,7 +54,7 @@ export function PhoneFrame({
             <Battery dark={dark} />
           </span>
         </div>
-        <div className="pl-noscroll relative z-10 flex flex-1 flex-col overflow-y-auto">
+        <div className="pl-noscroll relative z-10 flex min-h-0 flex-1 flex-col overflow-y-auto">
           {children}
         </div>
       </div>

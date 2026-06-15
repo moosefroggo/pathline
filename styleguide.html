@@ -1,0 +1,2623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pathline — Hidden Gem Design Direction</title>
+  
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet">
+  
+  <style>
+    /* -------------------------------------------------------------------------
+       Pathline visual direction lab
+       Hidden Gem is the preferred route: quiet, premium, human, and alive.
+       ------------------------------------------------------------------------- */
+    
+    /* Default: Hidden Gem Theme (deep sage, warm cream, restrained presence) */
+    :root {
+      --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'Fraunces', Georgia, serif;
+
+      /* Colors */
+      --color-bg-base: #25312F;         /* Behr Hidden Gem dark */
+      --color-text-main: #FAF8E7;       /* Cream Citron Text */
+      --color-text-muted: #A6BAB7;      /* Muted Sage */
+      --color-accent: #A6BAB7;
+      --color-accent-orange: #596D69;   /* Hidden Gem accent */
+      --color-presence: #B9E4D7;        /* live/present */
+      --color-consent: #C8D4CF;         /* neutral sage consent/action */
+      --color-closure: #7F948F;         /* accountable closure */
+      --color-quiet: #17211F;
+      --color-border: rgba(255, 255, 255, 0.08);
+      --color-border-glow: rgba(166, 186, 183, 0.3);
+      --color-glass-bg: rgba(255, 255, 255, 0.03);
+      --color-glass-bg-hover: rgba(255, 255, 255, 0.08);
+      --color-pill-bg: rgba(89, 109, 105, 0.35);
+
+      /* Transitions */
+      --transition-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* 6 Paint Color Theme Overrides */
+    [data-theme="damson"] {
+      --color-bg-base: #231011;
+      --color-text-main: #FAF8E7;
+      --color-text-muted: #AC6B53;      /* Cavern Clay */
+      --color-accent: #FAF8E7;
+      --color-accent-orange: #734246;
+      --color-border: rgba(255, 255, 255, 0.08);
+      --color-border-glow: rgba(255, 255, 255, 0.15);
+      --color-glass-bg: rgba(255, 255, 255, 0.03);
+      --color-glass-bg-hover: rgba(255, 255, 255, 0.08);
+      --color-pill-bg: rgba(59, 30, 32, 0.5);
+    }
+
+    [data-theme="mahogany"] {
+      --color-bg-base: #381E19;         /* PPG Warm Mahogany base */
+      --color-text-main: #FAF8E7;
+      --color-text-muted: #CBB49A;
+      --color-accent: #FFC266;          /* Peach Gold */
+      --color-accent-orange: #744034;   /* Warm Mahogany accent */
+      --color-border: rgba(255, 255, 255, 0.08);
+      --color-border-glow: rgba(255, 194, 102, 0.25);
+      --color-glass-bg: rgba(255, 255, 255, 0.03);
+      --color-glass-bg-hover: rgba(255, 255, 255, 0.08);
+      --color-pill-bg: rgba(116, 64, 52, 0.4);
+    }
+
+    [data-theme="aegean"] {
+      --color-bg-base: #202D30;         /* Benjamin Moore Aegean Teal dark */
+      --color-text-main: #FAF8E7;
+      --color-text-muted: #A3BDC0;      /* Muted Aegean */
+      --color-accent: #A3BDC0;
+      --color-accent-orange: #6F898B;   /* Aegean Teal accent */
+      --color-border: rgba(255, 255, 255, 0.08);
+      --color-border-glow: rgba(111, 137, 139, 0.3);
+      --color-glass-bg: rgba(255, 255, 255, 0.03);
+      --color-glass-bg-hover: rgba(255, 255, 255, 0.08);
+      --color-pill-bg: rgba(111, 137, 139, 0.35);
+    }
+
+    [data-theme="clay"] {
+      --color-bg-base: #401F14;         /* SW Cavern Clay dark */
+      --color-text-main: #FAF8E7;
+      --color-text-muted: #CBB49A;
+      --color-accent: #FFC2A8;          /* Cavern Pale Rose */
+      --color-accent-orange: #AC6B53;   /* Cavern Clay accent */
+      --color-border: rgba(255, 255, 255, 0.08);
+      --color-border-glow: rgba(172, 107, 83, 0.35);
+      --color-glass-bg: rgba(255, 255, 255, 0.025);
+      --color-glass-bg-hover: rgba(255, 255, 255, 0.08);
+      --color-pill-bg: rgba(172, 107, 83, 0.4);
+    }
+
+    [data-theme="gem"] {
+      --color-bg-base: #25312F;         /* Behr Hidden Gem dark */
+      --color-text-main: #FAF8E7;
+      --color-text-muted: #A6BAB7;      /* Muted Sage */
+      --color-accent: #A6BAB7;
+      --color-accent-orange: #596D69;   /* Hidden Gem accent */
+      --color-border: rgba(255, 255, 255, 0.08);
+      --color-border-glow: rgba(89, 109, 105, 0.3);
+      --color-glass-bg: rgba(255, 255, 255, 0.03);
+      --color-glass-bg-hover: rgba(255, 255, 255, 0.08);
+      --color-pill-bg: rgba(89, 109, 105, 0.35);
+    }
+
+    [data-theme="rumors"] {
+      --color-bg-base: #331A1C;         /* Behr Rumors dark */
+      --color-text-main: #FAF8E7;
+      --color-text-muted: #CBB49A;
+      --color-accent: #FFC4C8;          /* Pale Rumors Rose */
+      --color-accent-orange: #734246;   /* Rumors accent */
+      --color-border: rgba(255, 255, 255, 0.08);
+      --color-border-glow: rgba(115, 66, 70, 0.35);
+      --color-glass-bg: rgba(255, 255, 255, 0.03);
+      --color-glass-bg-hover: rgba(255, 255, 255, 0.08);
+      --color-pill-bg: rgba(115, 66, 70, 0.45);
+    }
+
+    /* Original Vibrant Presets */
+    [data-theme="sunset"] {
+      --color-bg-base: #16080C;
+      --color-text-main: #FAF8E7;
+      --color-text-muted: #CBB49A;
+      --color-accent: #FFD200;
+      --color-accent-orange: #FF2E93;
+      --color-border: rgba(255, 255, 255, 0.08);
+      --color-border-glow: rgba(255, 210, 0, 0.25);
+      --color-glass-bg: rgba(255, 255, 255, 0.025);
+      --color-glass-bg-hover: rgba(255, 255, 255, 0.06);
+      --color-pill-bg: rgba(0, 0, 0, 0.28);
+    }
+
+    [data-theme="sky"] {
+      --color-bg-base: #0a1f2d;
+      --color-text-main: #FAF8E7;
+      --color-text-muted: #7EC9FF;
+      --color-accent: #00B6FF;
+      --color-accent-orange: #0077CC;
+      --color-border: rgba(255, 255, 255, 0.1);
+      --color-border-glow: rgba(0, 182, 255, 0.35);
+      --color-glass-bg: rgba(255, 255, 255, 0.03);
+      --color-glass-bg-hover: rgba(255, 255, 255, 0.08);
+      --color-pill-bg: rgba(0, 119, 204, 0.25);
+    }
+
+    /* Core Resets */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--color-bg-base);
+      color: var(--color-text-main);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      transition: background-color 0.8s var(--transition-smooth), color 0.8s var(--transition-smooth);
+    }
+
+    /* -------------------------------------------------------------------------
+       WebGL Fullscreen Background
+       ------------------------------------------------------------------------- */
+    #shaderCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      opacity: 0.88;
+      pointer-events: none;
+    }
+
+    /* -------------------------------------------------------------------------
+       Dashboard Header
+       ------------------------------------------------------------------------- */
+    .styleguide-header {
+      padding: 20px 40px;
+      border-bottom: 1px solid var(--color-border);
+      background-color: rgba(22, 8, 12, 0.45);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      transition: background-color 0.8s var(--transition-smooth), border-color 0.8s var(--transition-smooth);
+    }
+
+    [data-theme="sky"] .styleguide-header {
+      background-color: rgba(0, 182, 255, 0.45);
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo-ring {
+      width: 32px;
+      height: 32px;
+      background: var(--color-glass-bg);
+      border: 1px solid var(--color-border-glow);
+      border-radius: 9999px; /* Rounded circle */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-logo-ring svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--color-text-main);
+      stroke-width: 2.5;
+      fill: none;
+    }
+
+    .brand-name {
+      font-family: var(--font-serif);
+      font-size: 24px;
+      font-weight: 700;
+      font-style: italic;
+      color: var(--color-text-main);
+    }
+
+    /* Theme Switcher Toggle */
+    .theme-selector {
+      display: inline-flex;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--color-border);
+      padding: 4px;
+      border-radius: 9999px;
+      gap: 4px;
+    }
+
+    .theme-btn {
+      border: none;
+      background: none;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--color-text-muted);
+      transition: all 0.25s var(--transition-smooth);
+    }
+
+    .theme-btn.active {
+      background: var(--color-text-main);
+      color: var(--color-bg-base);
+    }
+
+    /* -------------------------------------------------------------------------
+       Grid Layout
+       ------------------------------------------------------------------------- */
+    .styleguide-container {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      min-height: calc(100vh - 73px);
+      width: 100%;
+    }
+
+    @media (max-width: 1024px) {
+      .styleguide-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Left panel: Controls & Shaders */
+    .control-sidebar {
+      border-right: 1px solid var(--color-border);
+      background-color: rgba(22, 8, 12, 0.25);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+      overflow-y: auto;
+      height: calc(100vh - 73px);
+      position: sticky;
+      top: 73px;
+      transition: background-color 0.8s var(--transition-smooth);
+    }
+
+    [data-theme="sky"] .control-sidebar {
+      background-color: rgba(0, 182, 255, 0.15);
+    }
+
+    @media (max-width: 1024px) {
+      .control-sidebar {
+        height: auto;
+        position: relative;
+        border-right: none;
+        border-bottom: 1px solid var(--color-border);
+        top: 0;
+      }
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 700;
+      font-style: italic;
+      color: var(--color-text-main);
+      border-bottom: 1px solid var(--color-border);
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+    }
+
+    .section-desc {
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--color-text-muted);
+      margin-bottom: 20px;
+    }
+
+    /* Custom shader control board */
+    .shader-control-card {
+      background-color: var(--color-glass-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 20px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .control-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .control-label-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--color-text-muted);
+    }
+
+    .control-label-row span.val {
+      color: var(--color-text-main);
+    }
+
+    .range-input {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--color-border);
+      outline: none;
+      cursor: pointer;
+    }
+
+    .range-input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--color-text-main);
+      border: 1px solid var(--color-border-glow);
+      cursor: pointer;
+      transition: transform 0.1s var(--transition-spring);
+    }
+
+    .range-input::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    /* -------------------------------------------------------------------------
+       Right panel: Components Catalog
+       ------------------------------------------------------------------------- */
+    .catalog-main {
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      overflow-y: auto;
+      height: calc(100vh - 73px);
+    }
+
+    @media (max-width: 1024px) {
+      .catalog-main {
+        height: auto;
+      }
+    }
+
+    .showcase-block {
+      background-color: rgba(22, 8, 12, 0.15);
+      border: 1px solid var(--color-border);
+      border-radius: 24px;
+      padding: 32px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      position: relative;
+      transition: background-color 0.8s var(--transition-smooth);
+    }
+
+    [data-theme="sky"] .showcase-block {
+      background-color: rgba(0, 182, 255, 0.05);
+    }
+
+    .showcase-title-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .showcase-title {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-style: italic;
+      font-weight: 600;
+      color: var(--color-text-main);
+    }
+
+    .showcase-desc {
+      font-size: 13px;
+      color: var(--color-text-muted);
+    }
+
+    /* Render Box */
+    .render-sandbox {
+      background: rgba(0,0,0,0.18);
+      border: 1px dashed var(--color-border);
+      border-radius: 18px;
+      padding: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 180px;
+      position: relative;
+    }
+
+    /* Extraction Tag */
+    .extract-tag {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: var(--color-glass-bg-hover);
+      border: 1px solid var(--color-border);
+      color: var(--color-text-muted);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: all 0.25s var(--transition-spring);
+    }
+
+    .showcase-block:hover .extract-tag {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .extract-tag:hover {
+      color: var(--color-text-main);
+      background-color: var(--color-border);
+    }
+
+    /* -------------------------------------------------------------------------
+       1. STAR RATING BUTTON CAPSULE (Top Left Screenshot)
+       ------------------------------------------------------------------------- */
+    .stars-capsule-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 18px;
+      background: var(--color-pill-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 9999px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.2s var(--transition-spring), border-color 0.2s, background-color 0.2s;
+    }
+
+    .stars-capsule-button:hover {
+      border-color: var(--color-border-glow);
+      background-color: var(--color-glass-bg-hover);
+    }
+
+    .stars-capsule-button:active {
+      transform: scale(0.97);
+    }
+
+    .stars-container-inner {
+      display: flex;
+      gap: 5px;
+      z-index: 5;
+    }
+
+    .star-icon {
+      background: none;
+      border: none;
+      outline: none;
+      padding: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .star-icon svg {
+      width: 17px;
+      height: 17px;
+      fill: none;
+      stroke: var(--color-text-muted);
+      stroke-width: 1.5;
+      transition: fill 0.25s var(--transition-smooth), stroke 0.25s var(--transition-smooth), filter 0.25s var(--transition-smooth);
+    }
+
+    .star-icon.active svg {
+      fill: var(--color-text-main);
+      stroke: var(--color-text-main);
+      filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.45));
+    }
+
+    [data-theme="sky"] .star-icon.active svg {
+      fill: var(--color-accent);
+      stroke: var(--color-accent);
+      filter: drop-shadow(0 0 5px rgba(0, 77, 128, 0.45));
+    }
+
+    [data-theme="mahogany"] .star-icon.active svg {
+      fill: var(--color-accent);
+      stroke: var(--color-accent);
+      filter: drop-shadow(0 0 5px rgba(255, 194, 102, 0.45));
+    }
+
+    [data-theme="aegean"] .star-icon.active svg {
+      fill: var(--color-accent);
+      stroke: var(--color-accent);
+      filter: drop-shadow(0 0 5px rgba(111, 137, 139, 0.45));
+    }
+
+    [data-theme="clay"] .star-icon.active svg {
+      fill: var(--color-accent);
+      stroke: var(--color-accent);
+      filter: drop-shadow(0 0 5px rgba(172, 107, 83, 0.45));
+    }
+
+    [data-theme="gem"] .star-icon.active svg {
+      fill: var(--color-accent);
+      stroke: var(--color-accent);
+      filter: drop-shadow(0 0 5px rgba(89, 109, 105, 0.45));
+    }
+
+    [data-theme="rumors"] .star-icon.active svg {
+      fill: var(--color-accent);
+      stroke: var(--color-accent);
+      filter: drop-shadow(0 0 5px rgba(115, 66, 70, 0.45));
+    }
+
+    #starParticleCanvas {
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      width: calc(100% + 20px);
+      height: calc(100% + 20px);
+      pointer-events: none;
+      border-radius: 9999px;
+      z-index: 2;
+    }
+
+    /* -------------------------------------------------------------------------
+       2. CURATE CARD ACTION PANEL (Left Screenshot Card)
+       ------------------------------------------------------------------------- */
+    .curate-night-card {
+      width: 100%;
+      max-width: 360px;
+      background-color: var(--color-glass-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 14px;
+      padding: 16px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.2s var(--transition-spring), border-color 0.25s;
+    }
+
+    .curate-night-card:hover {
+      border-color: var(--color-border-glow);
+    }
+
+    .curate-card-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .curate-card-title {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 500;
+      font-style: italic;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--color-text-main);
+    }
+
+    .curate-card-arrow {
+      display: flex;
+      align-items: center;
+      transition: transform 0.25s var(--transition-spring);
+    }
+
+    .curate-card-arrow svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--color-text-main);
+      stroke-width: 2.0;
+    }
+
+    .curate-night-card:hover .curate-card-arrow {
+      transform: translateX(5px);
+    }
+
+    .curate-selectors-grid {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .inline-selector-pill {
+      background-color: var(--color-pill-bg);
+      color: var(--color-text-main);
+      border: 1px solid var(--color-border);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      outline: none;
+      transition: all 0.2s var(--transition-smooth);
+    }
+
+    .inline-selector-pill:hover {
+      background-color: var(--color-glass-bg-hover);
+      border-color: var(--color-text-muted);
+    }
+
+    .inline-selector-pill svg.pill-icon {
+      width: 13px;
+      height: 13px;
+      stroke: currentColor;
+      stroke-width: 2.0;
+      opacity: 0.7;
+    }
+
+    .inline-selector-pill svg.chevron {
+      width: 11px;
+      height: 11px;
+      stroke: currentColor;
+      stroke-width: 2.0;
+      opacity: 0.5;
+      transition: transform 0.2s;
+    }
+
+    .inline-selector-pill.active {
+      border-color: var(--color-text-main);
+      background-color: var(--color-glass-bg-hover);
+    }
+
+    .inline-selector-pill.active svg.chevron {
+      transform: rotate(180deg);
+    }
+
+    /* Pill connection text */
+    .pill-divider-text {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--color-text-muted);
+    }
+
+    /* Absolute Custom Dropdowns */
+    .custom-dropdown-panel {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      background-color: var(--color-bg-base);
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      width: 180px;
+      padding: 4px;
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      z-index: 999;
+      opacity: 0;
+      transform: translateY(-6px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+      transition: all 0.2s var(--transition-spring);
+    }
+
+    .custom-dropdown-panel.show {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .dropdown-cell {
+      padding: 8px 10px;
+      font-size: 12px;
+      font-weight: 500;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background-color 0.15s;
+    }
+
+    .dropdown-cell:hover {
+      background-color: var(--color-glass-bg-hover);
+    }
+
+    .dropdown-cell.selected {
+      background-color: var(--color-border);
+      color: var(--color-text-main);
+    }
+
+    .dropdown-cell svg.check {
+      width: 12px;
+      height: 12px;
+      stroke: var(--color-text-main);
+      stroke-width: 2.5;
+    }
+
+    /* -------------------------------------------------------------------------
+       3. VIEW TICKET GLASS CAPSULE (Right Screenshot Bottom)
+       ------------------------------------------------------------------------- */
+    .capsule-button-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+      max-width: 320px;
+    }
+
+    .glassmorphic-capsule-btn {
+      width: 100%;
+      border-radius: 9999px;
+      padding: 13px 24px;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      outline: none;
+      transition: transform 0.1s var(--transition-spring), opacity 0.2s, background-color 0.2s;
+    }
+
+    .glassmorphic-capsule-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* Dynamic View Ticket button styling matching screenshot */
+    .glassmorphic-capsule-btn.view-ticket {
+      background-color: var(--color-pill-bg);
+      color: var(--color-text-main);
+      border: 1px solid var(--color-border);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .glassmorphic-capsule-btn.view-ticket:hover {
+      background-color: var(--color-glass-bg-hover);
+      border-color: var(--color-text-main);
+    }
+
+    /* Accent Glow version */
+    .glassmorphic-capsule-btn.accent-glow {
+      background-color: var(--color-text-main);
+      color: var(--color-bg-base);
+      border: 1px solid var(--color-border-glow);
+      font-weight: 700;
+    }
+
+    .glassmorphic-capsule-btn.accent-glow:hover {
+      opacity: 0.92;
+      box-shadow: 0 0 15px var(--color-border-glow);
+    }
+
+    /* -------------------------------------------------------------------------
+       4. SECONDARY ACTION PACK (Close, Share, Edit Icons)
+       ------------------------------------------------------------------------- */
+    .secondary-icon-row {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .secondary-circle-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: 1px solid var(--color-border);
+      background-color: var(--color-pill-bg);
+      color: var(--color-text-main);
+      transition: transform 0.15s var(--transition-spring), background-color 0.2s, border-color 0.2s;
+      position: relative;
+    }
+
+    .secondary-circle-icon:active {
+      transform: scale(0.92);
+    }
+
+    .secondary-circle-icon svg {
+      width: 15px;
+      height: 15px;
+      stroke: currentColor;
+      stroke-width: 2.0;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      transition: transform 0.2s var(--transition-spring);
+    }
+
+    /* Circular hover states */
+    .secondary-circle-icon:hover {
+      background-color: var(--color-glass-bg-hover);
+      border-color: var(--color-text-main);
+    }
+
+    .secondary-circle-icon.share-icon:hover svg {
+      transform: translateY(-2px);
+    }
+
+    .secondary-circle-icon.close-icon:hover svg {
+      transform: rotate(90deg);
+    }
+
+    .secondary-circle-icon.edit-icon:hover svg {
+      transform: rotate(15deg);
+    }
+
+    /* Custom CSS tooltips */
+    .secondary-circle-icon[data-tooltip]::before {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      background-color: #16080C;
+      color: #FAF8E7;
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 10px;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 5px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.2s var(--transition-spring);
+    }
+
+    .secondary-circle-icon[data-tooltip]:hover::before {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* -------------------------------------------------------------------------
+       CSS Extractor Code Box
+       ------------------------------------------------------------------------- */
+    .code-extractor-drawer {
+      background-color: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--color-border);
+      border-radius: 18px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+    }
+
+    .code-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .code-label-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--color-text-main);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .copy-snippet-btn {
+      background-color: var(--text-main);
+      color: var(--color-bg-base);
+      border: none;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: opacity 0.2s;
+    }
+
+    .copy-snippet-btn:hover {
+      opacity: 0.9;
+    }
+
+    .code-viewer-container {
+      background-color: rgba(0,0,0,0.5);
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      padding: 14px;
+      overflow-x: auto;
+      font-family: Consolas, Monaco, "Andale Mono", monospace;
+      font-size: 11px;
+      line-height: 1.5;
+      max-height: 140px;
+    }
+
+    .code-viewer-container code {
+      color: var(--color-text-main);
+    }
+
+    /* -------------------------------------------------------------------------
+       Success toast
+       ------------------------------------------------------------------------- */
+    .copied-toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background-color: var(--color-text-main);
+      color: var(--color-bg-base);
+      padding: 10px 20px;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 1000;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      opacity: 0;
+      transition: all 0.3s var(--transition-spring);
+    }
+
+    .copied-toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .copied-toast svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      stroke-width: 2.5;
+    }
+
+    /* -------------------------------------------------------------------------
+       Premium Paint Swatch Grid & Cards
+       ------------------------------------------------------------------------- */
+    .paint-swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 15px;
+    }
+
+    .paint-swatch-card {
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 10px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: transform 0.25s var(--transition-spring), border-color 0.25s, box-shadow 0.25s;
+    }
+
+    .paint-swatch-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+    }
+
+    .paint-swatch-card.active {
+      border-color: var(--color-text-main);
+      background: rgba(255, 255, 255, 0.07);
+      box-shadow: 0 0 18px var(--color-border-glow);
+    }
+
+    .paint-color-box {
+      width: 100%;
+      aspect-ratio: 1.1;
+      border-radius: 6px;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.15);
+      transition: transform 0.2s;
+    }
+
+    .paint-swatch-card:hover .paint-color-box {
+      transform: scale(1.02);
+    }
+
+    .paint-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      padding: 4px 2px 0 2px;
+    }
+
+    .paint-brand {
+      font-family: var(--font-sans);
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--color-text-muted);
+      opacity: 0.85;
+    }
+
+    .paint-divider {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.08);
+      width: 100%;
+      margin: 2px 0;
+    }
+
+    .paint-name {
+      font-family: var(--font-serif);
+      font-size: 13px;
+      font-style: italic;
+      font-weight: 500;
+      text-transform: lowercase;
+      color: var(--color-text-main);
+    }
+
+    /* Sub-label under Curate title */
+    .curate-card-sub {
+      font-family: var(--font-serif);
+      font-size: 14px;
+      font-style: italic;
+      text-transform: lowercase;
+      color: var(--color-text-muted);
+      margin-top: 1px;
+      font-weight: 400;
+    }
+
+    /* Active swatch value cards style */
+    .swatch-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s var(--transition-smooth);
+    }
+
+    .swatch-card:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateX(4px);
+    }
+
+    .swatch-color-fill {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      border: 1px solid rgba(0, 0, 0, 0.25);
+    }
+
+    .swatch-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-grow: 1;
+    }
+
+    .swatch-name {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+    }
+
+    .swatch-hex {
+      font-family: Consolas, Monaco, monospace;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--color-text-main);
+      opacity: 0.85;
+    }
+
+    .badge-hybrid {
+      border: 1px solid var(--color-border);
+      border-radius: 9999px;
+      padding: 2px 8px;
+      background: var(--color-pill-bg);
+      color: var(--color-text-muted);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .swatch-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .curate-title-stack {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .selector-shell {
+      position: relative;
+    }
+
+    /* -------------------------------------------------------------------------
+       Hidden Gem Direction Expansion
+       ------------------------------------------------------------------------- */
+    .direction-brief {
+      overflow: hidden;
+      gap: 28px;
+      background:
+        linear-gradient(135deg, rgba(166, 186, 183, 0.1), rgba(250, 248, 231, 0.03) 44%, rgba(127, 148, 143, 0.1)),
+        rgba(23, 33, 31, 0.28);
+    }
+
+    .direction-brief::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 16% 18%, rgba(185, 228, 215, 0.18), transparent 26%),
+        radial-gradient(circle at 84% 6%, rgba(166, 186, 183, 0.14), transparent 24%);
+      opacity: 0.72;
+    }
+
+    .direction-hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+      gap: 28px;
+      align-items: end;
+    }
+
+    @media (max-width: 900px) {
+      .direction-hero {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .direction-kicker {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(185, 228, 215, 0.18);
+      border-radius: 9999px;
+      background: rgba(23, 33, 31, 0.42);
+      padding: 6px 10px;
+      color: var(--color-presence);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .direction-kicker::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 9999px;
+      background: var(--color-presence);
+      box-shadow: 0 0 12px rgba(185, 228, 215, 0.65);
+    }
+
+    .direction-headline {
+      max-width: 800px;
+      margin-top: 18px;
+      font-family: var(--font-serif);
+      font-size: clamp(42px, 6vw, 86px);
+      font-style: italic;
+      font-weight: 600;
+      line-height: 0.93;
+      letter-spacing: -0.04em;
+      color: var(--color-text-main);
+    }
+
+    .direction-headline span {
+      color: var(--color-presence);
+    }
+
+    .direction-copy {
+      max-width: 680px;
+      margin-top: 18px;
+      color: var(--color-text-muted);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    .north-star-card {
+      border: 1px solid rgba(185, 228, 215, 0.18);
+      border-radius: 22px;
+      background: rgba(15, 24, 22, 0.45);
+      padding: 22px;
+      box-shadow: inset 0 1px 0 rgba(250, 248, 231, 0.08);
+    }
+
+    .north-star-label,
+    .gem-card-label {
+      color: var(--color-text-muted);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .north-star-value {
+      margin-top: 10px;
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-style: italic;
+      line-height: 1.04;
+      color: var(--color-text-main);
+    }
+
+    .north-star-note {
+      margin-top: 14px;
+      color: var(--color-text-muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .direction-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .direction-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .gem-card {
+      min-height: 154px;
+      border: 1px solid var(--color-border);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.035);
+      padding: 18px;
+      box-shadow: inset 0 1px 0 rgba(250, 248, 231, 0.05);
+    }
+
+    .gem-card-title {
+      margin-top: 12px;
+      color: var(--color-text-main);
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .gem-card-copy {
+      margin-top: 8px;
+      color: var(--color-text-muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .palette-roles {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    @media (max-width: 900px) {
+      .palette-roles {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .role-swatch {
+      min-height: 116px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .role-swatch-base { background: #25312F; }
+    .role-swatch-quiet { background: #17211F; }
+    .role-swatch-cream { background: #FAF8E7; color: #25312F; }
+    .role-swatch-presence { background: #B9E4D7; color: #17211F; }
+    .role-swatch-consent { background: #C8D4CF; color: #17211F; }
+
+    .role-name {
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .role-usage {
+      margin-top: 4px;
+      font-size: 10px;
+      line-height: 1.35;
+      opacity: 0.75;
+    }
+
+    .moment-spec {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .moment-spec {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .moment-phone {
+      border: 1px solid rgba(250, 248, 231, 0.12);
+      border-radius: 34px;
+      background: #17211F;
+      padding: 12px;
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.28);
+    }
+
+    .moment-screen {
+      min-height: 344px;
+      border-radius: 25px;
+      background: linear-gradient(180deg, #25312F 0%, #17211F 100%);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .moment-status {
+      display: flex;
+      justify-content: space-between;
+      color: var(--color-text-muted);
+      font-size: 11px;
+    }
+
+    .moment-count {
+      font-family: var(--font-serif);
+      font-size: 34px;
+      font-style: italic;
+      line-height: 0.95;
+      color: var(--color-text-main);
+    }
+
+    .moment-count span {
+      color: var(--color-presence);
+    }
+
+    .candidate-card {
+      border: 1px solid rgba(250, 248, 231, 0.1);
+      border-radius: 17px;
+      background: rgba(250, 248, 231, 0.06);
+      padding: 12px;
+    }
+
+    .candidate-topline {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--color-text-main);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .candidate-subline {
+      margin-top: 5px;
+      color: var(--color-text-muted);
+      font-size: 11px;
+    }
+
+    .candidate-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 11px;
+    }
+
+    .candidate-pill {
+      border-radius: 9999px;
+      background: rgba(185, 228, 215, 0.11);
+      padding: 5px 8px;
+      color: var(--color-presence);
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .candidate-pill.consent {
+      background: rgba(166, 186, 183, 0.13);
+      color: var(--color-consent);
+    }
+
+    .motion-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .motion-row {
+      display: grid;
+      grid-template-columns: 82px 1fr;
+      gap: 12px;
+      align-items: start;
+      border-bottom: 1px solid var(--color-border);
+      padding-bottom: 10px;
+    }
+
+    .motion-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .motion-token {
+      color: var(--color-presence);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .motion-rule {
+      color: var(--color-text-muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- WebGL Background shader -->
+  <canvas id="shaderCanvas"></canvas>
+
+  <div class="styleguide-root-container">
+    
+    <!-- Header -->
+    <header class="styleguide-header">
+      <div class="brand-group">
+        <div class="brand-logo-ring">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        </div>
+        <span class="brand-name">Pathline</span>
+        <span class="badge-hybrid">Hidden Gem direction</span>
+      </div>
+      
+      <div class="theme-selector">
+        <button class="theme-btn" id="filterWarmBtn">Earthy Warm</button>
+        <button class="theme-btn active" id="filterCoolBtn">Muted Cool</button>
+        <button class="theme-btn" id="filterVibrantBtn">Vibrant Neon</button>
+      </div>
+    </header>
+
+    <!-- Content Grid -->
+    <div class="styleguide-container">
+      
+      <!-- Left sidebar: Controls -->
+      <aside class="control-sidebar">
+        
+        <div>
+          <h3 class="section-title">Background Shaders</h3>
+          <p class="section-desc">
+            Organic fluid simulations built using WebGL fragment shaders. Warp the noise domain, speed, and grid scale in real-time.
+          </p>
+          
+          <div class="shader-control-card">
+            
+            <div class="control-row">
+              <div class="control-label-row">
+                <span>Speed Factor</span>
+                <span class="val" id="speedLabel">0.4x</span>
+              </div>
+              <input type="range" class="range-input" id="shaderSpeed" min="0.0" max="1.5" step="0.05" value="0.4">
+            </div>
+
+            <div class="control-row">
+              <div class="control-label-row">
+                <span>Fluid Scale / Grid</span>
+                <span class="val" id="scaleLabel">2.2x</span>
+              </div>
+              <input type="range" class="range-input" id="shaderScale" min="0.5" max="5.0" step="0.1" value="2.2">
+            </div>
+
+          </div>
+        </div>
+
+        <div>
+          <h3 class="section-title">Paint Color Collections</h3>
+          <p class="section-desc">
+            Premium paint swatches from references. Click a card to morph the styleguide's global color themes, WebGL noise gradients, and buttons.
+          </p>
+          
+          <div class="paint-swatch-grid" id="paintSwatchGrid">
+            <!-- Generated dynamically by Javascript -->
+          </div>
+        </div>
+
+        <div>
+          <h3 class="section-title">Active Swatch Values</h3>
+          <p class="section-desc">
+            Hex values for the currently active visual direction. Click a row to copy its color token.
+          </p>
+          
+          <div class="swatch-list" id="swatchContainer">
+            <!-- Swatches will be generated by Javascript to reflect current theme -->
+          </div>
+        </div>
+
+      </aside>
+
+      <!-- Right Column: Catalog -->
+      <main class="catalog-main">
+        <section class="showcase-block direction-brief">
+          <div class="direction-hero">
+            <div>
+              <div class="direction-kicker">Preferred visual strategy</div>
+              <h1 class="direction-headline">Hidden Gem makes hiring feel <span>quietly alive.</span></h1>
+              <p class="direction-copy">
+                Pathline should not look like a recruiter dashboard, an AI sourcing tool, or a social network.
+                The Hidden Gem route gives the product a premium, private, almost editorial calm: deep sage as
+                trust, warm cream as humanity, and soft live color only when a real moment is opening.
+              </p>
+            </div>
+            <div class="north-star-card">
+              <div class="north-star-label">North star</div>
+              <div class="north-star-value">Qualified moments resolved into connection or closure.</div>
+              <p class="north-star-note">
+                The metric reinforces the mission: no void. Success is not more profiles viewed, more messages
+                sent, or more candidates ranked. It is a serious hiring interaction that becomes human and accountable.
+              </p>
+            </div>
+          </div>
+
+          <div class="direction-grid">
+            <div class="gem-card">
+              <div class="gem-card-label">Mission</div>
+              <div class="gem-card-title">End the hiring void.</div>
+              <p class="gem-card-copy">
+                Every serious opening should lead to a real conversation or respectful closure within a promised window.
+              </p>
+            </div>
+            <div class="gem-card">
+              <div class="gem-card-label">Brand feeling</div>
+              <div class="gem-card-title">Private, warm, present.</div>
+              <p class="gem-card-copy">
+                The tone should feel like being invited into a meaningful room, not dropped into a searchable database.
+              </p>
+            </div>
+            <div class="gem-card">
+              <div class="gem-card-label">Design test</div>
+              <div class="gem-card-title">Does this reduce the funnel?</div>
+              <p class="gem-card-copy">
+                Every screen should make the moment feel more human, more consented, and less like a list to judge.
+              </p>
+            </div>
+          </div>
+
+          <div class="palette-roles">
+            <div class="role-swatch role-swatch-base">
+              <div class="role-name">Hidden Gem</div>
+              <div class="role-usage">Base trust, shell, boards, brief backgrounds.</div>
+            </div>
+            <div class="role-swatch role-swatch-quiet">
+              <div class="role-name">Deep Quiet</div>
+              <div class="role-usage">Live room, identity reveal, high-focus surfaces.</div>
+            </div>
+            <div class="role-swatch role-swatch-cream">
+              <div class="role-name">Cream Citron</div>
+              <div class="role-usage">Human text, primary contrast, final payoff.</div>
+            </div>
+            <div class="role-swatch role-swatch-presence">
+              <div class="role-name">Presence Mint</div>
+              <div class="role-usage">Active now, open windows, verified live state.</div>
+            </div>
+            <div class="role-swatch role-swatch-consent">
+              <div class="role-name">Consent Amber</div>
+              <div class="role-usage">Mutual opt-in, start moment, accountability cues.</div>
+            </div>
+          </div>
+
+          <div class="moment-spec">
+            <div class="moment-phone">
+              <div class="moment-screen">
+                <div class="moment-status">
+                  <span>9:41</span>
+                  <span>Pathline</span>
+                </div>
+                <div class="moment-count"><span>5</span> open moments</div>
+                <div class="candidate-card">
+                  <div class="candidate-topline">
+                    <span>Senior PM</span>
+                    <span>active now</span>
+                  </div>
+                  <div class="candidate-subline">Series-B fintech · name locked until mutual</div>
+                  <div class="candidate-pills">
+                    <span class="candidate-pill">replies ~12 min</span>
+                    <span class="candidate-pill consent">opted in</span>
+                  </div>
+                </div>
+                <div class="candidate-card">
+                  <div class="candidate-topline">
+                    <span>Staff Engineer</span>
+                    <span>2:14 left</span>
+                  </div>
+                  <div class="candidate-subline">public co · lockup expired this week</div>
+                  <div class="candidate-pills">
+                    <span class="candidate-pill">verified facts</span>
+                    <span class="candidate-pill consent">start live</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="gem-card">
+              <div class="gem-card-label">Motion rules</div>
+              <div class="gem-card-title">Movement should prove presence.</div>
+              <div class="motion-list">
+                <div class="motion-row">
+                  <div class="motion-token">Pulse</div>
+                  <div class="motion-rule">Only for live state, active windows, ringing, and mutual presence. Never decorative.</div>
+                </div>
+                <div class="motion-row">
+                  <div class="motion-token">Reveal</div>
+                  <div class="motion-rule">Identity unlock should be the emotional peak: soft glow, name arrival, then calm.</div>
+                </div>
+                <div class="motion-row">
+                  <div class="motion-token">Expire</div>
+                  <div class="motion-rule">Perishable moments should visibly close without feeling punitive or gamified.</div>
+                </div>
+                <div class="motion-row">
+                  <div class="motion-token">Closure</div>
+                  <div class="motion-rule">Booked or released states should feel settled. No dopamine confetti, no dashboard fanfare.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- Star Rating Pill -->
+        <section class="showcase-block" id="blockStars">
+          <span class="extract-tag" onclick="loadComponentCode('stars')">Extract CSS</span>
+          
+          <div class="showcase-title-row">
+            <h2 class="showcase-title">Stars Rating Capsule Button</h2>
+            <p class="showcase-desc">
+              From the Amber Sunset screen (top left). A clean, dark capsule widget housing glowing stars. Rating updates are accompanied by interactive 2D canvas particle explosions.
+            </p>
+          </div>
+          
+          <div class="render-sandbox">
+            <div class="stars-capsule-button" id="starsCapsuleBtn">
+              <!-- Particle canvas overlay -->
+              <canvas id="starParticleCanvas"></canvas>
+              
+              <div class="stars-container-inner">
+                <button class="star-icon" data-index="1">
+                  <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </button>
+                <button class="star-icon" data-index="2">
+                  <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </button>
+                <button class="star-icon" data-index="3">
+                  <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </button>
+                <button class="star-icon" data-index="4">
+                  <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </button>
+                <button class="star-icon" data-index="5">
+                  <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Curate Card -->
+        <section class="showcase-block" id="blockCurate">
+          <span class="extract-tag" onclick="loadComponentCode('curate')">Extract CSS</span>
+          
+          <div class="showcase-title-row">
+            <h2 class="showcase-title">Curate Card Action Panel</h2>
+            <p class="showcase-desc">
+              Inspired by the warm amber/yellow curation interface. It features all-caps serif italic display text, hover chevrons, and inline dropdown select menus.
+            </p>
+          </div>
+          
+          <div class="render-sandbox">
+            
+            <div class="curate-night-card">
+              <div class="curate-card-title-row">
+                <div class="curate-title-stack">
+                  <span class="curate-card-title">Curate My Night</span>
+                  <span class="curate-card-sub">choose itinerary or day</span>
+                </div>
+                <span class="curate-card-arrow">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </span>
+              </div>
+              
+              <div class="curate-selectors-grid">
+                
+                <!-- Selector 1: Itinerary -->
+                <div class="selector-shell">
+                  <button class="inline-selector-pill" id="selectorItineraryBtn">
+                    <svg class="pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg>
+                    <span id="labelItinerary">choose an itinerary</span>
+                    <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                  </button>
+                  <div class="custom-dropdown-panel" id="dropdownItinerary">
+                    <div class="dropdown-cell" data-value="LUNA Rooftop">LUNA Rooftop</div>
+                    <div class="dropdown-cell" data-value="Sunset Disco">Sunset Disco</div>
+                    <div class="dropdown-cell" data-value="Warehouse Tech">Warehouse Tech</div>
+                  </div>
+                </div>
+
+                <span class="pill-divider-text">or</span>
+
+                <!-- Selector 2: Day -->
+                <div class="selector-shell">
+                  <button class="inline-selector-pill" id="selectorDayBtn">
+                    <svg class="pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 15 15"/></svg>
+                    <span id="labelDay">choose a day</span>
+                    <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                  </button>
+                  <div class="custom-dropdown-panel" id="dropdownDay">
+                    <div class="dropdown-cell" data-value="Friday">Friday</div>
+                    <div class="dropdown-cell" data-value="Saturday">Saturday</div>
+                    <div class="dropdown-cell" data-value="Sunday">Sunday</div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- View Ticket Capsule Buttons -->
+        <section class="showcase-block" id="blockCapsules">
+          <span class="extract-tag" onclick="loadComponentCode('capsules')">Extract CSS</span>
+          
+          <div class="showcase-title-row">
+            <h2 class="showcase-title">Pill Action Capsules</h2>
+            <p class="showcase-desc">
+              Inspired by the capsule buttons at the bottom of the screens. Showcases a translucent glassmorphic button (used for "View Ticket" on the blue screen) and a solid high-contrast accent button.
+            </p>
+          </div>
+          
+          <div class="render-sandbox">
+            <div class="capsule-button-list">
+              <!-- View Ticket Capsule -->
+              <button class="glassmorphic-capsule-btn view-ticket" onclick="notifyClick('View Ticket Action')">
+                View Ticket
+              </button>
+
+              <!-- Solid Accent Button -->
+              <button class="glassmorphic-capsule-btn accent-glow" onclick="notifyClick('Accent Action')">
+                Confirm Booking
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Secondary Circular Buttons -->
+        <section class="showcase-block" id="blockCircles">
+          <span class="extract-tag" onclick="loadComponentCode('circles')">Extract CSS</span>
+          
+          <div class="showcase-title-row">
+            <h2 class="showcase-title">Secondary Action Icons</h2>
+            <p class="showcase-desc">
+              Small circular buttons for actions like closing (X), sharing/upload, and custom avatar profiles, featuring sleek rotation and hover translations.
+            </p>
+          </div>
+          
+          <div class="render-sandbox">
+            <div class="secondary-icon-row">
+              <!-- Share -->
+              <button class="secondary-circle-icon share-icon" data-tooltip="Share Event" onclick="notifyClick('Share Clicked')">
+                <svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+              </button>
+
+              <!-- Close -->
+              <button class="secondary-circle-icon close-icon" data-tooltip="Close Details" onclick="notifyClick('Close Clicked')">
+                <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+
+              <!-- Edit -->
+              <button class="secondary-circle-icon edit-icon" data-tooltip="Edit Curated Night" onclick="notifyClick('Edit Clicked')">
+                <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- CSS Snippet Display Panel -->
+        <div class="code-extractor-drawer">
+          <div class="code-title-row">
+            <span class="code-label-name" id="snippetTitle">CSS Component Code</span>
+            <button class="copy-snippet-btn" id="copyCodeBtn">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Copy CSS
+            </button>
+          </div>
+          <pre class="code-viewer-container"><code id="snippetCode">Hover over or click a component in the catalog to load its CSS token styles...</code></pre>
+        </div>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- Copied Toast -->
+  <div class="copied-toast" id="successToast">
+    <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+    <span id="toastMsgText">Copied to Clipboard!</span>
+  </div>
+
+  <!-- WebGL Compiling & Interactive Scripts -->
+  <script>
+    // -------------------------------------------------------------------------
+    // 1. WebGL Organic Shader Engine
+    // -------------------------------------------------------------------------
+    
+    // Shader color presets matching paint swatch themes
+    const presets = {
+      damson: [
+        [0.137, 0.063, 0.067], // Deep dark wine (#231011)
+        [0.231, 0.118, 0.125], // Graham & Brown Divine Damson (#3B1E20)
+        [0.451, 0.259, 0.275], // Behr Rumors (#734246)
+        [0.675, 0.420, 0.325]  // SW Cavern Clay (#AC6B53)
+      ],
+      mahogany: [
+        [0.149, 0.071, 0.055], // Deepest Mahogany (#26120E)
+        [0.290, 0.141, 0.118], // Dark Mahogany (#4A241E)
+        [0.455, 0.251, 0.204], // PPG Warm Mahogany (#744034)
+        [0.675, 0.420, 0.325]  // SW Cavern Clay (#AC6B53)
+      ],
+      aegean: [
+        [0.082, 0.122, 0.129], // Deepest Aegean (#151F21)
+        [0.165, 0.227, 0.239], // Dark Aegean (#2A3A3D)
+        [0.259, 0.357, 0.373], // Mid Aegean (#425B5F)
+        [0.435, 0.537, 0.545]  // BM Aegean Teal (#6F898B)
+      ],
+      clay: [
+        [0.176, 0.078, 0.047], // Deepest Cavern (#2D140C)
+        [0.251, 0.122, 0.078], // Dark Cavern (#401F14)
+        [0.549, 0.286, 0.204], // Mid Cavern (#8C4934)
+        [0.675, 0.420, 0.325]  // SW Cavern Clay (#AC6B53)
+      ],
+      gem: [
+        [0.078, 0.114, 0.106], // Deepest Sage (#141D1B)
+        [0.161, 0.220, 0.208], // Dark Sage (#293835)
+        [0.247, 0.322, 0.310], // Mid Sage (#3F524F)
+        [0.349, 0.427, 0.412]  // Behr Hidden Gem (#596D69)
+      ],
+      rumors: [
+        [0.125, 0.055, 0.063], // Deepest Ruby (#200E10)
+        [0.200, 0.098, 0.110], // Dark Ruby (#33191C)
+        [0.329, 0.157, 0.176], // Mid Ruby (#54282D)
+        [0.451, 0.259, 0.275]  // Behr Rumors (#734246)
+      ],
+      sunset: [
+        [0.086, 0.031, 0.047], // Deep Auburn base
+        [1.000, 0.180, 0.576], // Vibrant Pink
+        [1.000, 0.368, 0.227], // Sunset Coral
+        [1.000, 0.824, 0.000]  // Setting Sun Gold
+      ],
+      sky: [
+        [0.000, 0.240, 0.400], // Deep sky blue
+        [0.000, 0.350, 0.600], // Ocean blue
+        [0.000, 0.530, 0.940], // Laser blue
+        [0.000, 0.710, 1.000]  // Bright cyan
+      ]
+    };
+
+    let activeTheme = 'gem';
+    let currentColors = JSON.parse(JSON.stringify(presets[activeTheme]));
+
+    const vsSource = `
+      attribute vec2 position;
+      void main() {
+        gl_Position = vec4(position, 0.0, 1.0);
+      }
+    `;
+
+    const fsSource = `
+      precision mediump float;
+      uniform vec2 u_resolution;
+      uniform float u_time;
+      uniform vec3 u_color1; // Deep Auburn base
+      uniform vec3 u_color2; // Vibrant Pink afterglow
+      uniform vec3 u_color3; // Sunset Coral
+      uniform vec3 u_color4; // Sun Gold
+      uniform float u_speed;
+      uniform float u_scale;
+
+      // Pseudo-random hash
+      float hash(vec2 p) {
+        return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+      }
+
+      // 2D Noise
+      float noise(vec2 p) {
+        vec2 i = floor(p);
+        vec2 f = fract(p);
+        vec2 u = f * f * (3.0 - 2.0 * f);
+        return mix(mix(hash(i + vec2(0.0,0.0)), hash(i + vec2(1.0,0.0)), u.x),
+                   mix(hash(i + vec2(0.0,1.0)), hash(i + vec2(1.0,1.0)), u.x), u.y);
+      }
+
+      // Fractional Brownian Motion (FBM)
+      float fbm(vec2 p) {
+        float v = 0.0;
+        float a = 0.5;
+        vec2 shift = vec2(100.0);
+        mat2 rot = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.5));
+        for (int i = 0; i < 4; ++i) {
+          v += a * noise(p);
+          p = rot * p * 2.0 + shift;
+          a *= 0.5;
+        }
+        return v;
+      }
+
+      void main() {
+        vec2 uv = gl_FragCoord.xy / u_resolution.xy;
+        float aspect = u_resolution.x / u_resolution.y;
+        vec2 p = uv;
+        p.x *= aspect;
+
+        float t = u_time * u_speed * 0.08;
+
+        // Generate FBM noise to warp the vertical gradient
+        float n = fbm(p * 1.5 + vec2(t * 0.4, t * 0.2));
+        
+        // Add coordinates warping for smooth cloud-like folds
+        float warpY = uv.y + n * 0.22 - 0.11;
+        
+        vec3 col;
+        
+        // Color Ramp layers: Gold -> Coral -> Pink -> Auburn
+        if (warpY < 0.28) {
+          col = mix(u_color4, u_color3, smoothstep(0.0, 0.28, warpY));
+        } else if (warpY < 0.58) {
+          col = mix(u_color3, u_color2, smoothstep(0.28, 0.58, warpY));
+        } else {
+          col = mix(u_color2, u_color1, smoothstep(0.58, 0.95, clamp(warpY, 0.58, 0.95)));
+        }
+
+        // Add film grain
+        float grain = hash(gl_FragCoord.xy + fract(u_time)) * 0.022;
+        col += vec3(grain);
+
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `;
+
+    // Initialize WebGL
+    const canvas = document.getElementById('shaderCanvas');
+    const gl = canvas.getContext('webgl');
+    let program, uniforms;
+
+    if (gl) {
+      // Compile vertex shader
+      const vs = gl.createShader(gl.VERTEX_SHADER);
+      gl.shaderSource(vs, vsSource);
+      gl.compileShader(vs);
+
+      // Compile fragment shader
+      const fs = gl.createShader(gl.FRAGMENT_SHADER);
+      gl.shaderSource(fs, fsSource);
+      gl.compileShader(fs);
+
+      // Link program
+      program = gl.createProgram();
+      gl.attachShader(program, vs);
+      gl.attachShader(program, fs);
+      gl.linkProgram(program);
+
+      // Bind vertices
+      const vertices = new Float32Array([
+        -1, -1,   1, -1,  -1, 1,
+        -1,  1,   1, -1,   1, 1
+      ]);
+      const buffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+      gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+      const positionLoc = gl.getAttribLocation(program, 'position');
+      gl.enableVertexAttribArray(positionLoc);
+      gl.vertexAttribPointer(positionLoc, 2, gl.FLOAT, false, 0, 0);
+
+      // Get uniform locations
+      uniforms = {
+        resolution: gl.getUniformLocation(program, 'u_resolution'),
+        time: gl.getUniformLocation(program, 'u_time'),
+        color1: gl.getUniformLocation(program, 'u_color1'),
+        color2: gl.getUniformLocation(program, 'u_color2'),
+        color3: gl.getUniformLocation(program, 'u_color3'),
+        color4: gl.getUniformLocation(program, 'u_color4'),
+        speed: gl.getUniformLocation(program, 'u_speed'),
+        scale: gl.getUniformLocation(program, 'u_scale')
+      };
+    }
+
+    // Animation values
+    let speed = 0.4;
+    let scale = 2.2;
+    let time = 0.0;
+    let lastTime = 0.0;
+
+    function lerp(start, end, amt) {
+      return (1 - amt) * start + amt * end;
+    }
+
+    // Main WebGL animation loop
+    function animate(now) {
+      now *= 0.001; // Seconds
+      const delta = now - lastTime;
+      lastTime = now;
+      time += delta;
+
+      // Color lerping for smooth transitions
+      const targetColors = presets[activeTheme];
+      for (let i = 0; i < 4; i++) {
+        for (let j = 0; j < 3; j++) {
+          currentColors[i][j] = lerp(currentColors[i][j], targetColors[i][j], 0.05);
+        }
+      }
+
+      if (gl) {
+        // Resize canvas to fill window
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        if (canvas.width !== width || canvas.height !== height) {
+          canvas.width = width;
+          canvas.height = height;
+          gl.viewport(0, 0, width, height);
+        }
+
+        gl.useProgram(program);
+
+        // Set uniform values
+        gl.uniform2f(uniforms.resolution, canvas.width, canvas.height);
+        gl.uniform1f(uniforms.time, time);
+        gl.uniform1f(uniforms.speed, speed);
+        gl.uniform1f(uniforms.scale, scale);
+
+        // Send color matrices
+        gl.uniform3fv(uniforms.color1, new Float32Array(currentColors[0]));
+        gl.uniform3fv(uniforms.color2, new Float32Array(currentColors[1]));
+        gl.uniform3fv(uniforms.color3, new Float32Array(currentColors[2]));
+        gl.uniform3fv(uniforms.color4, new Float32Array(currentColors[3]));
+
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+      }
+
+      requestAnimationFrame(animate);
+    }
+    requestAnimationFrame(animate);
+
+    // Interactive slider triggers
+    const speedInput = document.getElementById('shaderSpeed');
+    const speedLabel = document.getElementById('speedLabel');
+    speedInput.addEventListener('input', (e) => {
+      speed = parseFloat(e.target.value);
+      speedLabel.innerText = speed.toFixed(1) + 'x';
+    });
+
+    const scaleInput = document.getElementById('shaderScale');
+    const scaleLabel = document.getElementById('scaleLabel');
+    scaleInput.addEventListener('input', (e) => {
+      scale = parseFloat(e.target.value);
+      scaleLabel.innerText = scale.toFixed(1) + 'x';
+    });
+
+
+    // -------------------------------------------------------------------------
+    // 2. Theme & Paint Swatch Logic
+    // -------------------------------------------------------------------------
+    
+    // Detailed color tokens per theme
+    const swatchData = {
+      damson: [
+        { name: "Damson Dark Base", hex: "#231011" },
+        { name: "Divine Damson Main", hex: "#3B1E20" },
+        { name: "Rumors Ruby-Plum", hex: "#734246" },
+        { name: "Cavern Clay Accent", hex: "#AC6B53" },
+        { name: "Cream Citron Highlight", hex: "#FAF8E7" }
+      ],
+      mahogany: [
+        { name: "Mahogany Dark Base", hex: "#381E19" },
+        { name: "PPG Warm Mahogany", hex: "#744034" },
+        { name: "Cavern Clay Rust", hex: "#AC6B53" },
+        { name: "Gold Peach Highlight", hex: "#FFC266" },
+        { name: "Cream Citron Text", hex: "#FAF8E7" }
+      ],
+      aegean: [
+        { name: "Aegean Dark Base", hex: "#202D30" },
+        { name: "BM Aegean Teal", hex: "#6F898B" },
+        { name: "Slate Teal Accent", hex: "#425B5F" },
+        { name: "Soft Citron Text", hex: "#FAF8E7" }
+      ],
+      clay: [
+        { name: "Cavern Dark Base", hex: "#401F14" },
+        { name: "SW Cavern Clay", hex: "#AC6B53" },
+        { name: "Warm Terracotta", hex: "#8C4934" },
+        { name: "Cavern Rose Highlight", hex: "#FFC2A8" }
+      ],
+      gem: [
+        { name: "Sage Dark Base", hex: "#25312F" },
+        { name: "Behr Hidden Gem", hex: "#596D69" },
+        { name: "Earthy Sage Mid", hex: "#3F524F" },
+        { name: "Cream Citron Text", hex: "#FAF8E7" }
+      ],
+      rumors: [
+        { name: "Rumors Dark Base", hex: "#331A1C" },
+        { name: "Behr Rumors Ruby", hex: "#734246" },
+        { name: "Plum-Brown Accent", hex: "#54282D" },
+        { name: "Rose Highlight", hex: "#FFC4C8" }
+      ],
+      sunset: [
+        { name: "Auburn Midnight Base", hex: "#16080C" },
+        { name: "Citron Cream Text", hex: "#FAF8E7" },
+        { name: "Pink Afterglow Accent", hex: "#FF2E93" },
+        { name: "Sunset Coral Accent", hex: "#FF5E3A" },
+        { name: "Setting Sun Gold", hex: "#FFD200" }
+      ],
+      sky: [
+        { name: "Deep Ocean Base", hex: "#0a1f2d" },
+        { name: "Laser Blue Accent", hex: "#00B6FF" },
+        { name: "Ocean Blue Mid", hex: "#005999" },
+        { name: "Pale Cyan Highlight", hex: "#7EC9FF" }
+      ]
+    };
+
+    const paintSwatches = [
+      { id: "damson", brand: "Graham & Brown", name: "divine damson", hex: "#3B1E20", cat: "warm" },
+      { id: "mahogany", brand: "Glidden 2026", name: "warm mahogany", hex: "#744034", cat: "warm" },
+      { id: "clay", brand: "SW Cavern Clay", name: "cavern clay", hex: "#AC6B53", cat: "warm" },
+      { id: "rumors", brand: "Behr 2025", name: "rumors", hex: "#734246", cat: "warm" },
+      { id: "aegean", brand: "Benjamin Moore", name: "aegean teal", hex: "#6F898B", cat: "cool" },
+      { id: "gem", brand: "Behr 2026", name: "hidden gem", hex: "#596D69", cat: "cool" },
+      { id: "sunset", brand: "Pathline Neon", name: "amber sunset", hex: "#FF5E3A", cat: "vibrant" },
+      { id: "sky", brand: "Pathline Neon", name: "sky disco", hex: "#00B6FF", cat: "vibrant" }
+    ];
+
+    const paintGrid = document.getElementById('paintSwatchGrid');
+    const swatchContainer = document.getElementById('swatchContainer');
+
+    function renderPaintSwatches(filterCat = 'warm') {
+      paintGrid.innerHTML = '';
+      paintSwatches.forEach(swatch => {
+        if (filterCat !== 'all' && swatch.cat !== filterCat) return;
+
+        const card = document.createElement('div');
+        card.className = `paint-swatch-card ${activeTheme === swatch.id ? 'active' : ''}`;
+        card.onclick = () => selectTheme(swatch.id);
+
+        card.innerHTML = `
+          <div class="paint-color-box" style="background-color: ${swatch.hex};"></div>
+          <div class="paint-meta">
+            <span class="paint-brand">${swatch.brand}</span>
+            <div class="paint-divider"></div>
+            <span class="paint-name">${swatch.name}</span>
+          </div>
+        `;
+        paintGrid.appendChild(card);
+      });
+    }
+
+    function selectTheme(themeId) {
+      activeTheme = themeId;
+      document.body.setAttribute('data-theme', themeId);
+      
+      // Re-render to update the active card styling
+      const activeFilter = document.querySelector('.theme-selector button.active');
+      let cat = 'warm';
+      if (activeFilter.id === 'filterCoolBtn') cat = 'cool';
+      if (activeFilter.id === 'filterVibrantBtn') cat = 'vibrant';
+      
+      renderPaintSwatches(cat);
+      updateColorSwatches();
+    }
+
+    function updateColorSwatches() {
+      swatchContainer.innerHTML = '';
+      const list = swatchData[activeTheme] || swatchData['damson'];
+      list.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'swatch-card';
+        div.onclick = () => copyHex(item.hex, item.name);
+        div.innerHTML = `
+          <div class="swatch-color-fill" style="background-color: ${item.hex};"></div>
+          <div class="swatch-meta">
+            <span class="swatch-name">${item.name}</span>
+            <span class="swatch-hex">${item.hex}</span>
+          </div>
+        `;
+        swatchContainer.appendChild(div);
+      });
+    }
+
+    // Top Filter Switchers
+    const filterWarm = document.getElementById('filterWarmBtn');
+    const filterCool = document.getElementById('filterCoolBtn');
+    const filterVibrant = document.getElementById('filterVibrantBtn');
+
+    function handleFilterChange(cat, activeBtn) {
+      [filterWarm, filterCool, filterVibrant].forEach(btn => btn.classList.remove('active'));
+      activeBtn.classList.add('active');
+
+      // Select first item of that category
+      const firstThemeOfCat = paintSwatches.find(s => s.cat === cat);
+      if (firstThemeOfCat) {
+        selectTheme(firstThemeOfCat.id);
+      }
+    }
+
+    filterWarm.addEventListener('click', () => handleFilterChange('warm', filterWarm));
+    filterCool.addEventListener('click', () => handleFilterChange('cool', filterCool));
+    filterVibrant.addEventListener('click', () => handleFilterChange('vibrant', filterVibrant));
+
+    // Initial load
+    renderPaintSwatches('cool');
+    updateColorSwatches();
+    // Set active theme attribute on body initially
+    document.body.setAttribute('data-theme', activeTheme);
+
+
+    // -------------------------------------------------------------------------
+    // 3. Stars Rating Capsule & Particles
+    // -------------------------------------------------------------------------
+    const starBtnContainer = document.getElementById('starsCapsuleBtn');
+    const starIcons = document.querySelectorAll('.star-icon');
+    const starCanvas = document.getElementById('starParticleCanvas');
+    const sCtx = starCanvas.getContext('2d');
+    
+    let activeRating = 0;
+    let particleArray = [];
+
+    function syncStars(rateIndex) {
+      starIcons.forEach((star, idx) => {
+        star.classList.remove('active');
+        if (idx < rateIndex) {
+          star.classList.add('active');
+        }
+      });
+    }
+
+    starIcons.forEach((btn, idx) => {
+      btn.addEventListener('mouseenter', () => {
+        syncStars(idx + 1);
+      });
+
+      btn.addEventListener('mouseleave', () => {
+        syncStars(activeRating);
+      });
+
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        activeRating = idx + 1;
+        syncStars(activeRating);
+
+        // Coordinates
+        const rect = starCanvas.getBoundingClientRect();
+        starCanvas.width = rect.width;
+        starCanvas.height = rect.height;
+
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        spawnBurst(x, y);
+        notifyClick(`Rated ${activeRating} Stars!`);
+      });
+    });
+
+    function spawnBurst(x, y) {
+      const activeSwatch = swatchData[activeTheme] || swatchData['damson'];
+      const colors = activeSwatch.map(item => item.hex);
+      colors.push('#FFFFFF'); // Add white spark
+
+      for (let i = 0; i < 24; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 1.0 + Math.random() * 4.0;
+        
+        particleArray.push({
+          x: x,
+          y: y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed - 1.0, // slightly upwards
+          radius: 1.5 + Math.random() * 3.0,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          alpha: 1.0,
+          gravity: 0.12,
+          decay: 0.02 + Math.random() * 0.03
+        });
+      }
+
+      if (particleArray.length === 24) {
+        runParticles();
+      }
+    }
+
+    function runParticles() {
+      if (particleArray.length === 0) {
+        sCtx.clearRect(0, 0, starCanvas.width, starCanvas.height);
+        return;
+      }
+
+      sCtx.clearRect(0, 0, starCanvas.width, starCanvas.height);
+
+      particleArray.forEach((p, index) => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += p.gravity;
+        p.vx *= 0.98;
+        p.vy *= 0.98;
+        p.alpha -= p.decay;
+
+        sCtx.save();
+        sCtx.globalAlpha = p.alpha;
+        sCtx.fillStyle = p.color;
+        sCtx.beginPath();
+        sCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        sCtx.fill();
+        sCtx.restore();
+
+        if (p.alpha <= 0) {
+          particleArray.splice(index, 1);
+        }
+      });
+
+      requestAnimationFrame(runParticles);
+    }
+
+
+    // -------------------------------------------------------------------------
+    // 4. Curate Card Select Dropdowns
+    // -------------------------------------------------------------------------
+    const itineraryBtn = document.getElementById('selectorItineraryBtn');
+    const itineraryLabel = document.getElementById('labelItinerary');
+    const itineraryDropdown = document.getElementById('dropdownItinerary');
+
+    const dayBtn = document.getElementById('selectorDayBtn');
+    const dayLabel = document.getElementById('labelDay');
+    const dayDropdown = document.getElementById('dropdownDay');
+
+    itineraryBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      dayDropdown.classList.remove('show');
+      dayBtn.classList.remove('active');
+      
+      itineraryBtn.classList.toggle('active');
+      itineraryDropdown.classList.toggle('show');
+    });
+
+    dayBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      itineraryDropdown.classList.remove('show');
+      itineraryBtn.classList.remove('active');
+
+      dayBtn.classList.toggle('active');
+      dayDropdown.classList.toggle('show');
+    });
+
+    itineraryDropdown.querySelectorAll('.dropdown-cell').forEach(cell => {
+      cell.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const val = e.target.getAttribute('data-value');
+        itineraryLabel.innerText = val;
+        
+        itineraryDropdown.querySelectorAll('.dropdown-cell').forEach(c => c.classList.remove('selected'));
+        e.target.classList.add('selected');
+
+        itineraryDropdown.classList.remove('show');
+        itineraryBtn.classList.remove('active');
+        notifyClick(`Itinerary Selected: ${val}`);
+      });
+    });
+
+    dayDropdown.querySelectorAll('.dropdown-cell').forEach(cell => {
+      cell.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const val = e.target.getAttribute('data-value');
+        dayLabel.innerText = val;
+
+        dayDropdown.querySelectorAll('.dropdown-cell').forEach(c => c.classList.remove('selected'));
+        e.target.classList.add('selected');
+
+        dayDropdown.classList.remove('show');
+        dayBtn.classList.remove('active');
+        notifyClick(`Day Selected: ${val}`);
+      });
+    });
+
+    document.addEventListener('click', () => {
+      itineraryDropdown.classList.remove('show');
+      itineraryBtn.classList.remove('active');
+      dayDropdown.classList.remove('show');
+      dayBtn.classList.remove('active');
+    });
+
+
+    // -------------------------------------------------------------------------
+    // 5. CSS Code Snippet Extraction
+    // -------------------------------------------------------------------------
+    const snippetTitle = document.getElementById('snippetTitle');
+    const snippetCode = document.getElementById('snippetCode');
+    const copyBtn = document.getElementById('copyCodeBtn');
+
+    const snippetsCatalog = {
+      stars: {
+        title: "Stars Rating Capsule (CSS)",
+        code: `/* Glowing Star Capsule Button */
+.stars-capsule-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 18px;
+  background: var(--color-pill-bg); /* rgba(0,0,0,0.28) */
+  border: 1px solid var(--color-border);
+  border-radius: 9999px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.star-icon svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: var(--color-text-muted);
+}
+.star-icon.active svg {
+  fill: var(--color-text-main);
+  stroke: var(--color-text-main);
+  filter: drop-shadow(0 0 5px rgba(255,255,255,0.45));
+}`
+      },
+      curate: {
+        title: "Curate Card & Inline Selects (CSS)",
+        code: `/* Glassmorphic Curate Night Card */
+.curate-night-card {
+  width: 100%;
+  max-width: 360px;
+  background-color: var(--color-glass-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: 16px;
+  backdrop-filter: blur(16px);
+}
+.curate-card-title {
+  font-family: 'Fraunces', serif;
+  font-size: 18px;
+  font-style: italic;
+  text-transform: uppercase;
+}
+.inline-selector-pill {
+  background-color: var(--color-pill-bg);
+  border: 1px solid var(--color-border);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+}`
+      },
+      capsules: {
+        title: "View Ticket & Capsule Buttons (CSS)",
+        code: `/* Translucent View Ticket Button */
+.glassmorphic-capsule-btn.view-ticket {
+  background-color: var(--color-pill-bg);
+  color: var(--color-text-main);
+  border: 1px solid var(--color-border);
+  border-radius: 9999px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.glassmorphic-capsule-btn.view-ticket:hover {
+  background-color: var(--color-glass-bg-hover);
+  border-color: var(--color-text-main);
+}
+
+/* Solid Glowing Action Button */
+.glassmorphic-capsule-btn.accent-glow {
+  background-color: var(--color-text-main);
+  color: var(--color-bg-base);
+  border: 1px solid var(--color-border-glow);
+  box-shadow: 0 0 15px var(--color-border-glow);
+}`
+      },
+      circles: {
+        title: "Secondary Action Circles (CSS)",
+        code: `/* Circle Utility Buttons */
+.secondary-circle-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-pill-bg);
+  color: var(--color-text-main);
+}
+.secondary-circle-icon:hover {
+  background-color: var(--color-glass-bg-hover);
+  border-color: var(--color-text-main);
+}
+.secondary-circle-icon svg {
+  width: 15px;
+  height: 15px;
+  stroke: currentColor;
+  stroke-width: 2.0;
+  fill: none;
+}`
+      }
+    };
+
+    function loadComponentCode(key) {
+      const entry = snippetsCatalog[key];
+      snippetTitle.innerText = entry.title;
+      snippetCode.innerText = entry.code;
+    }
+
+    // Attach hover transitions
+    document.getElementById('blockStars').addEventListener('mouseenter', () => loadComponentCode('stars'));
+    document.getElementById('blockCurate').addEventListener('mouseenter', () => loadComponentCode('curate'));
+    document.getElementById('blockCapsules').addEventListener('mouseenter', () => loadComponentCode('capsules'));
+    document.getElementById('blockCircles').addEventListener('mouseenter', () => loadComponentCode('circles'));
+
+    // Copy action
+    copyBtn.addEventListener('click', () => {
+      const codeText = snippetCode.innerText;
+      navigator.clipboard.writeText(codeText).then(() => {
+        notifyToast("CSS Styling Copied!");
+      });
+    });
+
+    window.copyHex = function(hex, name) {
+      navigator.clipboard.writeText(hex).then(() => {
+        notifyToast(`Copied ${name}: ${hex}`);
+      });
+    };
+
+
+    // -------------------------------------------------------------------------
+    // 6. Success Toast Utilities
+    // -------------------------------------------------------------------------
+    const toast = document.getElementById('successToast');
+    const toastText = document.getElementById('toastMsgText');
+    let toastTimeout = null;
+
+    function notifyToast(msg) {
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastText.innerText = msg;
+      toast.classList.add('show');
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2000);
+    }
+
+    // -------------------------------------------------------------------------
+    // 7. Click notification handler
+    // -------------------------------------------------------------------------
+    function notifyClick(msg) {
+      notifyToast(msg);
+    }
+  </script>
+</body>
+</html>

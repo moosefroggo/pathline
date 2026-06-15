@@ -32,7 +32,9 @@ export function useStopwatch(running: boolean) {
 // Run a callback once after `ms`, cleaned up on unmount / dep change.
 export function useTimeout(cb: () => void, ms: number | null) {
   const saved = useRef(cb)
-  saved.current = cb
+  useEffect(() => {
+    saved.current = cb
+  }, [cb])
   useEffect(() => {
     if (ms === null) return
     const id = setTimeout(() => saved.current(), ms)

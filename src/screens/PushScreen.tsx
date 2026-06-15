@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { IconChevronUp, IconLeaf } from '@tabler/icons-react'
 import { LiveDot } from '../components/bits'
 import { recruiter } from '../data'
+import { riseTransition } from '../lib/motion'
 
 export function PushScreen({ onOpen }: { onOpen: () => void }) {
   return (
@@ -14,13 +15,13 @@ export function PushScreen({ onOpen }: { onOpen: () => void }) {
       <motion.button
         type="button"
         onClick={onOpen}
-        initial={{ y: -24, opacity: 0 }}
+        initial={{ y: -14, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.35, type: 'spring', stiffness: 320, damping: 26 }}
-        className="mt-10 w-full rounded-[20px] bg-white/85 p-3.5 text-left backdrop-blur transition active:scale-[0.98]"
+        transition={{ ...riseTransition, delay: 0.18 }}
+        className="pl-glass-panel mt-10 w-full rounded-[20px] p-3.5 text-left transition active:scale-[0.98]"
       >
         <div className="mb-2 flex items-center gap-2">
-          <span className="flex h-5 w-5 items-center justify-center rounded-md bg-coral text-white">
+          <span className="pl-glass-soft flex h-5 w-5 items-center justify-center rounded-md text-live-700">
             <IconLeaf size={13} stroke={2} />
           </span>
           <span className="text-[11px] tracking-wide text-ink-2">pathline</span>

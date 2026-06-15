@@ -10,14 +10,15 @@ import {
 } from '@tabler/icons-react'
 import { Avatar, Chip, LiveDot, SectionLabel, SourceTag } from '../components/bits'
 import type { Candidate } from '../data'
+import { riseTransition, screenTransition } from '../lib/motion'
 
 const container: Variants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.07, delayChildren: 0.08 } },
+  show: { transition: { staggerChildren: 0.025, delayChildren: 0.03 } },
 }
 const item: Variants = {
-  hidden: { opacity: 0, y: 12 },
-  show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 340, damping: 30 } },
+  hidden: { opacity: 0, y: 7 },
+  show: { opacity: 1, y: 0, transition: riseTransition },
 }
 
 export function BriefScreen({
@@ -31,12 +32,12 @@ export function BriefScreen({
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, x: 24 }}
+      initial={{ opacity: 0, x: 12 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ type: 'spring', stiffness: 340, damping: 34 }}
-      className="flex flex-1 flex-col"
+      transition={screenTransition}
+      className="flex h-full min-h-0 flex-1 flex-col overflow-hidden"
     >
-      <div className="px-4 pt-2.5">
+      <div className="pl-noscroll min-h-0 flex-1 overflow-y-auto px-4 pt-2.5 pb-4">
         <button
           type="button"
           onClick={onBack}
@@ -64,7 +65,7 @@ export function BriefScreen({
             <SectionLabel icon={<IconRosetteDiscountCheck size={14} className="text-live-700" />}>
               Verified
             </SectionLabel>
-            <div className="rounded-xl border border-hairline-strong bg-surface px-3 py-1">
+            <div className="pl-glass rounded-xl px-3 py-1">
               {c.verified.map((v, i) => (
                 <div
                   key={v.label}
@@ -84,8 +85,8 @@ export function BriefScreen({
             <SectionLabel icon={<IconQuote size={14} className="text-iris" />}>
               Vouched by peers
             </SectionLabel>
-            <div className="rounded-xl bg-surface px-3 py-2.5">
-              <div className="text-label leading-snug text-iris-900">{c.vouch.quote}</div>
+            <div className="pl-glass rounded-xl px-3 py-2.5">
+              <div className="text-label leading-snug text-ink">{c.vouch.quote}</div>
               <div className="mt-1.5 text-caption text-ink-3">
                 — {c.vouch.by} · <span className="text-live-700">verified</span>
                 {c.vouch.more > 0 ? ` · +${c.vouch.more} more` : ''}
@@ -103,7 +104,7 @@ export function BriefScreen({
                 { v: c.track.showed, l: 'showed up' },
                 { v: c.track.onsite, l: '→ onsite' },
               ].map((t) => (
-                <div key={t.l} className="rounded-xl bg-surface px-1 py-2 text-center">
+                <div key={t.l} className="pl-glass-soft rounded-xl px-1 py-2 text-center">
                   <div className="text-subhead font-medium text-ink">{t.v}</div>
                   <div className="text-micro text-ink-3">{t.l}</div>
                 </div>
@@ -122,7 +123,7 @@ export function BriefScreen({
 
           <motion.div
             variants={item}
-            className="mt-3.5 flex items-center gap-2 rounded-xl bg-hairline px-3 py-2.5"
+            className="pl-glass-soft mt-3.5 flex items-center gap-2 rounded-xl px-3 py-2.5"
           >
             <IconLock size={15} stroke={1.8} className="text-ink-2" />
             <span className="text-caption leading-snug text-ink">
@@ -132,11 +133,11 @@ export function BriefScreen({
         </motion.div>
       </div>
 
-      <div className="sticky bottom-0 mt-3 bg-cream px-4 pt-2 pb-4">
+      <div className="pl-bottom-glass shrink-0 px-4 pt-2 pb-4">
         <button
           type="button"
           onClick={onStart}
-          className="flex w-full items-center justify-center gap-1.5 rounded-[14px] bg-coral py-3.5 text-subhead font-medium text-white transition active:scale-[0.98]"
+          className="pl-primary-action flex w-full items-center justify-center gap-1.5 rounded-[14px] py-3.5 text-subhead font-medium transition active:scale-[0.98]"
         >
           <IconBolt size={16} stroke={2} /> Start live moment · 2 min
         </button>

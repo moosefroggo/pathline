@@ -1,0 +1,2655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pathline — Interactive Design Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet">
+  
+  <style>
+    /* -------------------------------------------------------------------------
+       Citron, Sage & Neo-Brutalism Hybrid Design System (Vanilla CSS Variables)
+       No Blues, No Purples. Yellow is the Resounding Hero.
+       ------------------------------------------------------------------------- */
+    :root {
+      --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-serif: 'Fraunces', Georgia, serif;
+
+      /* Palette */
+      --color-citron: #FAF8E7;       /* Canvas Citron Background */
+      --color-citron-light: #FFFEEB; /* Light Highlight Citron */
+      --color-white: #FFFFFF;
+      --color-carbon: #1B1D16;       /* Near Black Ink */
+      --color-carbon-light: #2D3025; /* Carbon Border */
+      --color-sage: #4B8D47;         /* Sage Green Presence */
+      --color-sage-light: #F0F5EE;   /* Soft Sage BG */
+      --color-yellow: #FFD500;       /* Resounding Canary Yellow */
+      --color-yellow-light: #FFF9CC; /* Soft Yellow BG */
+      --color-yellow-dark: #E6B800;  /* Dark Yellow */
+      --color-amber: #EBA31A;
+      --color-amber-light: #FFF9E6;
+      --color-slate-1: #3E4235;
+      --color-slate-2: #585E4B;
+      --color-slate-3: #7D856C;
+      --color-slate-4: #D4D8C4;
+
+      /* Dark Mode (Live Moment Call) */
+      --color-dark-bg: #151612;
+      --color-dark-surface: #2D3025;
+      --color-dark-border: #3E4235;
+      --color-dark-text: #F0F2EB;
+      --color-dark-text-muted: #8F9580;
+    }
+
+    /* Reset & Core Styling */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--color-citron);
+      color: var(--color-carbon);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* Presentation Layout */
+    .presentation-container {
+      display: grid;
+      grid-template-columns: 1fr 450px;
+      min-height: 100vh;
+      width: 100%;
+    }
+
+    @media (max-width: 1024px) {
+      .presentation-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Left Side: Simulator Canvas */
+    .simulator-side {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      border-right: 1.5px solid var(--color-carbon-light);
+      position: relative;
+    }
+
+    /* Right Side: Presentation Sidebar */
+    .presentation-sidebar {
+      background-color: var(--color-white);
+      border-left: 1.5px solid var(--color-carbon-light);
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      overflow-y: auto;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+    }
+
+    @media (max-width: 1024px) {
+      .presentation-sidebar {
+        height: auto;
+        position: relative;
+        border-left: none;
+        border-top: 1.5px solid var(--color-carbon-light);
+      }
+    }
+
+    /* Brand Header */
+    .brand-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      background-color: var(--color-yellow);
+      border: 1.5px solid var(--color-carbon-light);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 2px 2px 0px var(--color-carbon-light);
+    }
+
+    .brand-logo svg {
+      width: 18px;
+      height: 18px;
+      fill: var(--color-carbon);
+    }
+
+    .brand-title {
+      font-family: var(--font-serif);
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--color-carbon);
+    }
+
+    /* Phone Simulator Frame */
+    .phone-bezel {
+      background-color: var(--color-carbon-light);
+      padding: 10px;
+      border-radius: 46px;
+      box-shadow: 0px 20px 50px rgba(0,0,0,0.15), 6px 6px 0px var(--color-carbon);
+      border: 2px solid var(--color-carbon);
+      transition: background-color 0.3s;
+    }
+
+    .phone-screen {
+      width: 342px;
+      height: 700px;
+      border-radius: 38px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      transition: background-color 0.4s, color 0.4s;
+    }
+
+    .phone-screen.light-mode {
+      background-color: var(--color-citron);
+      color: var(--color-carbon);
+    }
+
+    .phone-screen.dark-mode {
+      background-color: var(--color-dark-bg);
+      color: var(--color-dark-text);
+    }
+
+    /* Phone Top Bar */
+    .phone-notch {
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 104px;
+      height: 26px;
+      background-color: var(--color-carbon-light);
+      border-radius: 9999px;
+      z-index: 50;
+    }
+
+    .phone-status-bar {
+      height: 48px;
+      padding: 14px 26px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 600;
+      z-index: 40;
+    }
+
+    .phone-status-bar.light {
+      color: var(--color-carbon);
+    }
+
+    .phone-status-bar.dark {
+      color: var(--color-dark-text-muted);
+    }
+
+    .status-icons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Signal bars */
+    .signal-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+    }
+    .signal-bar {
+      width: 3px;
+      border-radius: 1px;
+    }
+    .signal-bar.b1 { height: 4px; }
+    .signal-bar.b2 { height: 6px; }
+    .signal-bar.b3 { height: 8px; }
+    .signal-bar.b4 { height: 10px; }
+
+    /* Battery */
+    .battery-icon {
+      display: flex;
+      align-items: center;
+      gap: 1px;
+    }
+    .battery-body {
+      width: 22px;
+      height: 11px;
+      border-radius: 3px;
+      border: 1px solid currentColor;
+      padding: 1px;
+      display: flex;
+    }
+    .battery-level {
+      height: 100%;
+      width: 70%;
+      background-color: currentColor;
+      border-radius: 1px;
+    }
+    .battery-nub {
+      width: 1.5px;
+      height: 4px;
+      background-color: currentColor;
+      border-radius: 0 1px 1px 0;
+    }
+
+    /* View Container */
+    .phone-view-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      scrollbar-width: none;
+      position: relative;
+    }
+    .phone-view-container.view-enter { animation: viewfade 0.28s ease-out both; }
+    @keyframes viewfade { from { opacity: 0; } to { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) { .phone-view-container.view-enter { animation: none; } }
+
+    .phone-view-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* -------------------------------------------------------------------------
+       Screens / State Styles
+       ------------------------------------------------------------------------- */
+    
+    /* PUSH NOTIFICATION SCREEN */
+    .push-screen {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      padding: 24px 14px;
+      background: linear-gradient(180deg, #F9F7E1 0%, #EFEAC7 100%);
+    }
+
+    .lock-screen-time {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .lock-screen-date {
+      font-size: 13px;
+      color: var(--color-slate-2);
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+
+    .lock-screen-clock {
+      font-size: 64px;
+      font-weight: 600;
+      line-height: 1;
+      color: var(--color-carbon);
+    }
+
+    .push-notification-card {
+      margin-top: 60px;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.85);
+      border: 1.5px solid var(--color-carbon);
+      border-radius: 20px;
+      padding: 14px;
+      text-align: left;
+      box-shadow: 4px 4px 0px var(--color-carbon);
+      cursor: pointer;
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+
+    .push-notification-card:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0px var(--color-carbon);
+    }
+
+    .push-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .push-app-badge {
+      width: 20px;
+      height: 20px;
+      background-color: var(--color-yellow);
+      border: 1.5px solid var(--color-carbon);
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .push-app-badge svg {
+      width: 11px;
+      height: 11px;
+      fill: var(--color-carbon);
+    }
+
+    .push-app-name {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--color-slate-1);
+    }
+
+    .push-time {
+      margin-left: auto;
+      font-size: 11px;
+      color: var(--color-slate-3);
+    }
+
+    .push-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--color-carbon);
+    }
+
+    .push-body {
+      font-size: 12px;
+      color: var(--color-slate-1);
+      margin-top: 2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tap-to-open {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: var(--color-slate-3);
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    /* PRESENCE BOARD SCREEN */
+    .board-screen {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .board-header {
+      padding: 16px 16px 8px;
+    }
+
+    .board-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-badge {
+      width: 24px;
+      height: 24px;
+      background-color: var(--color-yellow);
+      border: 1.5px solid var(--color-carbon);
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 2px 2px 0px var(--color-carbon);
+    }
+
+    .logo-badge svg {
+      width: 14px;
+      height: 14px;
+      fill: var(--color-carbon);
+    }
+
+    .board-title-text {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--color-carbon);
+    }
+
+    .recruiter-meta {
+      font-size: 12px;
+      color: var(--color-slate-2);
+      font-weight: 500;
+    }
+
+    .presence-hero-label {
+      margin-top: 10px;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .moment-count-pulse {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--color-sage);
+    }
+
+    .moment-count-sub {
+      font-size: 12px;
+      color: var(--color-slate-3);
+    }
+
+    .candidate-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 8px 16px 16px;
+    }
+
+    /* Candidate Card (Hybrid Brutalism-Citron) */
+    .candidate-card {
+      width: 100%;
+      background-color: var(--color-white);
+      border: 1.5px solid var(--color-carbon-light);
+      border-radius: 18px;
+      padding: 12px;
+      text-align: left;
+      cursor: pointer;
+      transition: transform 0.1s, box-shadow 0.1s, border-color 0.2s;
+      box-shadow: 3px 3px 0px var(--color-carbon-light);
+    }
+
+    .candidate-card:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0px var(--color-carbon-light);
+    }
+
+    .candidate-card.expired {
+      opacity: 0.6;
+      cursor: not-allowed;
+      box-shadow: none;
+      background-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar-wrapper {
+      position: relative;
+    }
+
+    /* Avatars */
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1.5px solid var(--color-carbon);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      background-color: var(--color-slate-4);
+      color: var(--color-slate-1);
+    }
+
+    .avatar.locked {
+      background-color: var(--color-slate-4);
+      color: var(--color-slate-2);
+    }
+
+    .avatar.locked svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+    }
+
+    .avatar.iris { background-color: var(--color-yellow-light); color: var(--color-slate-1); }
+    .avatar.live { background-color: var(--color-sage-light); color: var(--color-sage); }
+    .avatar.coral { background-color: var(--color-yellow); color: var(--color-carbon); }
+    .avatar.amber { background-color: var(--color-amber-light); color: var(--color-amber); }
+
+    .card-title-area {
+      line-height: 1.25;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--color-carbon);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-title .locked-chip {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--color-slate-3);
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .card-title .locked-chip svg {
+      width: 9px;
+      height: 9px;
+    }
+
+    .card-subtitle {
+      font-size: 12px;
+      color: var(--color-slate-2);
+    }
+
+    .presence-badge {
+      margin-left: auto;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--color-sage);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .pulse-dot {
+      width: 6px;
+      height: 6px;
+      background-color: var(--color-sage);
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .pulse-dot::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: var(--color-sage);
+      border-radius: 50%;
+      animation: pulse-ring 1.8s infinite ease-in-out;
+      transform-origin: center;
+    }
+
+    @keyframes pulse-ring {
+      0% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
+
+    .card-triggers {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .trigger-pill {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--color-amber);
+      background-color: var(--color-amber-light);
+      border: 1px solid var(--color-amber);
+      padding: 2px 6px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .trigger-pill svg {
+      width: 10px;
+      height: 10px;
+    }
+
+    .card-footer {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--color-slate-2);
+      font-weight: 500;
+    }
+
+    .footer-time {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .footer-time svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    .opted-in-badge {
+      margin-left: auto;
+      color: var(--color-slate-3);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .opted-in-badge svg {
+      width: 12px;
+      height: 12px;
+      stroke: var(--color-sage);
+    }
+
+    /* Tab bar */
+    .tab-bar {
+      margin-top: auto;
+      border-top: 1.5px solid var(--color-carbon-light);
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 8px 14px;
+      background-color: var(--color-white);
+    }
+
+    .tab-item {
+      color: var(--color-slate-3);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tab-item.active {
+      color: var(--color-yellow-dark);
+    }
+
+    /* MOMENT BRIEF (PROFILE) SCREEN */
+    .brief-screen {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .brief-header {
+      padding: 12px 16px 4px;
+    }
+
+    .back-btn {
+      background: none;
+      border: none;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-slate-2);
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      cursor: pointer;
+    }
+
+    .back-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .brief-scroll-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 16px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .brief-candidate-hero {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brief-candidate-hero .avatar-xl {
+      width: 44px;
+      height: 44px;
+      font-size: 16px;
+    }
+
+    .brief-candidate-info .real-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--color-carbon);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .brief-candidate-info .real-title svg {
+      width: 12px;
+      height: 12px;
+      color: var(--color-slate-3);
+    }
+
+    .brief-candidate-info .real-status {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-sage);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--color-slate-3);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .section-label svg {
+      width: 13px;
+      height: 13px;
+    }
+
+    .section-label.verified svg { color: var(--color-sage); }
+    .section-label.vouch svg { color: var(--color-yellow-dark); }
+    .section-label.track svg { color: var(--color-amber); }
+    .section-label.declared svg { color: var(--color-yellow-dark); }
+
+    /* Verification card */
+    .verification-card {
+      background-color: var(--color-white);
+      border: 1.5px solid var(--color-carbon-light);
+      border-radius: 16px;
+      box-shadow: 2px 2px 0px var(--color-carbon-light);
+      overflow: hidden;
+    }
+
+    .verification-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      font-size: 12px;
+      border-bottom: 1px solid var(--color-slate-4);
+    }
+
+    .verification-item:last-child {
+      border-bottom: none;
+    }
+
+    .verification-item svg.check-icon {
+      width: 15px;
+      height: 15px;
+      color: var(--color-sage);
+    }
+
+    .verification-item-label {
+      flex: 1;
+      font-weight: 600;
+      color: var(--color-carbon);
+    }
+
+    /* Source Tags */
+    .source-tag {
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--color-slate-2);
+      background-color: var(--color-citron);
+      border: 1px solid var(--color-slate-4);
+      padding: 2px 5px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .source-tag svg {
+      width: 10px;
+      height: 10px;
+    }
+
+    /* Vouch Card */
+    .vouch-card {
+      background-color: var(--color-white);
+      border: 1.5px solid var(--color-carbon-light);
+      border-radius: 16px;
+      box-shadow: 2px 2px 0px var(--color-carbon-light);
+      padding: 12px;
+    }
+
+    .vouch-quote {
+      font-size: 12px;
+      font-style: italic;
+      line-height: 1.4;
+      color: var(--color-carbon);
+    }
+
+    .vouch-author {
+      font-size: 11px;
+      color: var(--color-slate-3);
+      margin-top: 6px;
+      font-weight: 500;
+    }
+
+    .vouch-author span.vouch-verified {
+      color: var(--color-sage);
+      font-weight: 600;
+    }
+
+    /* Track grid */
+    .track-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .track-box {
+      background-color: var(--color-white);
+      border: 1.5px solid var(--color-carbon-light);
+      border-radius: 14px;
+      box-shadow: 2px 2px 0px var(--color-carbon-light);
+      padding: 8px 4px;
+      text-align: center;
+    }
+
+    .track-value {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--color-carbon);
+    }
+
+    .track-label {
+      font-size: 9px;
+      color: var(--color-slate-3);
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-top: 1px;
+    }
+
+    /* Declared Chips */
+    .chips-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .declared-chip {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-carbon);
+      background-color: var(--color-white);
+      border: 1.5px solid var(--color-carbon-light);
+      padding: 4px 10px;
+      border-radius: 10px;
+      box-shadow: 1.5px 1.5px 0px var(--color-carbon-light);
+    }
+
+    /* Lock alert banner */
+    .lock-alert-banner {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--color-citron-light);
+      border: 1px solid var(--color-slate-4);
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 11px;
+      line-height: 1.35;
+      color: var(--color-slate-1);
+      font-weight: 500;
+    }
+
+    .lock-alert-banner svg {
+      width: 15px;
+      height: 15px;
+      color: var(--color-slate-2);
+      flex-shrink: 0;
+    }
+
+    /* Sticky Action Bottom */
+    .sticky-bottom-action {
+      background-color: var(--color-citron);
+      padding: 12px 16px 20px;
+      border-top: 1.5px solid var(--color-carbon-light);
+    }
+
+    .action-btn-yellow {
+      width: 100%;
+      background-color: var(--color-yellow);
+      color: var(--color-carbon);
+      border: 1.5px solid var(--color-carbon);
+      border-radius: 14px;
+      padding: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      box-shadow: 3px 3px 0px var(--color-carbon);
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+
+    .action-btn-yellow:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0px var(--color-carbon);
+    }
+
+    .action-btn-yellow svg {
+      width: 16px;
+      height: 16px;
+      fill: var(--color-carbon);
+    }
+
+    .action-btn-sub {
+      text-align: center;
+      font-size: 10px;
+      color: var(--color-slate-3);
+      font-weight: 500;
+      margin-top: 8px;
+    }
+
+    /* GO LIVE CONSENT SCREEN */
+    .golive-screen {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      padding: 24px 20px 24px;
+    }
+
+    .golive-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .golive-live-indicator {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-sage);
+      margin-bottom: 24px;
+    }
+
+    .golive-avatar-glow {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .pulsing-ring {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background-color: var(--color-yellow-light);
+      animation: ring-pulse 1.8s infinite ease-out;
+      z-index: 1;
+    }
+
+    @keyframes ring-pulse {
+      0% { transform: scale(1); opacity: 0.6; }
+      100% { transform: scale(1.9); opacity: 0; }
+    }
+
+    .golive-avatar-locked {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background-color: var(--color-white);
+      border: 1.5px solid var(--color-carbon);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-slate-2);
+      z-index: 5;
+      box-shadow: 4px 4px 0px var(--color-carbon);
+    }
+
+    .golive-avatar-locked svg {
+      width: 40px;
+      height: 40px;
+    }
+
+    .golive-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--color-carbon);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 8px;
+    }
+
+    .golive-title svg {
+      width: 14px;
+      height: 14px;
+      color: var(--color-slate-3);
+    }
+
+    .golive-sub {
+      font-size: 12px;
+      color: var(--color-slate-2);
+      margin-top: 4px;
+    }
+
+    /* Mode switcher */
+    .mode-switcher {
+      margin-top: 24px;
+      display: inline-flex;
+      gap: 6px;
+      background-color: var(--color-white);
+      border: 1.5px solid var(--color-carbon-light);
+      border-radius: 12px;
+      padding: 4px;
+      box-shadow: 2px 2px 0px var(--color-carbon-light);
+    }
+
+    .mode-btn {
+      border: none;
+      background: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      color: var(--color-slate-3);
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .mode-btn.active {
+      background-color: var(--color-yellow-light);
+      color: var(--color-carbon);
+    }
+
+    .mode-btn svg {
+      width: 13px;
+      height: 13px;
+    }
+
+    .golive-secondary-action {
+      background: none;
+      border: none;
+      font-size: 12px;
+      color: var(--color-slate-2);
+      font-weight: 600;
+      margin-top: 14px;
+      cursor: pointer;
+    }
+
+    .golive-secondary-action:hover {
+      text-decoration: underline;
+    }
+
+    .golive-disclaimer {
+      font-size: 10px;
+      color: var(--color-slate-3);
+      line-height: 1.4;
+      text-align: center;
+      margin-top: 16px;
+    }
+
+    /* LIVE AUDIO CALL SCREEN (Premium Dark Mode) */
+    .live-screen {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      padding: 16px 16px 20px;
+    }
+
+    .live-top-banner {
+      display: flex;
+      justify-content: center;
+      padding-top: 10px;
+    }
+
+    .live-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background-color: rgba(75, 141, 71, 0.2);
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-sage-light);
+    }
+
+    .live-badge .live-dot-green {
+      width: 6px;
+      height: 6px;
+      background-color: var(--color-sage);
+      border-radius: 50%;
+    }
+
+    .live-connecting-label {
+      font-size: 12px;
+      color: var(--color-dark-text-muted);
+      font-weight: 500;
+    }
+
+    /* Self view camera */
+    .self-view {
+      position: absolute;
+      top: 60px;
+      right: 16px;
+      width: 44px;
+      height: 58px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background-color: var(--color-dark-surface);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      color: var(--color-dark-text-muted);
+      z-index: 20;
+    }
+
+    .self-view svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .self-view span {
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .live-center-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      flex: 1;
+      justify-content: center;
+      margin-top: 16px;
+    }
+
+    /* Avatar Reveal & Glow */
+    .live-avatar-reveal {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .live-glow-orb {
+      position: absolute;
+      width: 210px;
+      height: 210px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 213, 0, 0.25) 0%, rgba(75, 141, 71, 0.1) 50%, transparent 70%);
+      filter: blur(8px);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .live-avatar {
+      width: 104px;
+      height: 104px;
+      border-radius: 50%;
+      border: 2px solid var(--color-yellow);
+      background-color: var(--color-dark-surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 34px;
+      font-weight: 700;
+      color: var(--color-white);
+      z-index: 5;
+      box-shadow: 0 0 20px rgba(255, 213, 0, 0.4);
+    }
+
+    .live-avatar svg.avatar-svg {
+      width: 104px;
+      height: 104px;
+      border-radius: 50%;
+    }
+
+    .unlocked-label {
+      margin-top: 16px;
+      font-size: 10px;
+      font-weight: 700;
+      color: #FFF9E6;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 3px 10px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      z-index: 10;
+    }
+
+    .unlocked-label svg {
+      width: 11px;
+      height: 11px;
+    }
+
+    .reveal-name {
+      font-family: var(--font-serif);
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--color-white);
+      margin-top: 10px;
+      z-index: 10;
+    }
+
+    .reveal-title {
+      font-size: 13px;
+      color: var(--color-dark-text-muted);
+      margin-top: 2px;
+      z-index: 10;
+    }
+
+    /* Waveform Animation */
+    .waveform-container {
+      margin-top: 20px;
+      display: flex;
+      height: 32px;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      z-index: 10;
+    }
+
+    .waveform-bar {
+      width: 3px;
+      border-radius: 99px;
+      background-color: var(--color-yellow);
+      animation: wave-motion 1.2s infinite ease-in-out;
+      transform-origin: center;
+    }
+
+    @keyframes wave-motion {
+      0%, 100% { transform: scaleY(0.28); }
+      50% { transform: scaleY(1); }
+    }
+
+    .waveform-bar:nth-child(2) { animation-delay: 0.1s; animation-duration: 0.8s; }
+    .waveform-bar:nth-child(3) { animation-delay: 0.2s; animation-duration: 1.0s; }
+    .waveform-bar:nth-child(4) { animation-delay: 0.3s; animation-duration: 0.7s; }
+    .waveform-bar:nth-child(5) { animation-delay: 0.15s; animation-duration: 0.9s; }
+    .waveform-bar:nth-child(6) { animation-delay: 0.25s; animation-duration: 1.1s; }
+    .waveform-bar:nth-child(7) { animation-delay: 0.05s; animation-duration: 0.85s; }
+    .waveform-bar:nth-child(8) { animation-delay: 0.35s; animation-duration: 0.95s; }
+    .waveform-bar:nth-child(9) { animation-delay: 0.22s; animation-duration: 0.75s; }
+
+    /* Ringing Screen */
+    .live-ringing-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .ringing-avatar {
+      width: 104px;
+      height: 104px;
+      border-radius: 50%;
+      background-color: var(--color-dark-surface);
+      border: 1.5px solid var(--color-dark-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-dark-text-muted);
+      z-index: 5;
+    }
+
+    .ringing-avatar svg {
+      width: 44px;
+      height: 44px;
+    }
+
+    /* Live Caption Box */
+    .live-caption-box {
+      margin-top: 20px;
+      max-width: 260px;
+      background-color: var(--color-white);
+      border-radius: 16px;
+      padding: 10px 14px;
+      font-size: 13px;
+      line-height: 1.4;
+      color: var(--color-carbon);
+      text-align: left;
+      z-index: 10;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    /* Book Time Button Overlay */
+    .book-time-overlay-btn {
+      width: 100%;
+      background-color: var(--color-white);
+      border: 1.5px solid var(--color-yellow);
+      border-radius: 14px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      margin-bottom: 16px;
+      text-align: left;
+      z-index: 10;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      transition: transform 0.1s;
+    }
+
+    .book-time-overlay-btn:active {
+      transform: scale(0.98);
+    }
+
+    .book-time-overlay-btn svg {
+      width: 16px;
+      height: 16px;
+      color: var(--color-sage);
+    }
+
+    .book-time-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-carbon);
+      flex: 1;
+    }
+
+    .book-add-chip {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--color-sage);
+    }
+
+    /* Live controls */
+    .live-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      margin-top: auto;
+    }
+
+    .control-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background-color: var(--color-dark-surface);
+      color: var(--color-dark-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: none;
+    }
+
+    .control-circle.end-call {
+      background-color: #E24B4A;
+      color: var(--color-white);
+    }
+
+    .control-circle.end-call svg {
+      transform: rotate(135deg);
+    }
+
+    .control-circle svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* BOOKED SCREEN */
+    .booked-screen {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      padding: 24px 20px 24px;
+      align-items: center;
+      text-align: center;
+    }
+
+    .booked-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+    }
+
+    .booked-avatar-wrapper {
+      position: relative;
+      margin-bottom: 16px;
+    }
+
+    .booked-avatar-wrapper .avatar {
+      width: 96px;
+      height: 96px;
+      font-size: 34px;
+    }
+
+    .booked-check-badge {
+      position: absolute;
+      bottom: -4px;
+      right: -4px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background-color: var(--color-sage);
+      color: var(--color-white);
+      border: 2px solid var(--color-white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .booked-check-badge svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .booked-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--color-carbon);
+    }
+
+    .booked-time-card {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background-color: var(--color-white);
+      border: 1.5px solid var(--color-carbon-light);
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      color: var(--color-carbon);
+      box-shadow: 2px 2px 0px var(--color-carbon-light);
+      font-weight: 600;
+    }
+
+    .booked-time-card svg {
+      width: 16px;
+      height: 16px;
+      color: var(--color-sage);
+    }
+
+    .booked-stats-card {
+      margin-top: 24px;
+      background-color: var(--color-dark-bg);
+      border: 1.5px solid var(--color-carbon);
+      border-radius: 18px;
+      padding: 14px;
+      width: 100%;
+      color: var(--color-white);
+      text-align: center;
+      box-shadow: 4px 4px 0px var(--color-carbon);
+    }
+
+    .booked-stats-hero {
+      font-size: 13px;
+      font-weight: 500;
+      color: #FAF4D8;
+    }
+
+    .booked-stats-sub {
+      font-size: 12px;
+      color: var(--color-slate-3);
+      margin-top: 4px;
+    }
+
+    .booked-metric-text {
+      font-size: 11px;
+      color: var(--color-slate-2);
+      margin-top: 12px;
+      font-weight: 500;
+    }
+
+    .replay-btn {
+      width: 100%;
+      background-color: var(--color-white);
+      color: var(--color-carbon);
+      border: 1.5px solid var(--color-carbon);
+      border-radius: 14px;
+      padding: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      box-shadow: 2.5px 2.5px 0px var(--color-carbon);
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+
+    .replay-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 0.5px 0.5px 0px var(--color-carbon);
+    }
+
+    .replay-btn svg {
+      width: 15px;
+      height: 15px;
+    }
+
+
+    /* -------------------------------------------------------------------------
+       Presentation Sidebar Styles
+       ------------------------------------------------------------------------- */
+    
+    .sidebar-section {
+      border-bottom: 1.5px solid var(--color-citron);
+      padding-bottom: 24px;
+    }
+
+    .sidebar-section:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .sidebar-title {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--color-carbon);
+      margin-bottom: 12px;
+    }
+
+    .sidebar-desc {
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--color-slate-1);
+    }
+
+    /* Swatches */
+    .color-tokens-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .swatch-item {
+      border: 1.5px solid var(--color-carbon-light);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 3px 3px 0px var(--color-carbon-light);
+      background-color: var(--color-citron-light);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .swatch-color {
+      height: 50px;
+      border-bottom: 1.5px solid var(--color-carbon-light);
+    }
+
+    .swatch-info {
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .swatch-name {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--color-carbon);
+    }
+
+    .swatch-hex {
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--color-slate-2);
+    }
+
+    /* Live Feed / Simulator Notes */
+    .simulator-notes-card {
+      background-color: var(--color-citron);
+      border: 1.5px solid var(--color-carbon-light);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 4px 4px 0px var(--color-carbon-light);
+      margin-top: 12px;
+      position: relative;
+    }
+
+    .notes-active-badge {
+      position: absolute;
+      top: -10px;
+      right: 16px;
+      background-color: var(--color-yellow);
+      border: 1.5px solid var(--color-carbon);
+      color: var(--color-carbon);
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 6px;
+      box-shadow: 2px 2px 0px var(--color-carbon);
+    }
+
+    .notes-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--color-carbon);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .notes-body {
+      font-size: 12px;
+      line-height: 1.45;
+      color: var(--color-slate-1);
+    }
+
+    .wedge-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .wedge-item {
+      display: flex;
+      gap: 10px;
+      font-size: 12px;
+      line-height: 1.4;
+      color: var(--color-slate-1);
+    }
+
+    .wedge-bullet {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--color-yellow-dark);
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+
+    .wedge-bold {
+      font-weight: 700;
+      color: var(--color-carbon);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="presentation-container">
+    
+    <!-- Left Side: Phone Simulator Container -->
+    <div class="simulator-side">
+      
+      <div class="phone-bezel" id="phoneBezel">
+        <div class="phone-screen light-mode" id="phoneScreen">
+          
+          <!-- Bezel Top Notch -->
+          <div class="phone-notch"></div>
+          
+          <!-- Screen Status Bar -->
+          <div class="phone-status-bar light" id="phoneStatusBar">
+            <span id="statusBarTime">9:41</span>
+            <span class="status-icons">
+              <span class="signal-bars">
+                <span class="signal-bar b1 bg-ink" id="s1" style="background-color: var(--color-carbon);"></span>
+                <span class="signal-bar b2 bg-ink" id="s2" style="background-color: var(--color-carbon);"></span>
+                <span class="signal-bar b3 bg-ink" id="s3" style="background-color: var(--color-carbon);"></span>
+                <span class="signal-bar b4 bg-ink" id="s4" style="background-color: var(--color-carbon);"></span>
+              </span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block"><path d="M12 20h.01"/><path d="M8.5 16.5a5 5 0 0 1 7 0"/><path d="M5 13a10 10 0 0 1 14 0"/><path d="M1.5 9.5a15 15 0 0 1 21 0"/></svg>
+              <span class="battery-icon">
+                <span class="battery-body">
+                  <span class="battery-level" id="batteryLevel" style="background-color: var(--color-carbon);"></span>
+                </span>
+                <span class="battery-nub"></span>
+              </span>
+            </span>
+          </div>
+
+          <!-- Active Simulator View Area -->
+          <div class="phone-view-container" id="viewContainer">
+            <!-- Screen Content will be dynamically injected here via Javascript -->
+          </div>
+
+        </div>
+      </div>
+      
+    </div>
+
+    <!-- Right Side: Presentation & Design Brief -->
+    <div class="presentation-sidebar">
+      
+      <div class="sidebar-section">
+        <div class="brand-header">
+          <div class="brand-logo">
+            <svg viewBox="0 0 24 24"><path d="M17 8C19.2 8 21 9.8 21 12C21 14.2 19.2 16 17 16H13V8H17ZM5 8H9V16H5C2.8 16 1 14.2 1 12C1 9.8 2.8 8 5 8Z"/><circle cx="12" cy="12" r="2"/></svg>
+          </div>
+          <span class="brand-title">Pathline</span>
+        </div>
+        <p class="sidebar-desc" style="margin-top: 10px;">
+          Interactive mobile prototype designed under the new **Citron, Sage &amp; Neo-Brutalism Hybrid** design system. A recruitment model focusing on active presence, consent, and immediate human connection rather than the automated resume-filtering funnel.
+        </p>
+      </div>
+
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">Simulator Live Feed</h3>
+        <div class="simulator-notes-card">
+          <span class="notes-active-badge" id="notesActiveBadge">Push Notification</span>
+          <h4 class="notes-title" id="notesTitle">Active Screen State</h4>
+          <p class="notes-body" id="notesBody">
+            Click the mock push notification on the lock screen simulator to open the presence board and launch the recruiter demo.
+          </p>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">Design System Tokens</h3>
+        <p class="sidebar-desc">Combined organic warmth of Citron &amp; Sage with high-contrast, flat black-bordered Neo-Brutalism. **No blues, no purples.**</p>
+        
+        <div class="color-tokens-grid">
+          
+          <div class="swatch-item">
+            <div class="swatch-color" style="background-color: #FAF8E7;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Citron Canvas</span>
+              <span class="swatch-hex">#FAF8E7</span>
+            </div>
+          </div>
+
+          <div class="swatch-item">
+            <div class="swatch-color" style="background-color: #FFD500;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Canary Yellow</span>
+              <span class="swatch-hex">#FFD500</span>
+            </div>
+          </div>
+
+          <div class="swatch-item">
+            <div class="swatch-color" style="background-color: #4B8D47;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Sage Presence</span>
+              <span class="swatch-hex">#4B8D47</span>
+            </div>
+          </div>
+
+          <div class="swatch-item">
+            <div class="swatch-color" style="background-color: #1B1D16;"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Carbon Slate</span>
+              <span class="swatch-hex">#1B1D16</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">The Product Wedge</h3>
+        <div class="wedge-list">
+          <div class="wedge-item">
+            <span class="wedge-bullet"></span>
+            <span><span class="wedge-bold">Presence over Volume:</span> Only candidates currently active and present are displayed. Recruiters see real intent, not cold lists.</span>
+          </div>
+          <div class="wedge-item">
+            <span class="wedge-bullet"></span>
+            <span><span class="wedge-bold">Anonymized until Mutual:</span> Name and face are locked and protected, preventing screening bias, and revealing only at the moment of connection.</span>
+          </div>
+          <div class="wedge-item">
+            <span class="wedge-bullet"></span>
+            <span><span class="wedge-bold">Participation-Free Signal:</span> Provenance from work-email verification and connected third-party accounts replaces easily-fabricated resumes.</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    // -------------------------------------------------------------------------
+    // Mock Data (Candidates & Recruiter)
+    // -------------------------------------------------------------------------
+    const recruiter = {
+      name: 'Dana',
+      role: 'Staff Product Engineer',
+      company: 'Vela',
+      initial: 'D'
+    };
+
+    const candidates = [
+      {
+        id: 'maya',
+        anonRole: 'Senior PM',
+        anonContext: 'Series-B fintech · 6 yrs',
+        name: 'Maya Chen',
+        realRole: 'Senior PM · Northwind',
+        initials: 'MC',
+        hue: 'iris',
+        repliesIn: '~12 min',
+        windowSecs: 7260, // 2h 1min
+        trigger: 'Layoffs at her co confirmed · Jun 10',
+        verified: [
+          { label: 'Senior PM, 6 yrs', source: 'work email', icon: 'mail' },
+          { label: 'Shipped a public payments product', source: 'linked URL', icon: 'link' },
+          { label: '1,200+ commits this year', source: 'GitHub', icon: 'github' },
+          { label: 'Vouched by 2 former colleagues', source: 'double opt-in', icon: 'users' }
+        ],
+        vouch: {
+          quote: '“Best PM I’ve shipped with — would hire again in a heartbeat.”',
+          by: 'former manager',
+          more: 1
+        },
+        track: { reply: '12 min', showed: '8 / 8', onsite: '2' },
+        declared: ['0→1 product', 'Series A', '$190–210k', 'NYC / remote'],
+        liveLine: 'Vela’s stage is exactly what I’m looking for — when can we talk properly?',
+        bookSlot: 'Tue 3:00 PM',
+        avatarSVG: `<svg viewBox="0 0 100 100" class="avatar-svg"><rect width="100%" height="100%" fill="#E3E8DC"/><circle cx="50" cy="40" r="18" fill="#5A6E58"/><path d="M25 80C25 65 35 58 50 58C65 58 75 65 75 80" fill="#5A6E58"/><circle cx="45" cy="38" r="2" fill="#FAF8E7"/><path d="M52 38C53 37 55 37 56 38" stroke="#FAF8E7" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M46 44C48 46 52 46 54 44" stroke="#FAF8E7" stroke-width="2" stroke-linecap="round" fill="none"/></svg>`
+      },
+      {
+        id: 'andre',
+        anonRole: 'Product Engineer',
+        anonContext: 'ex-Series A · 5 yrs',
+        name: 'Andre Osei',
+        realRole: 'Product Engineer · freelance',
+        initials: 'AO',
+        hue: 'live',
+        repliesIn: '~6 min',
+        windowSecs: 6420, // 1h 47min
+        trigger: 'Just wrapped a 6-mo contract · verified',
+        verified: [
+          { label: 'Full-stack PE, 5 yrs', source: 'work email', icon: 'mail' },
+          { label: 'Open-source design system, 4k stars', source: 'GitHub', icon: 'github' },
+          { label: 'Live portfolio of shipped apps', source: 'linked URL', icon: 'link' },
+          { label: 'Vouched by 2 former founders', source: 'double opt-in', icon: 'users' }
+        ],
+        vouch: {
+          quote: '“Took our prototype to production solo in six weeks.”',
+          by: 'former founder',
+          more: 1
+        },
+        track: { reply: '6 min', showed: '5 / 5', onsite: '1' },
+        declared: ['0→1 product', 'Seed–Series A', '$170–190k', 'Remote'],
+        liveLine: 'I’m between things right now and want to build something early-stage.',
+        bookSlot: 'Mon 11:00 AM',
+        avatarSVG: `<svg viewBox="0 0 100 100" class="avatar-svg"><rect width="100%" height="100%" fill="#F0F5EE"/><circle cx="50" cy="40" r="18" fill="#4B8D47"/><path d="M25 80C25 65 35 58 50 58C65 58 75 65 75 80" fill="#4B8D47"/><circle cx="45" cy="38" r="2" fill="#FAF8E7"/><path d="M52 38C53 37 55 37 56 38" stroke="#FAF8E7" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M46 44C48 46 52 46 54 44" stroke="#FAF8E7" stroke-width="2" stroke-linecap="round" fill="none"/></svg>`
+      },
+      {
+        id: 'priya',
+        anonRole: 'Staff Engineer',
+        anonContext: 'public co · 8 yrs',
+        name: 'Priya Nair',
+        realRole: 'Staff Engineer · Lumen',
+        initials: 'PN',
+        hue: 'coral',
+        repliesIn: '~20 min',
+        windowSecs: 10920, // 3h 2min
+        trigger: 'IPO lockup expired this week · verified',
+        verified: [
+          { label: 'Staff Eng, 8 yrs', source: 'work email', icon: 'mail' },
+          { label: 'Led payments platform at scale', source: 'linked URL', icon: 'link' },
+          { label: '900+ commits this year', source: 'GitHub', icon: 'github' },
+          { label: 'Vouched by 3 former colleagues', source: 'double opt-in', icon: 'users' }
+        ],
+        vouch: {
+          quote: '“The person I’d trust with our hardest systems problem.”',
+          by: 'former tech lead',
+          more: 2
+        },
+        track: { reply: '20 min', showed: '6 / 6', onsite: '3' },
+        declared: ['Platform / infra', 'Series A–B', '$210–240k', 'Hybrid SF'],
+        liveLine: 'My lockup just cleared — I finally have the freedom to go early again.',
+        bookSlot: 'Wed 2:30 PM',
+        avatarSVG: `<svg viewBox="0 0 100 100" class="avatar-svg"><rect width="100%" height="100%" fill="#FFF9CC"/><circle cx="50" cy="40" r="18" fill="#806600"/><path d="M25 80C25 65 35 58 50 58C65 58 75 65 75 80" fill="#806600"/><circle cx="45" cy="38" r="2" fill="#FAF8E7"/><path d="M52 38C53 37 55 37 56 38" stroke="#FAF8E7" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M46 44C48 46 52 46 54 44" stroke="#FAF8E7" stroke-width="2" stroke-linecap="round" fill="none"/></svg>`
+      },
+      {
+        id: 'sam',
+        anonRole: 'Design Engineer',
+        anonContext: 'Series-A startup · 4 yrs',
+        name: 'Sam Reyes',
+        realRole: 'Design Engineer · Tide',
+        initials: 'SR',
+        hue: 'amber',
+        repliesIn: '~9 min',
+        windowSecs: 9300, // 2h 35min
+        trigger: 'Their team reorged this week · verified',
+        verified: [
+          { label: 'Design Engineer, 4 yrs', source: 'work email', icon: 'mail' },
+          { label: 'Dribbble + live component library', source: 'linked URL', icon: 'link' },
+          { label: '600+ commits this year', source: 'GitHub', icon: 'github' },
+          { label: 'Vouched by 1 former manager', source: 'double opt-in', icon: 'users' }
+        ],
+        vouch: {
+          quote: '“Closes the gap between design and code better than anyone.”',
+          by: 'former manager',
+          more: 0
+        },
+        track: { reply: '9 min', showed: '4 / 4', onsite: '1' },
+        declared: ['Design + frontend', 'Series A', '$180–200k', 'NYC / remote'],
+        liveLine: 'After the reorg I want a place where craft actually matters again.',
+        bookSlot: 'Thu 10:00 AM',
+        avatarSVG: `<svg viewBox="0 0 100 100" class="avatar-svg"><rect width="100%" height="100%" fill="#FFF9E6"/><circle cx="50" cy="40" r="18" fill="#9E6C0C"/><path d="M25 80C25 65 35 58 50 58C65 58 75 65 75 80" fill="#9E6C0C"/><circle cx="45" cy="38" r="2" fill="#FAF8E7"/><path d="M52 38C53 37 55 37 56 38" stroke="#FAF8E7" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M46 44C48 46 52 46 54 44" stroke="#FAF8E7" stroke-width="2" stroke-linecap="round" fill="none"/></svg>`
+      },
+      {
+        id: 'jordan',
+        anonRole: 'Senior PM',
+        anonContext: 'big tech · 7 yrs',
+        name: 'Jordan Blake',
+        realRole: 'Senior PM · Northstar',
+        initials: 'JB',
+        hue: 'iris',
+        repliesIn: '~15 min',
+        windowSecs: 48, // 48s countdown to demo closed state
+        trigger: 'Quietly exploring this week · candidate-shared',
+        verified: [
+          { label: 'Senior PM, 7 yrs', source: 'work email', icon: 'mail' },
+          { label: 'Shipped 0→1 consumer product', source: 'linked URL', icon: 'link' },
+          { label: 'Writes a 12k-sub product blog', source: 'linked URL', icon: 'link' },
+          { label: 'Vouched by 2 former colleagues', source: 'double opt-in', icon: 'users' }
+        ],
+        vouch: {
+          quote: '“Has the rare instinct for what to build next.”',
+          by: 'former director',
+          more: 1
+        },
+        track: { reply: '15 min', showed: '3 / 3', onsite: '1' },
+        declared: ['0→1 product', 'Series A', '$195–215k', 'Remote'],
+        liveLine: 'Big tech is comfortable but I miss owning the whole thing.',
+        bookSlot: 'Fri 1:00 PM',
+        avatarSVG: `<svg viewBox="0 0 100 100" class="avatar-svg"><rect width="100%" height="100%" fill="#E3E8DC"/><circle cx="50" cy="40" r="18" fill="#2D3D2C"/><path d="M25 80C25 65 35 58 50 58C65 58 75 65 75 80" fill="#2D3D2C"/><circle cx="45" cy="38" r="2" fill="#FAF8E7"/><path d="M52 38C53 37 55 37 56 38" stroke="#FAF8E7" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M46 44C48 46 52 46 54 44" stroke="#FAF8E7" stroke-width="2" stroke-linecap="round" fill="none"/></svg>`
+      }
+    ];
+
+    // SVG Icons Map
+    const Icons = {
+      leaf: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 2 2 4c0 4.4-3.6 8-8 8h-2c-1.1 0-2 .9-2 2z"/><path d="M9 14c0-2-1-3-3-3M9 20v2"/></svg>`,
+      bolt: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>`,
+      lock: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`,
+      lockOpen: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>`,
+      clock: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>`,
+      checkCircle: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`,
+      rosetteCheck: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`,
+      chevronLeft: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>`,
+      chevronRight: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`,
+      quote: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21c3 0 7-9 7-14V3H3v10h4c0 4-4 8-4 8zm11 0c3 0 7-9 7-14V3h-7v10h4c0 4-4 8-4 8z"/></svg>`,
+      target: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`,
+      user: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+      briefcase: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>`,
+      message: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`,
+      mic: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>`,
+      video: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>`,
+      phoneOff: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.42 19.42 0 0 1-3.33-2.67 19.42 19.42 0 0 1-2.67-3.34 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91"/></svg>`,
+      calendar: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
+      rotate: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>`,
+      mail: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>`,
+      github: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>`,
+      link: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`,
+      users: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`
+    };
+
+    // -------------------------------------------------------------------------
+    // App State Management
+    // -------------------------------------------------------------------------
+    let currentScreen = 'push';
+    let selectedCandidate = candidates[0];
+    let candidateTimerInterval = null;
+    let callTimerInterval = null;
+    let ringingTimeout = null;
+
+    // Elements
+    const phoneScreen = document.getElementById('phoneScreen');
+    const phoneStatusBar = document.getElementById('phoneStatusBar');
+    const viewContainer = document.getElementById('viewContainer');
+    const notesActiveBadge = document.getElementById('notesActiveBadge');
+    const notesTitle = document.getElementById('notesTitle');
+    const notesBody = document.getElementById('notesBody');
+
+    // Initial load
+    renderScreen();
+
+    // -------------------------------------------------------------------------
+    // Screen Rendering Logic
+    // -------------------------------------------------------------------------
+    function renderScreen() {
+      // Clear timers so a pending animation/timer never fires onto the wrong screen
+      if (candidateTimerInterval) { clearInterval(candidateTimerInterval); candidateTimerInterval = null; }
+      if (callTimerInterval) { clearInterval(callTimerInterval); callTimerInterval = null; }
+      if (ringingTimeout) { clearTimeout(ringingTimeout); ringingTimeout = null; }
+
+      // Sync dark/light tone
+      if (currentScreen === 'live') {
+        phoneScreen.className = "phone-screen dark-mode";
+        phoneStatusBar.className = "phone-status-bar dark";
+        document.getElementById('statusBarTime').style.color = '#F0F2EB';
+        document.querySelectorAll('.signal-bar').forEach(b => b.style.backgroundColor = '#F0F2EB');
+        document.getElementById('batteryLevel').style.backgroundColor = '#F0F2EB';
+      } else {
+        phoneScreen.className = "phone-screen light-mode";
+        phoneStatusBar.className = "phone-status-bar light";
+        document.getElementById('statusBarTime').style.color = 'var(--color-carbon)';
+        document.querySelectorAll('.signal-bar').forEach(b => b.style.backgroundColor = 'var(--color-carbon)');
+        document.getElementById('batteryLevel').style.backgroundColor = 'var(--color-carbon)';
+      }
+
+      // Render Active View HTML
+      switch (currentScreen) {
+        case 'push':
+          renderPushScreen();
+          updateSidebarNotes(
+            'Lock Screen Alert',
+            'Triggering Sensation',
+            'The demo begins with a mock push notification. In Pathline, a recruiter doesn’t sift through lists — they are notified instantly the second a high-fit candidate triggers a live presence window. Click to enter.'
+          );
+          break;
+        case 'board':
+          renderBoardScreen();
+          updateSidebarNotes(
+            'Presence Board',
+            'Live-Only Sourcing',
+            'The recruiter dashboard replaces lists with present, opted-in profiles. Profiles are completely anonymized (role + context only). Jordan’s moment has an extremely short window to showcase the perishable "window closed" state.'
+          );
+          break;
+        case 'brief':
+          renderBriefScreen();
+          updateSidebarNotes(
+            'Candidate Brief',
+            'Un-authorable Credentials',
+            `Analyzing the verified brief for the anonymized candidate. Note the "Verified" section showcasing work-email verification and GitHub commits. Everything shows its source tag. No resumes to read.`
+          );
+          break;
+        case 'golive':
+          renderGoLiveScreen();
+          updateSidebarNotes(
+            'Go Live Consent',
+            'Double Opt-In Live',
+            'Pathline is built on presence. Both parties must consent to go live. Select between Audio and Video mode before requesting to enter the live moment room.'
+          );
+          break;
+        case 'live':
+          renderLiveScreen();
+          updateSidebarNotes(
+            'Live Moment',
+            'The Reveal Climax',
+            'Connecting... During the call, identity locks are lifted. The candidate\'s photo, name, and employer unlock in real-time. A live captioning box pops up showing the candidate\'s first line, followed by the Calendar Booking card.'
+          );
+          break;
+        case 'booked':
+          renderBookedScreen();
+          updateSidebarNotes(
+            'Connection Booked',
+            'Frictionless Path',
+            'Success! You are connected and a follow-up discussion is scheduled. The stats show the connection was established in ~4 minutes. Tap "Replay the demo" to run the simulation again.'
+          );
+          break;
+      }
+      fadeView();
+    }
+
+    function fadeView() {
+      viewContainer.classList.remove('view-enter');
+      void viewContainer.offsetWidth; // force reflow so the animation re-runs
+      viewContainer.classList.add('view-enter');
+    }
+
+    function updateSidebarNotes(badge, title, body) {
+      notesActiveBadge.innerText = badge;
+      notesTitle.innerText = title;
+      notesBody.innerText = body;
+    }
+
+    // 1. PUSH SCREEN
+    function renderPushScreen() {
+      viewContainer.innerHTML = `
+        <div class="push-screen">
+          <div class="lock-screen-time">
+            <div class="lock-screen-date">Friday, June 12</div>
+            <div class="lock-screen-clock">9:41</div>
+          </div>
+          
+          <div class="push-notification-card" onclick="goTo('board')">
+            <div class="push-header">
+              <span class="push-app-badge">
+                ${Icons.leaf}
+              </span>
+              <span class="push-app-name">pathline</span>
+              <span class="push-time">now</span>
+            </div>
+            <div class="push-title">A Senior PM just opened a moment</div>
+            <div class="push-body">
+              <span class="presence-badge" style="margin-left:0; font-size:12px">
+                <span class="pulse-dot"></span> Active now · for your ${recruiter.role} role
+              </span>
+            </div>
+          </div>
+
+          <div class="tap-to-open">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+            <span>tap notification to open</span>
+          </div>
+        </div>
+      `;
+    }
+
+    // 2. BOARD SCREEN (PRESENCE BOARD)
+    function renderBoardScreen() {
+      // Setup live countdown ticking
+      let localSecs = candidates.map(c => c.windowSecs);
+
+      function getLabel(total) {
+        if (total <= 0) return 'expired';
+        const h = Math.floor(total / 3600);
+        const m = Math.floor((total % 3600) / 60);
+        const s = total % 60;
+        if (h > 0) return `${h}h ${m}m`;
+        if (m > 0) return `${m}m ${s}s`;
+        return `${s}s`;
+      }
+
+      function updateTimers() {
+        candidates.forEach((c, idx) => {
+          if (localSecs[idx] > 0) {
+            localSecs[idx]--;
+          }
+          const timerEl = document.getElementById(`timer-${c.id}`);
+          const cardEl = document.getElementById(`card-${c.id}`);
+          if (timerEl) {
+            if (localSecs[idx] <= 0) {
+              timerEl.innerHTML = 'window closed';
+              if (cardEl && !cardEl.classList.contains('expired')) {
+                cardEl.classList.add('expired');
+                cardEl.onclick = null; // Disable click
+              }
+            } else {
+              timerEl.innerHTML = `closes in ${getLabel(localSecs[idx])}`;
+            }
+          }
+        });
+      }
+
+      candidateTimerInterval = setInterval(updateTimers, 1000);
+
+      // Render cards
+      let cardsHTML = '';
+      candidates.forEach((c, idx) => {
+        const isExpired = localSecs[idx] <= 0;
+        const clickAction = isExpired ? '' : `onclick="selectCandidate('${c.id}')"`;
+        
+        cardsHTML += `
+          <div class="candidate-card ${isExpired ? 'expired' : ''}" id="card-${c.id}" ${clickAction}>
+            <div class="card-top">
+              <span class="avatar locked sm">
+                ${Icons.user}
+              </span>
+              <div class="card-title-area">
+                <div class="card-title">
+                  ${c.anonRole}
+                  <span class="locked-chip">${Icons.lock} name locked</span>
+                </div>
+                <div class="card-subtitle">${c.anonContext}</div>
+              </div>
+              <span class="presence-badge">
+                <span class="pulse-dot"></span> active
+              </span>
+            </div>
+            
+            <div class="card-triggers">
+              <span class="trigger-pill">
+                ${Icons.bolt} ${c.trigger}
+              </span>
+            </div>
+
+            <div class="card-footer">
+              <span class="footer-time" id="timer-${c.id}">
+                ${Icons.clock} closes in ${getLabel(localSecs[idx])}
+              </span>
+              <span>· replies ${c.repliesIn}</span>
+              <span class="opted-in-badge">
+                ${Icons.checkCircle} opted in
+              </span>
+            </div>
+          </div>
+        `;
+      });
+
+      viewContainer.innerHTML = `
+        <div class="board-screen">
+          <div class="board-header">
+            <div class="board-nav">
+              <div class="nav-left">
+                <span class="logo-badge">${Icons.leaf}</span>
+                <span class="board-title-text">Moments</span>
+              </div>
+              <span class="avatar sm iris" style="background-color: var(--color-yellow); border-radius: 50%; font-weight: 700; width: 22px; height: 22px; font-size:10px">${recruiter.initial}</span>
+            </div>
+            <div class="recruiter-meta">${recruiter.role} · ${recruiter.company}</div>
+            
+            <div class="presence-hero-label">
+              <span class="moment-count-pulse">${candidates.length} open moments</span>
+              <span class="moment-count-sub">right now · vs 847 in your ATS</span>
+            </div>
+          </div>
+
+          <div class="candidate-list">
+            ${cardsHTML}
+          </div>
+
+          <div class="tab-bar">
+            <span class="tab-item active">${Icons.bolt}</span>
+            <span class="tab-item">${Icons.briefcase}</span>
+            <span class="tab-item">${Icons.message}</span>
+            <span class="tab-item">${Icons.user}</span>
+          </div>
+        </div>
+      `;
+    }
+
+    // 3. CANDIDATE BRIEF SCREEN
+    function renderBriefScreen() {
+      const c = selectedCandidate;
+
+      let verifiedHTML = '';
+      c.verified.forEach(v => {
+        let sourceIcon = Icons.mail;
+        if (v.icon === 'github') sourceIcon = Icons.github;
+        if (v.icon === 'link') sourceIcon = Icons.link;
+        if (v.icon === 'users') sourceIcon = Icons.users;
+
+        verifiedHTML += `
+          <div class="verification-item">
+            ${Icons.checkCircle}
+            <span class="verification-item-label">${v.label}</span>
+            <span class="source-tag">
+              ${sourceIcon} ${v.source}
+            </span>
+          </div>
+        `;
+      });
+
+      let declaredHTML = '';
+      c.declared.forEach(d => {
+        declaredHTML += `<span class="declared-chip">${d}</span>`;
+      });
+
+      viewContainer.innerHTML = `
+        <div class="brief-screen">
+          <div class="brief-header">
+            <button class="back-btn" onclick="goTo('board')">
+              ${Icons.chevronLeft} Moments
+            </button>
+          </div>
+
+          <div class="brief-scroll-area">
+            <div class="brief-candidate-hero">
+              <span class="avatar locked md">
+                ${Icons.user}
+              </span>
+              <div class="brief-candidate-info">
+                <div class="real-title">${c.anonRole} ${Icons.lock}</div>
+                <div class="real-status">
+                  <span class="pulse-dot"></span> Active now · replies in ${c.repliesIn}
+                </div>
+              </div>
+            </div>
+
+            <!-- Verified section -->
+            <div>
+              <div class="section-label verified">${Icons.rosetteCheck} Verified</div>
+              <div class="verification-card">
+                ${verifiedHTML}
+              </div>
+            </div>
+
+            <!-- Peer vouches -->
+            <div>
+              <div class="section-label vouch">${Icons.quote} Vouched by peers</div>
+              <div class="vouch-card">
+                <div class="vouch-quote">${c.vouch.quote}</div>
+                <div class="vouch-author">
+                  — ${c.vouch.by} · <span class="vouch-verified">verified</span> ${c.vouch.more > 0 ? `· +${c.vouch.more} more` : ''}
+                </div>
+              </div>
+            </div>
+
+            <!-- Track record -->
+            <div>
+              <div class="section-label track">${Icons.bolt} Track record</div>
+              <div class="track-grid">
+                <div class="track-box">
+                  <div class="track-value">${c.track.reply}</div>
+                  <div class="track-label">avg reply</div>
+                </div>
+                <div class="track-box">
+                  <div class="track-value">${c.track.showed}</div>
+                  <div class="track-label">showed up</div>
+                </div>
+                <div class="track-box">
+                  <div class="track-value">${c.track.onsite}</div>
+                  <div class="track-label">→ onsite</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Declared Intent -->
+            <div>
+              <div class="section-label declared">${Icons.target} Declared intent</div>
+              <div class="chips-container">
+                ${declaredHTML}
+              </div>
+            </div>
+
+            <!-- Lock warning -->
+            <div class="lock-alert-banner">
+              ${Icons.lock}
+              <span>Name &amp; face unlock when you both go live in the moment.</span>
+            </div>
+          </div>
+
+          <div class="sticky-bottom-action">
+            <button class="action-btn-yellow" onclick="goTo('golive')">
+              ${Icons.bolt} Start live moment · 2 min
+            </button>
+            <div class="action-btn-sub">Both present · guaranteed reply</div>
+          </div>
+        </div>
+      `;
+    }
+
+    // 4. GO LIVE CONSENT SCREEN
+    let liveMode = 'audio';
+    function renderGoLiveScreen() {
+      viewContainer.innerHTML = `
+        <div class="golive-screen">
+          <div class="brief-header" style="padding:0; margin-bottom: 16px;">
+            <button class="back-btn" onclick="goTo('brief')">
+              ${Icons.chevronLeft} Back
+            </button>
+          </div>
+
+          <div class="golive-body">
+            <div class="golive-live-indicator">
+              <span class="pulse-dot"></span> You're both here, right now
+            </div>
+
+            <div class="golive-avatar-glow">
+              <span class="pulsing-ring"></span>
+              <span class="golive-avatar-locked">
+                ${Icons.user}
+              </span>
+            </div>
+
+            <div class="golive-title">
+              ${selectedCandidate.anonRole} ${Icons.lock}
+            </div>
+            <div class="golive-sub">Active now · open for ~12 more min</div>
+
+            <div class="mode-switcher">
+              <button class="mode-btn ${liveMode === 'audio' ? 'active' : ''}" onclick="toggleLiveMode('audio')">
+                ${Icons.mic} Audio
+              </button>
+              <button class="mode-btn ${liveMode === 'video' ? 'active' : ''}" onclick="toggleLiveMode('video')">
+                ${Icons.video} Video
+              </button>
+            </div>
+          </div>
+
+          <button class="action-btn-yellow" onclick="goTo('live')">
+            ${Icons.bolt} Start live moment · 2 min
+          </button>
+          <button class="golive-secondary-action" onclick="goTo('board')">
+            Send a message instead
+          </button>
+          <div class="golive-disclaimer">
+            Unscripted. No prep. You talk to the real person — that’s the point.
+          </div>
+        </div>
+      `;
+    }
+
+    function toggleLiveMode(m) {
+      liveMode = m;
+      const btns = document.querySelectorAll('.mode-btn');
+      if (btns[0]) btns[0].classList.toggle('active', m === 'audio');
+      if (btns[1]) btns[1].classList.toggle('active', m === 'video');
+    }
+
+    // 5. LIVE CALL SCREEN
+    let callPhase = 'ringing';
+    let callStopwatch = 0;
+
+    function renderLiveScreen() {
+      if (callPhase === 'ringing') {
+        callStopwatch = 0;
+        if (callTimerInterval) clearInterval(callTimerInterval);
+        
+        // Auto transition ringing -> live after 2 seconds (bail if the user navigated away)
+        ringingTimeout = setTimeout(() => {
+          ringingTimeout = null;
+          if (currentScreen !== 'live') return;
+          callPhase = 'live';
+          callStopwatch = 0;
+          renderLiveScreen();
+          fadeView();
+          
+          // Start stopwatch
+          callTimerInterval = setInterval(() => {
+            callStopwatch++;
+            const timerLabel = document.getElementById('liveTimerLabel');
+            if (timerLabel) {
+              const m = Math.floor(callStopwatch / 60);
+              const s = callStopwatch % 60;
+              timerLabel.innerText = `Live · ${m}:${s.toString().padStart(2, '0')}`;
+            }
+            
+            // Show book button after 5 seconds of active call
+            if (callStopwatch === 5) {
+              const bookBtn = document.getElementById('liveBookOverlay');
+              if (bookBtn) {
+                bookBtn.style.display = 'flex';
+                bookBtn.style.opacity = '0';
+                bookBtn.style.transform = 'translateY(16px)';
+                setTimeout(() => {
+                  bookBtn.style.transition = 'all 0.4s ease-out';
+                  bookBtn.style.opacity = '1';
+                  bookBtn.style.transform = 'translateY(0)';
+                }, 50);
+              }
+            }
+
+            // Show caption after 2 seconds
+            if (callStopwatch === 2) {
+              const captionBox = document.getElementById('liveCaptionBox');
+              if (captionBox) {
+                captionBox.style.display = 'block';
+                captionBox.style.opacity = '0';
+                captionBox.style.transform = 'translateY(10px)';
+                setTimeout(() => {
+                  captionBox.style.transition = 'all 0.4s ease-out';
+                  captionBox.style.opacity = '1';
+                  captionBox.style.transform = 'translateY(0)';
+                }, 50);
+              }
+            }
+          }, 1000);
+        }, 2000);
+      }
+
+      const c = selectedCandidate;
+
+      viewContainer.innerHTML = `
+        <div class="live-screen">
+          <div class="live-top-banner">
+            ${callPhase === 'ringing' 
+              ? `<span class="live-connecting-label">Connecting...</span>`
+              : `<span class="live-badge" id="liveTimerLabel"><span class="live-dot-green"></span> Live · 0:00</span>`
+            }
+          </div>
+
+          <!-- Video self-view corner box (Live only) -->
+          ${callPhase === 'live'
+            ? `<div class="self-view">
+                 ${Icons.video}
+                 <span>You</span>
+               </div>`
+            : ''
+          }
+
+          <div class="live-center-body">
+            ${callPhase === 'ringing'
+              ? `<div class="live-ringing-body">
+                   <div style="position:relative; display:flex; align-items:center; justify-content:center">
+                     <span class="pulsing-ring"></span>
+                     <div class="ringing-avatar">
+                       ${Icons.user}
+                     </div>
+                   </div>
+                 </div>`
+              : `<div class="live-avatar-reveal">
+                   <span class="live-glow-orb"></span>
+                   <div class="live-avatar">
+                     ${c.avatarSVG}
+                   </div>
+                 </div>
+                 <div class="unlocked-label">
+                   ${Icons.lockOpen} Identity unlocked
+                 </div>
+                 <div class="reveal-name">${c.name}</div>
+                 <div class="reveal-title">${c.realRole}</div>
+                 
+                 <div class="waveform-container">
+                   <span class="waveform-bar" style="height: 10px;"></span>
+                   <span class="waveform-bar" style="height: 18px;"></span>
+                   <span class="waveform-bar" style="height: 26px;"></span>
+                   <span class="waveform-bar" style="height: 14px;"></span>
+                   <span class="waveform-bar" style="height: 22px;"></span>
+                   <span class="waveform-bar" style="height: 30px;"></span>
+                   <span class="waveform-bar" style="height: 16px;"></span>
+                   <span class="waveform-bar" style="height: 24px;"></span>
+                   <span class="waveform-bar" style="height: 12px;"></span>
+                 </div>
+
+                 <!-- Live Transcripts/Captions -->
+                 <div class="live-caption-box" id="liveCaptionBox" style="display:none;">
+                   “${c.liveLine}”
+                 </div>
+                 `
+            }
+          </div>
+
+          <!-- Booking Call Overlay (fades in) -->
+          <button class="book-time-overlay-btn" id="liveBookOverlay" style="display:none;" onclick="goTo('booked')">
+            ${Icons.calendar}
+            <span class="book-time-label">Book 15 min · ${c.bookSlot}</span>
+            <span class="book-add-chip">Add</span>
+          </button>
+
+          <!-- Call Action Buttons -->
+          <div class="live-controls">
+            <button class="control-circle">${Icons.mic}</button>
+            <button class="control-circle end-call" onclick="endCall()">${Icons.phoneOff}</button>
+            <button class="control-circle">${Icons.video}</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function endCall() {
+      if (callTimerInterval) {
+        clearInterval(callTimerInterval);
+        callTimerInterval = null;
+      }
+      callPhase = 'ringing';
+      goTo('board');
+    }
+
+    // 6. BOOKED SCREEN
+    function renderBookedScreen() {
+      if (callTimerInterval) {
+        clearInterval(callTimerInterval);
+        callTimerInterval = null;
+      }
+      callPhase = 'ringing';
+
+      const c = selectedCandidate;
+
+      viewContainer.innerHTML = `
+        <div class="booked-screen">
+          <div class="booked-body">
+            <div class="booked-avatar-wrapper">
+              <div class="live-avatar" style="box-shadow:none; border: 1.5px solid var(--color-carbon)">
+                ${c.avatarSVG}
+              </div>
+              <span class="booked-check-badge">
+                ${Icons.checkCircle}
+              </span>
+            </div>
+
+            <div class="booked-title">You're connected with ${c.name}</div>
+            
+            <div class="booked-time-card">
+              ${Icons.calendar} Booked · ${c.bookSlot}
+            </div>
+
+            <div class="booked-stats-card">
+              <div class="booked-stats-hero">Connection made in ~4 min.</div>
+              <div class="booked-stats-sub">Industry average: 75% of applicants never hear back.</div>
+            </div>
+            
+            <div class="booked-metric-text">
+              0 cold messages sent · 0 résumés read
+            </div>
+          </div>
+
+          <button class="replay-btn" onclick="restartDemo()">
+            ${Icons.rotate} Replay the demo
+          </button>
+        </div>
+      `;
+    }
+
+    function restartDemo() {
+      currentScreen = 'push';
+      selectedCandidate = candidates[0];
+      renderScreen();
+    }
+
+    // Navigation Helper
+    function goTo(screenName) {
+      currentScreen = screenName;
+      renderScreen();
+    }
+
+    function selectCandidate(id) {
+      selectedCandidate = candidates.find(c => c.id === id);
+      goTo('brief');
+    }
+  </script>
+</body>
+</html>

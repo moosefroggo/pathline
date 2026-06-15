@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { IconBolt, IconLock, IconMicrophone, IconUser, IconVideo } from '@tabler/icons-react'
 import { LiveDot } from '../components/bits'
 import type { Candidate } from '../data'
+import { screenTransition } from '../lib/motion'
 
 export function GoLiveScreen({
   c,
@@ -16,8 +17,9 @@ export function GoLiveScreen({
   const [mode, setMode] = useState<'audio' | 'video'>('audio')
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={screenTransition}
       className="flex flex-1 flex-col px-5 pb-6"
     >
       <div className="flex flex-1 flex-col items-center pt-9 text-center">
@@ -26,8 +28,8 @@ export function GoLiveScreen({
         </div>
 
         <div className="relative flex items-center justify-center">
-          <span className="pl-ring absolute h-24 w-24 rounded-full bg-coral-200" />
-          <span className="flex h-24 w-24 items-center justify-center rounded-full bg-hairline-strong text-ink-3">
+          <span className="pl-ring absolute h-24 w-24 rounded-full bg-live-200" />
+          <span className="pl-glass-soft flex h-24 w-24 items-center justify-center rounded-full text-ink-3">
             <IconUser size={40} stroke={1.5} />
           </span>
         </div>
@@ -37,12 +39,12 @@ export function GoLiveScreen({
         </div>
         <div className="mt-1 text-[12px] text-ink-2">Active now · open for ~12 more min</div>
 
-        <div className="mt-5 inline-flex gap-1.5 rounded-[10px] bg-surface p-1">
+        <div className="pl-glass mt-5 inline-flex gap-1.5 rounded-[10px] p-1">
           <button
             type="button"
             onClick={() => setMode('audio')}
             className={`flex items-center gap-1.5 rounded-[7px] px-3 py-1.5 text-[12px] transition ${
-              mode === 'audio' ? 'bg-coral-50 text-coral-900' : 'text-ink-3'
+              mode === 'audio' ? 'pl-glass-soft text-live-700' : 'text-ink-3'
             }`}
           >
             <IconMicrophone size={13} stroke={1.8} /> Audio
@@ -51,7 +53,7 @@ export function GoLiveScreen({
             type="button"
             onClick={() => setMode('video')}
             className={`flex items-center gap-1.5 rounded-[7px] px-3 py-1.5 text-[12px] transition ${
-              mode === 'video' ? 'bg-coral-50 text-coral-900' : 'text-ink-3'
+              mode === 'video' ? 'pl-glass-soft text-live-700' : 'text-ink-3'
             }`}
           >
             <IconVideo size={13} stroke={1.8} /> Video
@@ -62,7 +64,7 @@ export function GoLiveScreen({
       <button
         type="button"
         onClick={onStart}
-        className="flex w-full items-center justify-center gap-1.5 rounded-[14px] bg-coral py-3.5 text-[15px] font-medium text-white transition active:scale-[0.98]"
+        className="pl-primary-action flex w-full items-center justify-center gap-1.5 rounded-[14px] py-3.5 text-[15px] font-medium transition active:scale-[0.98]"
       >
         <IconBolt size={16} stroke={2} /> Start live moment · 2 min
       </button>
