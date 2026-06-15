@@ -18,11 +18,12 @@ import {
   IconX,
 } from '@tabler/icons-react'
 import { Avatar, LiveDot } from '../components/bits'
+import { PresenceShader } from '../components/PresenceShader'
 import { useCountdown } from '../lib/hooks'
 import { atsBacklog, candidates, openMomentsCount, recruiter, type Candidate } from '../data'
 
 function Card({ c, onSelect }: { c: Candidate; onSelect: () => void }) {
-  const { label, expired } = useCountdown(c.windowSecs)
+  const { expired } = useCountdown(c.windowSecs)
 
   if (expired) {
     return (
@@ -36,7 +37,7 @@ function Card({ c, onSelect }: { c: Candidate; onSelect: () => void }) {
           <span className="ml-auto text-micro text-ink-4">closed</span>
         </div>
         <div className="mt-2.5 flex items-center gap-1 text-caption text-ink-4">
-          <IconClock size={12} stroke={1.8} /> window passed
+          <IconClock size={14} stroke={1.8} /> window passed
         </div>
       </div>
     )
@@ -53,7 +54,7 @@ function Card({ c, onSelect }: { c: Candidate; onSelect: () => void }) {
         <div className="leading-tight">
           <div className="flex items-center gap-1.5 text-body font-medium text-ink">
             <span className="whitespace-nowrap">{c.anonRole}</span>
-            <IconLock size={12} stroke={1.8} className="shrink-0 text-ink-3" />
+            <IconLock size={14} stroke={1.8} className="shrink-0 text-ink-3" />
           </div>
           <div className="whitespace-nowrap text-caption text-ink-2">{c.anonContext}</div>
         </div>
@@ -64,13 +65,13 @@ function Card({ c, onSelect }: { c: Candidate; onSelect: () => void }) {
 
       <div className="mt-2.5 flex flex-wrap gap-1.5">
         <span className="pl-glass-pill flex items-center gap-1 rounded-md px-2 py-[3px] text-micro text-amber-700">
-          <IconBolt size={11} stroke={1.9} /> {c.trigger}
+          <IconBolt size={14} stroke={1.8} /> {c.trigger}
         </span>
       </div>
 
       <div className="mt-2 flex items-center gap-2.5 whitespace-nowrap text-micro text-ink-3">
         <span className="flex shrink-0 items-center gap-1 tabular-nums">
-          <IconClock size={11} stroke={1.8} /> closes in {label}
+          <IconClock size={14} stroke={1.8} /> {c.openedAgo}
         </span>
         <span className="shrink-0">replies {c.repliesIn}</span>
       </div>
@@ -93,7 +94,7 @@ function TabItem({
     <button
       type="button"
       onClick={onClick}
-      className={`flex min-w-[58px] flex-col items-center gap-1 rounded-xl px-1.5 py-1 text-[12px] transition active:scale-[0.96] ${
+      className={`flex min-w-[58px] flex-col items-center gap-1 rounded-xl px-1.5 py-1 text-caption transition active:scale-[0.96] ${
         active ? 'text-live-700' : 'text-ink-3'
       }`}
     >
@@ -131,7 +132,7 @@ function ProfileSheet({ onClose }: { onClose: () => void }) {
             onClick={onClose}
             className="pl-glass-soft ml-auto flex h-8 w-8 items-center justify-center rounded-full text-ink-2 transition active:scale-95"
           >
-            <IconX size={15} stroke={1.9} />
+            <IconX size={16} stroke={1.8} />
           </button>
         </div>
         <div className="mt-4 divide-y divide-hairline overflow-hidden rounded-2xl border border-hairline bg-surface/40">
@@ -139,7 +140,7 @@ function ProfileSheet({ onClose }: { onClose: () => void }) {
             <button
               key={row.label}
               type="button"
-              className="flex w-full items-center gap-2.5 px-3 py-2.5 text-left text-[12px] text-ink transition hover:bg-ink/5 active:bg-ink/10"
+              className="flex w-full items-center gap-2.5 px-3 py-2.5 text-left text-caption text-ink transition hover:bg-ink/5 active:bg-ink/10"
             >
               <span className="text-ink-3">{row.icon}</span>
               <span>{row.label}</span>
@@ -169,7 +170,7 @@ export function BoardScreen({ onSelect }: { onSelect: (c: Candidate) => void }) 
             onClick={() => setShowProfile(true)}
             className="pl-glass-soft ml-auto flex h-8 w-8 items-center justify-center rounded-full text-ink-2 transition active:scale-95"
           >
-            <IconSettings size={15} stroke={1.9} />
+            <IconSettings size={16} stroke={1.8} />
           </button>
           <button
             type="button"
@@ -191,9 +192,12 @@ export function BoardScreen({ onSelect }: { onSelect: (c: Candidate) => void }) 
         </div>
       </div>
 
-      <div className="pl-noscroll mt-3 flex min-h-0 flex-1 flex-col gap-2.5 overflow-y-auto px-4 pb-4">
+      <div className="pl-noscroll pl-presence-stack mt-3 flex min-h-0 flex-1 flex-col gap-2.5 overflow-y-auto px-4 pb-4">
+        <PresenceShader />
         {candidates.map((c) => (
-          <Card key={c.id} c={c} onSelect={() => onSelect(c)} />
+          <div key={c.id} className="pl-presence-card-shell">
+            <Card c={c} onSelect={() => onSelect(c)} />
+          </div>
         ))}
       </div>
 
