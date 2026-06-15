@@ -50,24 +50,24 @@ export function GoLiveScreen({
         </div>
         <div className="mt-1 text-[12px] text-ink-2">Ready for a short intro</div>
 
-        <div className="pl-glass mt-5 inline-flex gap-1.5 rounded-[10px] p-1">
+        <div className="pl-glass mt-5 grid w-[188px] grid-cols-2 gap-1.5 rounded-[10px] p-1">
           <button
             type="button"
             onClick={() => setMode('audio')}
-            className={`flex items-center gap-1.5 rounded-[7px] px-3 py-1.5 text-[12px] transition ${
+            className={`flex h-9 items-center justify-center gap-1.5 rounded-[7px] border border-transparent px-2 text-[12px] transition ${
               mode === 'audio' ? 'pl-glass-soft text-live-700' : 'text-ink-3'
             }`}
           >
-            <IconMicrophone size={13} stroke={1.8} /> Audio
+            <IconMicrophone size={13} stroke={1.8} className="shrink-0" /> Audio
           </button>
           <button
             type="button"
             onClick={() => setMode('video')}
-            className={`flex items-center gap-1.5 rounded-[7px] px-3 py-1.5 text-[12px] transition ${
+            className={`flex h-9 items-center justify-center gap-1.5 rounded-[7px] border border-transparent px-2 text-[12px] transition ${
               mode === 'video' ? 'pl-glass-soft text-live-700' : 'text-ink-3'
             }`}
           >
-            <IconVideo size={13} stroke={1.8} /> Video
+            <IconVideo size={13} stroke={1.8} className="shrink-0" /> Video
           </button>
         </div>
       </div>
