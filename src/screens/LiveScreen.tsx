@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   IconCalendar,
+  IconCircleCheck,
   IconLockOpen,
   IconMicrophone,
   IconPhone,
@@ -219,15 +220,19 @@ export function LiveScreen({
                         key={intent}
                         initial={false}
                         animate={{
-                          opacity: isConfirmed ? 1 : 0.3,
-                          scale: isConfirmed ? 1 : 0.95,
+                          opacity: isConfirmed ? 1 : 0.28,
                           borderColor: isConfirmed ? 'rgba(185, 228, 215, 0.3)' : 'rgba(250, 248, 231, 0.06)',
-                          backgroundColor: isConfirmed ? 'rgba(185, 228, 215, 0.1)' : 'transparent'
+                          backgroundColor: isConfirmed ? 'rgba(185, 228, 215, 0.1)' : 'transparent',
                         }}
-                        transition={{ duration: 0.3 }}
-                        className="inline-flex items-center gap-0.5 rounded-[5px] border px-1.5 py-0.5 text-micro font-medium text-ink transition-all"
+                        transition={{ duration: 0.35, ease: 'easeOut' }}
+                        className="inline-flex items-center gap-1 rounded-[5px] border px-1.5 py-0.5 text-micro font-medium text-ink"
                       >
-                        {isConfirmed ? '✓' : '·'} {intent}
+                        <IconCircleCheck
+                          size={10}
+                          stroke={2}
+                          className={isConfirmed ? 'text-live-700' : 'text-ink-4/40'}
+                        />
+                        {intent}
                       </motion.span>
                     );
                   })}
