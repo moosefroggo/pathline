@@ -18,7 +18,7 @@ const hueClasses: Record<AvatarHue, string> = {
 export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
 const sizeClasses: Record<AvatarSize, string> = {
-  xs: 'h-5 w-5 text-[12px]',
+  xs: 'h-8 w-8 text-[13px]',
   sm: 'h-[30px] w-[30px] text-[12px]',
   md: 'h-11 w-11 text-[15px]',
   lg: 'h-24 w-24 text-[34px]',
