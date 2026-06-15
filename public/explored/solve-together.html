@@ -218,11 +218,6 @@
     .prompt-eyebrow svg { width: 13px; height: 13px; }
     .prompt-text { font-size: 14px; line-height: 1.5; font-weight: 500; color: var(--color-carbon); }
 
-    .reassure { display: flex; align-items: flex-start; gap: 9px; margin: 14px 18px 0; }
-    .reassure svg { width: 16px; height: 16px; color: var(--color-sage); flex-shrink: 0; margin-top: 1px; }
-    .reassure span { font-size: 12px; line-height: 1.5; color: var(--color-slate-1); }
-    .reassure b { font-weight: 700; color: var(--color-carbon); }
-
     .setup-foot { margin-top: auto; padding: 16px; }
 
     /* ---- SCREEN 2: SOLVING ---- */
@@ -465,7 +460,7 @@
           <span class="brand-title">Pathline</span>
         </div>
         <p class="sidebar-desc" style="margin-top: 10px;">
-          <b>Explored direction — Solve Together.</b> Instead of a live call, recruiter and candidate spend 15 minutes on a real problem from the role. Fit comes out of the work itself, not from pitching it.
+          <b>Explored: Solve Together.</b> A direction where candidates and recruiters spend 15 minutes collaborating on a real task instead of doing a live call.
         </p>
       </div>
 
@@ -475,29 +470,19 @@
           <span class="notes-active-badge" id="notesActiveBadge">The Setup</span>
           <h4 class="notes-title" id="notesTitle">A real slice of the work</h4>
           <p class="notes-body" id="notesBody">
-            Both parties opt in from a live moment, then work through a real problem together for 15 minutes. Nothing to grade, nothing to rehearse — hit Start solving to see it play out.
+            Both parties opt in from a live moment to work through a real problem together. Click 'Start solving' to see it play out.
           </p>
         </div>
       </div>
 
       <div class="sidebar-section">
-        <h3 class="sidebar-title">Where it landed</h3>
-        <p class="sidebar-desc">Good idea — we kept it as a <b>later-stage option</b>, not the core:</p>
-        <div class="wedge-list">
-          <div class="wedge-item"><span class="wedge-bullet"></span><span><span class="wedge-bold">Still reads as evaluation.</span> Once there's a problem to work through, both parties start tracking who's performing.</span></div>
-          <div class="wedge-item"><span class="wedge-bullet"></span><span><span class="wedge-bold">Needs a keyboard.</span> Real collaborative work doesn't happen in a pocket between meetings.</span></div>
-          <div class="wedge-item"><span class="wedge-bullet"></span><span><span class="wedge-bold">Higher bar to commit.</span> 15 minutes is a much bigger ask than a 2-minute live moment.</span></div>
-        </div>
-      </div>
-
-      <div class="sidebar-section">
-        <h3 class="sidebar-title">Design System Tokens</h3>
-        <div class="color-tokens-grid">
-          <div class="swatch-item"><div class="swatch-color" style="background-color:#FAF8E7"></div><div class="swatch-info"><span class="swatch-name">Citron Canvas</span><span class="swatch-hex">#FAF8E7</span></div></div>
-          <div class="swatch-item"><div class="swatch-color" style="background-color:#FFD500"></div><div class="swatch-info"><span class="swatch-name">Canary Yellow</span><span class="swatch-hex">#FFD500</span></div></div>
-          <div class="swatch-item"><div class="swatch-color" style="background-color:#4B8D47"></div><div class="swatch-info"><span class="swatch-name">Sage Presence</span><span class="swatch-hex">#4B8D47</span></div></div>
-          <div class="swatch-item"><div class="swatch-color" style="background-color:#1B1D16"></div><div class="swatch-info"><span class="swatch-name">Carbon Slate</span><span class="swatch-hex">#1B1D16</span></div></div>
-        </div>
+        <h3 class="sidebar-title">Why we pivoted</h3>
+        <p class="sidebar-desc">
+          We wanted to see if fit could emerge directly from the work. But we hit three problems: a collaborative task quickly feels like a test (which kills connection), real work requires a keyboard rather than a mobile screen, and 15 minutes is too much commitment for a first touch.
+        </p>
+        <p class="sidebar-desc" style="margin-top: 10px;">
+          We kept the concept as a deeper-stage option, but kept the 2-minute live moment as the core entry point.
+        </p>
       </div>
     </div>
 
@@ -564,10 +549,10 @@
       clearAll();
       setTone(currentScreen === 'reveal');
       switch (currentScreen) {
-        case 'setup': renderSetup(); notes('The Setup', 'A real slice of the work', `Both parties opt in from a live moment, then work through a real problem together for 15 minutes. Nothing to grade, nothing to rehearse — hit Start solving to see it play out.`); break;
-        case 'solving': renderSolving(); notes('Live solve', 'Fit from the work', `You ask, she reasons out loud. No scores — you see how she actually thinks, not how she pitches.`); break;
-        case 'reveal': renderReveal(); notes('The reveal', 'Identity unlocked', `You both stayed in it, so identity unlocks. You already know how she works — booking is the obvious next step.`); break;
-        case 'booked': renderBooked(); notes('Connected', 'No résumé read', `Scheduled. Fit came from 15 minutes of real work. Zero cold messages, zero résumés, zero take-homes.`); break;
+        case 'setup': renderSetup(); notes('The Setup', 'A real slice of the work', `Both parties opt in from a live moment to work through a real problem together. Click 'Start solving' to see it play out.`); break;
+        case 'solving': renderSolving(); notes('Live solve', 'Fit from the work', `You collaborate on a scenario, watching how they think rather than how they pitch.`); break;
+        case 'reveal': renderReveal(); notes('The reveal', 'Identity unlocked', `If you both complete the task, identities unlock. You already know how they work, making booking a natural step.`); break;
+        case 'booked': renderBooked(); notes('Connected', 'No résumé read', `Meeting booked. Fit emerged directly from 15 minutes of actual collaboration.`); break;
       }
       if (!reduce) { viewContainer.classList.remove('view-enter'); void viewContainer.offsetWidth; viewContainer.classList.add('view-enter'); }
     }
@@ -594,13 +579,9 @@
             <div class="prompt-eyebrow">${Icons.puzzle} a real slice of the work</div>
             <div class="prompt-text">Payments double-charge when a retry fires after a timeout. Where would you start?</div>
           </div>
-          <div class="reassure">
-            ${Icons.heart}
-            <span>No grading and no right answer — just two people <b>working through a real problem</b>.</span>
-          </div>
           <div class="setup-foot">
             <button class="action-btn-yellow" onclick="goTo('solving')">${Icons.players} Start solving · 15 min</button>
-            <div class="action-btn-sub">a real problem from the role · no grading</div>
+            <div class="action-btn-sub">a real problem from the role</div>
           </div>
         </div>`;
     }
