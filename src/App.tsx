@@ -61,8 +61,10 @@ export default function App() {
           initial="enter"
           animate="center"
           exit="exit"
-          transition={screenTransition}
-          className="absolute inset-0 flex min-h-0 flex-col shadow-[-14px_0_34px_rgba(0,0,0,0.26)]"
+          transition={{ ...screenTransition, zIndex: { duration: 0 } }}
+          className={`absolute inset-0 flex min-h-0 flex-col shadow-[-16px_0_38px_rgba(0,0,0,0.3)] ${
+            screen === 'live' ? 'bg-night' : 'pl-phone-surface'
+          }`}
         >
           {screen === 'push' && <PushScreen onOpen={() => go('board')} />}
             {screen === 'board' && (

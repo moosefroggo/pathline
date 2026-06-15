@@ -7,26 +7,23 @@ export const screenTransition = {
 
 /**
  * iOS UINavigationController push/pop.
- * The foreground screen owns the full-width slide and stays fully opaque; the
- * screen behind it parallaxes a short distance and dims, so the stack reads as
- * one decisive navigation — never two screens cross-fading through each other.
- * zIndex is derived from `direction` so it stays constant for the lifetime of
- * each screen (never animated), keeping the layering correct on both push & pop.
+ * Panels are opaque (see App.tsx) so they never composite through each other.
+ * The foreground owns the full-width slide; the screen behind it parallaxes a
+ * short distance. zIndex is foreground=2 / background=1 and is applied instantly
+ * (see the transition override in App.tsx) so layering can't flicker mid-slide.
+ * No opacity is animated — position alone carries the motion.
  */
 export const screenStackVariants = {
   enter: (direction: number) => ({
-    x: direction > 0 ? '100%' : '-26%',
-    opacity: direction > 0 ? 1 : 0.5,
+    x: direction > 0 ? '100%' : '-22%',
     zIndex: direction > 0 ? 2 : 1,
   }),
   center: (direction: number) => ({
     x: '0%',
-    opacity: 1,
     zIndex: direction > 0 ? 2 : 1,
   }),
   exit: (direction: number) => ({
-    x: direction > 0 ? '-26%' : '100%',
-    opacity: direction > 0 ? 0.5 : 1,
+    x: direction > 0 ? '-22%' : '100%',
     zIndex: direction > 0 ? 1 : 2,
   }),
 }
