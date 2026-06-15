@@ -32,10 +32,7 @@ export function BriefScreen({
         <div className="mt-2.5 flex items-center gap-2.5">
           <Avatar locked size="md" />
           <div className="leading-tight">
-            <div className="flex items-center gap-1.5 text-headline font-medium text-ink">
-              {c.anonRole}
-              <IconLock size={16} stroke={1.8} className="text-ink-3" />
-            </div>
+            <div className="text-headline font-medium text-ink">{c.anonRole}</div>
             <div className="flex items-center gap-1.5 text-caption text-live-700">
               <LiveDot /> Replies in {c.repliesIn}
             </div>

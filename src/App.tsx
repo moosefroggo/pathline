@@ -82,7 +82,7 @@ export default function App() {
           animate="center"
           exit="exit"
           transition={{ ...screenMotionTransitions[screenMotion], zIndex: { duration: 0 } }}
-          className={`absolute inset-0 flex min-h-0 flex-col shadow-[-16px_0_38px_rgba(0,0,0,0.3)] ${
+          className={`absolute inset-0 flex min-h-0 flex-col shadow-[-12px_0_26px_rgba(0,0,0,0.2)] ${
             screen === 'live' ? 'bg-night' : 'pl-phone-surface'
           }`}
         >

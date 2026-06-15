@@ -11,7 +11,8 @@ A lightweight record of the load-bearing calls and *why*, so the reasoning survi
 **Decision.**
 - **Board = a flat, flush-aligned, evenly-spaced vertical list.** No 3D cascade, no overlap, no shader.
 - **The why-now trigger is an inline signal line** (leading bolt icon + amber text), not a badge. Badges/chips stay reserved for short, enumerable tokens (declared-intent chips, the live "now").
-- **The card is the hook; the brief is the proof.** The card carries only what earns the tap — presence (`now`), anonymized identity (locked avatar + role + company-type), and the why-now trigger, plus a bare liveness time. Response time, track record, verified facts, and intent live on the brief; they are *not* duplicated on the card (e.g. dropped "replies ~12 min" and the redundant inline lock, since the locked avatar already signals anonymity).
+- **The card is the hook; the brief is the proof.** The card carries only what earns the tap — presence (`now`), anonymized identity (locked avatar + role + company-type), and the why-now trigger, plus a bare liveness time. Response time, track record, verified facts, and intent live on the brief; they are *not* duplicated on the card (e.g. dropped "replies ~12 min").
+- **The identity slot is a lock, not a faceless silhouette.** Since we hide the face by design until mutual start, the avatar shows a **lock token** rather than a placeholder person — anonymity turned into a visible-consent cue that unlocks at the moment of connection. One lock per identity (no redundant inline lock beside the role), carried consistently on card and brief.
 
 **Why.**
 1. **Presence over volume; the moment is the hero.** A leaning deck of overlapping cards hides each card's own signal behind the next one and reads as spectacle — the opposite of "reduce cognitive load." A calm list lets each present person be read in full.

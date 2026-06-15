@@ -4,7 +4,7 @@ import {
   IconExternalLink,
   IconMail,
   IconUsers,
-  IconUser,
+  IconLock,
 } from '@tabler/icons-react'
 import type { AvatarHue, VerifiedSignal } from '../data'
 
@@ -52,7 +52,7 @@ export function Avatar({
       <span
         className={`pl-glass-soft flex shrink-0 items-center justify-center rounded-full text-ink-3 ${sizeClasses[size]}`}
       >
-        <IconUser size={iconPx[size]} stroke={1.8} />
+        <IconLock size={iconPx[size] - 2} stroke={1.8} />
       </span>
     )
   }
