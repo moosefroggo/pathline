@@ -38,8 +38,8 @@ function TabItem({
     <button
       type="button"
       onClick={onClick}
-      className={`flex min-w-[58px] flex-col items-center gap-1 rounded-xl px-1.5 py-1 text-caption transition active:scale-[0.96] ${
-        active ? 'text-live-700' : 'text-ink-3'
+      className={`flex min-w-[58px] flex-col items-center gap-1 rounded-xl px-2.5 py-1.5 text-caption transition active:scale-[0.96] ${
+        active ? 'bg-live-900/40 text-live-700' : 'text-ink-3'
       }`}
     >
       {icon}
