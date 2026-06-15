@@ -179,7 +179,7 @@
     }
   }
   .pl-pulse {
-    animation: pl-pulse 2.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    animation: pl-pulse 2.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
   }
 
   @keyframes pl-ring {
@@ -193,7 +193,7 @@
     }
   }
   .pl-ring {
-    animation: pl-ring 2.15s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+    animation: pl-ring 2.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
   }
 
   @keyframes pl-wave {

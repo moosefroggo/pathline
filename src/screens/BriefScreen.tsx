@@ -9,7 +9,7 @@ import {
 } from '@tabler/icons-react'
 import { Avatar, Chip, LiveDot, SectionLabel, SourceTag } from '../components/bits'
 import type { Candidate } from '../data'
-import { riseTransition, screenTransition } from '../lib/motion'
+import { riseTransition } from '../lib/motion'
 
 const container: Variants = {
   hidden: {},
@@ -31,9 +31,6 @@ export function BriefScreen({
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, x: 12 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={screenTransition}
       className="flex h-full min-h-0 flex-1 flex-col overflow-hidden"
     >
       <div className="pl-noscroll min-h-0 flex-1 overflow-y-auto px-4 pt-2.5 pb-4">
@@ -126,9 +123,6 @@ export function BriefScreen({
         >
           <IconBolt size={16} stroke={2} /> Start live moment · 2 min
         </button>
-        <div className="mt-2 text-center text-micro text-ink-3">
-          both present · identity protected
-        </div>
       </div>
     </motion.div>
   )

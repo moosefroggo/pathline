@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import { IconLeaf } from '@tabler/icons-react'
 import { PhoneFrame } from './components/PhoneFrame'
 import { PushScreen } from './screens/PushScreen'
@@ -8,12 +9,28 @@ import { GoLiveScreen } from './screens/GoLiveScreen'
 import { LiveScreen } from './screens/LiveScreen'
 import { BookedScreen } from './screens/BookedScreen'
 import { candidates, type Candidate } from './data'
+import { screenTransition } from './lib/motion'
 
 type Screen = 'push' | 'board' | 'brief' | 'golive' | 'live' | 'booked'
 
+const screenOrder: Record<Screen, number> = {
+  push: 0,
+  board: 1,
+  brief: 2,
+  golive: 3,
+  live: 4,
+  booked: 5,
+}
+
 export default function App() {
   const [screen, setScreen] = useState<Screen>('push')
+  const [direction, setDirection] = useState(1)
   const [selected, setSelected] = useState<Candidate>(candidates[0])
+
+  function go(nextScreen: Screen) {
+    setDirection(screenOrder[nextScreen] >= screenOrder[screen] ? 1 : -1)
+    setScreen(nextScreen)
+  }
 
   return (
     <div className="flex min-h-full flex-col items-center justify-center gap-7 px-4 py-10">
@@ -37,50 +54,57 @@ export default function App() {
       </div>
 
       <PhoneFrame tone={screen === 'live' ? 'dark' : 'light'}>
-        <div className="flex min-h-0 flex-1 flex-col">
-          {screen === 'push' && <PushScreen onOpen={() => setScreen('board')} />}
-          {screen === 'board' && (
-            <BoardScreen
-              onSelect={(c) => {
-                setSelected(c)
-                setScreen('brief')
-              }}
-            />
-          )}
-          {screen === 'brief' && (
-            <BriefScreen
-              c={selected}
-              onBack={() => setScreen('board')}
-              onStart={() => setScreen('golive')}
-            />
-          )}
-          {screen === 'golive' && (
-            <GoLiveScreen
-              c={selected}
-              onStart={() => setScreen('live')}
-              onBack={() => setScreen('brief')}
-            />
-          )}
-          {screen === 'live' && (
-            <LiveScreen
-              c={selected}
-              onBook={() => setScreen('booked')}
-              onEnd={() => setScreen('board')}
-            />
-          )}
-          {screen === 'booked' && (
-            <BookedScreen
-              c={selected}
-              onRestart={() => {
-                setSelected(candidates[0])
-                setScreen('push')
-              }}
-            />
-          )}
-        </div>
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={screen}
+            initial={{ opacity: 0, x: direction > 0 ? 34 : -34 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: direction > 0 ? -28 : 28 }}
+            transition={screenTransition}
+            className="flex min-h-0 flex-1 flex-col"
+          >
+            {screen === 'push' && <PushScreen onOpen={() => go('board')} />}
+            {screen === 'board' && (
+              <BoardScreen
+                onSelect={(c) => {
+                  setSelected(c)
+                  go('brief')
+                }}
+              />
+            )}
+            {screen === 'brief' && (
+              <BriefScreen
+                c={selected}
+                onBack={() => go('board')}
+                onStart={() => go('golive')}
+              />
+            )}
+            {screen === 'golive' && (
+              <GoLiveScreen
+                c={selected}
+                onStart={() => go('live')}
+                onBack={() => go('brief')}
+              />
+            )}
+            {screen === 'live' && (
+              <LiveScreen
+                c={selected}
+                onBook={() => go('booked')}
+                onEnd={() => go('board')}
+              />
+            )}
+            {screen === 'booked' && (
+              <BookedScreen
+                c={selected}
+                onRestart={() => {
+                  setSelected(candidates[0])
+                  go('push')
+                }}
+              />
+            )}
+          </motion.div>
+        </AnimatePresence>
       </PhoneFrame>
-
-      <div className="text-caption text-ink-3">tap the notification to begin</div>
     </div>
   )
 }

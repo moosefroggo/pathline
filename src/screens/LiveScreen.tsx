@@ -44,12 +44,12 @@ export function LiveScreen({
   const [showBook, setShowBook] = useState(false)
   const { label } = useStopwatch(phase === 'live')
 
-  useTimeout(() => setPhase('live'), phase === 'ringing' ? 2000 : null)
+  useTimeout(() => setPhase('live'), phase === 'ringing' ? 3200 : null)
 
   useEffect(() => {
     if (phase !== 'live') return
-    const t1 = setTimeout(() => setShowCaption(true), 2200)
-    const t2 = setTimeout(() => setShowBook(true), 4800)
+    const t1 = setTimeout(() => setShowCaption(true), 3400)
+    const t2 = setTimeout(() => setShowBook(true), 7600)
     return () => {
       clearTimeout(t1)
       clearTimeout(t2)
@@ -82,7 +82,7 @@ export function LiveScreen({
             <motion.div
               key="ring"
               exit={{ opacity: 0, scale: 0.96 }}
-              transition={{ duration: 0.24, ease: smoothEase }}
+              transition={{ duration: 0.5, ease: smoothEase }}
               className="relative flex items-center justify-center"
             >
               <span className="pl-ring absolute h-[104px] w-[104px] rounded-full bg-live-200" />
@@ -103,7 +103,7 @@ export function LiveScreen({
                   aria-hidden="true"
                   initial={{ opacity: 0, scale: 0.74 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.58, ease: smoothEase }}
+                  transition={{ duration: 1.1, ease: smoothEase }}
                   className="pl-glow pointer-events-none absolute h-[210px] w-[210px] rounded-full"
                 />
                 <Avatar initials={c.initials} hue={c.hue} size="xl" />
@@ -111,7 +111,7 @@ export function LiveScreen({
               <motion.span
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ ...riseTransition, delay: 0.12 }}
+                transition={{ ...riseTransition, delay: 0.22 }}
                 className="pl-glass-pill mt-4 inline-flex items-center gap-1 rounded-md px-2.5 py-1 text-micro text-ink"
               >
                 <IconLockOpen size={11} stroke={1.9} /> identity unlocked
@@ -119,7 +119,7 @@ export function LiveScreen({
               <motion.div
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ ...riseTransition, delay: 0.16 }}
+                transition={{ ...riseTransition, delay: 0.34 }}
                 className="mt-2.5 font-serif text-[26px] font-medium text-white"
               >
                 {c.name}

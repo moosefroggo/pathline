@@ -1,9 +1,7 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
 import { IconBolt, IconLock, IconMicrophone, IconUser, IconVideo } from '@tabler/icons-react'
 import { LiveDot } from '../components/bits'
 import type { Candidate } from '../data'
-import { screenTransition } from '../lib/motion'
 
 export function GoLiveScreen({
   c,
@@ -16,12 +14,7 @@ export function GoLiveScreen({
 }) {
   const [mode, setMode] = useState<'audio' | 'video'>('audio')
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={screenTransition}
-      className="flex flex-1 flex-col px-5 pb-6"
-    >
+    <div className="flex flex-1 flex-col px-5 pb-6">
       <div className="flex flex-1 flex-col items-center pt-9 text-center">
         <div className="mb-5 flex items-center gap-1.5 text-[12px] text-live-700">
           <LiveDot /> you&rsquo;re both here, right now
@@ -75,9 +68,6 @@ export function GoLiveScreen({
       >
         send a message instead
       </button>
-      <div className="mt-4 text-center text-[12px] leading-relaxed text-ink-3">
-        Unscripted. No prep. You talk to the real person — that&rsquo;s the point.
-      </div>
-    </motion.div>
+    </div>
   )
 }
