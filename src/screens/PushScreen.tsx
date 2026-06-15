@@ -23,9 +23,8 @@ export function PushScreen({ onOpen }: { onOpen: () => void }) {
           <span className="ml-auto text-caption text-ink-3">now</span>
         </div>
         <div className="text-subhead font-medium text-ink">{candidates[0].anonRole} available now</div>
-        <div className="mt-1 flex items-start gap-1.5 text-caption leading-snug text-ink-2">
-          <LiveDot className="mt-[5px] shrink-0" />
-          <span>Active on your {recruiter.role} search</span>
+        <div className="mt-1 text-caption leading-snug text-ink-2">
+          Active on your {recruiter.role} search
         </div>
       </button>
 

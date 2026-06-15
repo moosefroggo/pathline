@@ -38,8 +38,8 @@ function TabItem({
     <button
       type="button"
       onClick={onClick}
-      className={`flex min-w-[58px] flex-col items-center gap-1 rounded-xl px-2.5 py-1.5 text-caption transition active:scale-[0.96] ${
-        active ? 'bg-live-900/40 text-live-700' : 'text-ink-3'
+      className={`flex min-w-[58px] flex-col items-center gap-1 rounded-[14px] px-2.5 py-1.5 text-caption transition active:scale-[0.96] ${
+        active ? 'bg-live-200/10 text-live-700' : 'text-ink-3'
       }`}
     >
       {icon}
@@ -137,7 +137,7 @@ function RolesSheet({ onClose }: { onClose: () => void }) {
           <button
             type="button"
             onClick={onClose}
-            className="pl-glass-soft flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-caption text-live-700 transition active:scale-95"
+            className="pl-glass-soft flex items-center gap-1 rounded-[14px] px-2.5 py-1.5 text-caption text-live-700 transition active:scale-95"
           >
             <IconPlus size={13} stroke={1.8} /> New role
           </button>
@@ -157,7 +157,7 @@ function RolesSheet({ onClose }: { onClose: () => void }) {
               <IconBriefcase size={16} stroke={1.8} className={r.active ? 'text-live-700' : 'text-ink-4'} />
               <div className="flex-1 leading-tight">
                 <div className="text-body font-medium">{r.title}</div>
-                <div className="text-micro text-ink-4">{r.active ? '5 open moments' : '0 open moments'}</div>
+                <div className="text-caption text-ink-3">{r.active ? '5 open moments' : '0 open moments'}</div>
               </div>
               {r.active && (
                 <span className="rounded-md bg-live-900 px-2 py-0.5 text-micro font-medium text-live-700">

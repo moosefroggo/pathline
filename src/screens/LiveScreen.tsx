@@ -184,7 +184,7 @@ export function LiveScreen({
               >
                 {c.name}
               </motion.div>
-              <div className="mt-1 text-label text-ink-3">{c.realRole}</div>
+              <div className="mt-1 text-caption text-ink-3">{c.realRole}</div>
               <div className="mt-5">
                 <Waveform />
               </div>

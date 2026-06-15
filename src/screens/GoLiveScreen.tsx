@@ -48,7 +48,7 @@ export function GoLiveScreen({
         <div className="mt-4 flex items-center gap-1.5 text-headline font-medium text-ink">
           {c.anonRole} <IconLock size={16} stroke={1.8} className="text-ink-3" />
         </div>
-        <div className="mt-1 text-caption text-ink-2">Ready for a short intro</div>
+        <div className="mt-1 text-caption text-ink-3">Ready for a short intro</div>
 
         <div className="pl-glass mt-5 grid w-[188px] grid-cols-2 gap-1.5 rounded-[10px] p-1">
           <button

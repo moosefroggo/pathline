@@ -47,7 +47,7 @@ function CardFace({ c }: { c: Candidate }) {
         <Avatar locked size="sm" />
         <div className="min-w-0 leading-tight">
           <div className="truncate text-headline font-medium text-ink">{c.anonRole}</div>
-          <div className="whitespace-nowrap text-caption text-ink-3">{c.anonContext} · {c.anonLocation}</div>
+          <div className="mt-1 whitespace-nowrap text-caption text-ink-3">{c.anonContext} · {c.anonLocation}</div>
         </div>
       </div>
 
@@ -85,6 +85,7 @@ export function PresenceCarousel({
 }) {
   const stageRef = useRef<HTMLDivElement>(null)
   const cardRefs = useRef<(HTMLDivElement | null)[]>([])
+  const ctaRef = useRef<HTMLDivElement>(null)
   const proxyRef = useRef<HTMLDivElement | null>(null)
   const dragRef = useRef<Draggable | null>(null)
   const posRef = useRef(0)
@@ -105,11 +106,35 @@ export function PresenceCarousel({
 
   const normalizeIndex = (raw: number) => ((Math.round(raw) % n) + n) % n
 
+  const hasAnimated = useRef(false)
+
   useEffect(() => {
     const stage = stageRef.current
     if (!stage) return
 
     render(0)
+
+    // One-shot entrance on first mount: center card rises first, side cards fan out.
+    if (!hasAnimated.current) {
+      hasAnimated.current = true
+
+      cardRefs.current.forEach((el) => {
+        if (el) gsap.set(el, { opacity: 0, y: 28 })
+      })
+      if (ctaRef.current) gsap.set(ctaRef.current, { opacity: 0, y: 10 })
+
+      const tl = gsap.timeline({ delay: 0.12 })
+
+      cardRefs.current.forEach((el, i) => {
+        if (!el) return
+        const raw = ((i % n) + n + n / 2) % n - n / 2
+        const dist = Math.abs(raw)
+        const naturalOpacity = 1 - Math.min(dist * 0.42, 0.82)
+        tl.to(el, { opacity: naturalOpacity, y: 0, duration: 0.72, ease: 'power3.out' }, dist * 0.09)
+      })
+
+      tl.to(ctaRef.current, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, 0.26)
+    }
 
     const proxy = document.createElement('div')
     proxyRef.current = proxy
@@ -212,7 +237,7 @@ export function PresenceCarousel({
         ))}
       </div>
 
-      <div className="flex flex-col items-center gap-2.5 px-4">
+      <div ref={ctaRef} className="flex flex-col items-center gap-2.5 px-4">
         <button
           type="button"
           onClick={() => onSelect(candidates[active])}
