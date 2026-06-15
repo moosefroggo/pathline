@@ -4,7 +4,6 @@ import {
   IconBriefcase,
   IconBuilding,
   IconChevronRight,
-  IconClock,
   IconCreditCard,
   IconHelpCircle,
   IconLeaf,
@@ -16,60 +15,9 @@ import {
   IconUserCircle,
   IconX,
 } from '@tabler/icons-react'
-import { Avatar, LiveDot } from '../components/bits'
-import { useCountdown } from '../lib/hooks'
+import { Avatar } from '../components/bits'
+import { PresenceCarousel } from '../components/PresenceCarousel'
 import { atsBacklog, candidates, openMomentsCount, recruiter, type Candidate } from '../data'
-
-function Card({ c, onSelect }: { c: Candidate; onSelect: () => void }) {
-  const { expired } = useCountdown(c.windowSecs)
-
-  if (expired) {
-    return (
-      <div className="pl-glass w-full rounded-2xl p-3 text-left opacity-60">
-        <div className="flex items-center gap-2.5">
-          <Avatar locked size="sm" />
-          <div className="leading-tight">
-            <div className="text-body font-medium text-ink-3">{c.anonRole}</div>
-            <div className="text-caption text-ink-4">{c.anonContext}</div>
-          </div>
-          <span className="ml-auto text-micro text-ink-4">closed</span>
-        </div>
-        <div className="mt-2.5 flex items-center gap-1 text-caption text-ink-4">
-          <IconClock size={14} stroke={1.8} /> window passed
-        </div>
-      </div>
-    )
-  }
-
-  return (
-    <button
-      type="button"
-      onClick={onSelect}
-      className="pl-glass w-full rounded-2xl p-3 text-left transition duration-150 active:scale-[0.985] active:brightness-105"
-    >
-      <div className="flex items-center gap-2.5">
-        <Avatar locked size="sm" />
-        <div className="leading-tight">
-          <div className="whitespace-nowrap text-body font-medium text-ink">{c.anonRole}</div>
-          <div className="whitespace-nowrap text-caption text-ink-2">{c.anonContext}</div>
-        </div>
-        <span className="ml-auto flex items-center gap-1 text-micro font-medium text-live-700">
-          <LiveDot pulse={false} /> now
-        </span>
-      </div>
-
-      <div className="mt-2.5 flex items-start gap-1.5 text-caption text-amber-700">
-        <IconBolt size={14} stroke={1.8} className="mt-px shrink-0" />
-        <span>{c.trigger}</span>
-      </div>
-
-      <div className="mt-1.5 flex items-center gap-1.5 whitespace-nowrap text-micro tabular-nums text-ink-3">
-        <IconClock size={14} stroke={1.8} className="shrink-0" />
-        {c.openedAgo}
-      </div>
-    </button>
-  )
-}
 
 function TabItem({
   icon,
@@ -184,11 +132,7 @@ export function BoardScreen({ onSelect }: { onSelect: (c: Candidate) => void }) 
         </div>
       </div>
 
-      <div className="pl-noscroll mt-3 flex min-h-0 flex-1 flex-col gap-2.5 overflow-y-auto px-4 pb-4">
-        {candidates.map((c) => (
-          <Card key={c.id} c={c} onSelect={() => onSelect(c)} />
-        ))}
-      </div>
+      <PresenceCarousel candidates={candidates} onSelect={onSelect} />
 
       <div className="pl-bottom-glass mt-auto flex items-center justify-around border-t border-hairline-strong px-2 pt-2 pb-3 text-ink-3">
         <TabItem icon={<IconBolt size={20} stroke={1.8} />} label="Moments" active />
