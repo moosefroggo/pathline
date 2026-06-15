@@ -8,7 +8,6 @@ import {
   IconCreditCard,
   IconHelpCircle,
   IconLeaf,
-  IconLock,
   IconMessageCircle,
   IconPlugConnected,
   IconSettings,
@@ -51,10 +50,7 @@ function Card({ c, onSelect }: { c: Candidate; onSelect: () => void }) {
       <div className="flex items-center gap-2.5">
         <Avatar locked size="sm" />
         <div className="leading-tight">
-          <div className="flex items-center gap-1.5 text-body font-medium text-ink">
-            <span className="whitespace-nowrap">{c.anonRole}</span>
-            <IconLock size={14} stroke={1.8} className="shrink-0 text-ink-3" />
-          </div>
+          <div className="whitespace-nowrap text-body font-medium text-ink">{c.anonRole}</div>
           <div className="whitespace-nowrap text-caption text-ink-2">{c.anonContext}</div>
         </div>
         <span className="ml-auto flex items-center gap-1 text-micro font-medium text-live-700">
@@ -67,11 +63,9 @@ function Card({ c, onSelect }: { c: Candidate; onSelect: () => void }) {
         <span>{c.trigger}</span>
       </div>
 
-      <div className="mt-1.5 flex items-center gap-2.5 whitespace-nowrap text-micro text-ink-3">
-        <span className="flex shrink-0 items-center gap-1.5 tabular-nums">
-          <IconClock size={14} stroke={1.8} /> {c.openedAgo}
-        </span>
-        <span className="shrink-0">replies {c.repliesIn}</span>
+      <div className="mt-1.5 flex items-center gap-1.5 whitespace-nowrap text-micro tabular-nums text-ink-3">
+        <IconClock size={14} stroke={1.8} className="shrink-0" />
+        {c.openedAgo}
       </div>
     </button>
   )
