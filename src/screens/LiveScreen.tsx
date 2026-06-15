@@ -42,6 +42,7 @@ export function LiveScreen({
   const [phase, setPhase] = useState<'ringing' | 'live'>('ringing')
   const [showCaption, setShowCaption] = useState(false)
   const [showBook, setShowBook] = useState(false)
+  const [confirmedIntents, setConfirmedIntents] = useState<string[]>([])
   const [cameraStream, setCameraStream] = useState<MediaStream | null>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
 
@@ -77,13 +78,29 @@ export function LiveScreen({
 
   useEffect(() => {
     if (phase !== 'live') return
+    setConfirmedIntents([])
     const t1 = setTimeout(() => setShowCaption(true), 3400)
+    
+    // Simulating live speech analytical confirmation of candidate intents
+    const tc1 = setTimeout(() => {
+      setConfirmedIntents(prev => [...prev, c.declared[0]])
+    }, 4400)
+    const tc2 = setTimeout(() => {
+      setConfirmedIntents(prev => [...prev, c.declared[1]])
+    }, 5600)
+    const tc3 = setTimeout(() => {
+      setConfirmedIntents(prev => [...prev, c.declared[3]])
+    }, 6800)
+
     const t2 = setTimeout(() => setShowBook(true), 7600)
     return () => {
       clearTimeout(t1)
+      clearTimeout(tc1)
+      clearTimeout(tc2)
+      clearTimeout(tc3)
       clearTimeout(t2)
     }
-  }, [phase])
+  }, [phase, c])
 
   return (
     <div className="flex flex-1 flex-col px-4 pb-5 text-white">
@@ -181,9 +198,41 @@ export function LiveScreen({
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={riseTransition}
-              className="pl-glass mt-6 max-w-[260px] rounded-2xl px-3.5 py-2.5 text-body leading-snug text-ink"
+              className="mt-6 flex flex-col gap-2 w-full max-w-[260px]"
             >
-              {c.liveLine}
+              <div className="pl-glass rounded-2xl px-3.5 py-2.5 text-body leading-snug text-ink text-left">
+                {c.liveLine}
+              </div>
+              <div className="pl-glass-soft flex flex-col gap-1.5 rounded-xl p-2.5 text-left border border-live/10">
+                <div className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-live-700">
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-live opacity-75"></span>
+                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-live"></span>
+                  </span>
+                  <span>Live Signals</span>
+                </div>
+                <div className="flex flex-wrap gap-1 mt-0.5">
+                  {c.declared.map((intent) => {
+                    const isConfirmed = confirmedIntents.includes(intent);
+                    return (
+                      <motion.span
+                        key={intent}
+                        initial={false}
+                        animate={{
+                          opacity: isConfirmed ? 1 : 0.3,
+                          scale: isConfirmed ? 1 : 0.95,
+                          borderColor: isConfirmed ? 'rgba(185, 228, 215, 0.3)' : 'rgba(250, 248, 231, 0.06)',
+                          backgroundColor: isConfirmed ? 'rgba(185, 228, 215, 0.1)' : 'transparent'
+                        }}
+                        transition={{ duration: 0.3 }}
+                        className="inline-flex items-center gap-0.5 rounded-[5px] border px-1.5 py-0.5 text-micro font-medium text-ink transition-all"
+                      >
+                        {isConfirmed ? '✓' : '·'} {intent}
+                      </motion.span>
+                    );
+                  })}
+                </div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
