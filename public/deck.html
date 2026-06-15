@@ -267,30 +267,30 @@
       grid-template-columns: minmax(0, 1fr) 88px minmax(230px, 0.58fr);
       align-items: center;
       gap: 18px;
-      min-height: 300px;
-      margin-top: 30px;
+      min-height: 238px;
+      margin-top: 22px;
       border: 1px solid var(--line);
       border-radius: 28px;
       background:
         radial-gradient(circle at 76% 50%, rgba(185, 228, 215, 0.14), transparent 24%),
         rgba(15, 23, 21, 0.34);
-      padding: 24px;
+      padding: 18px;
       overflow: hidden;
     }
     .noise-stack {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
+      gap: 8px;
     }
     .noise-column {
       display: grid;
-      gap: 10px;
+      gap: 8px;
     }
     .noise-chip {
       border: 1px solid rgba(250, 248, 231, 0.1);
       border-radius: 14px;
       background: rgba(250, 248, 231, 0.045);
-      padding: 11px 12px;
+      padding: 9px 10px;
       color: rgba(200, 212, 207, 0.72);
       font-size: 12px;
       line-height: 1.25;
@@ -317,7 +317,7 @@
       background:
         linear-gradient(145deg, rgba(185, 228, 215, 0.12), rgba(250, 248, 231, 0.035)),
         rgba(15, 23, 21, 0.52);
-      padding: 20px;
+      padding: 17px;
       box-shadow: inset 0 1px 0 rgba(250, 248, 231, 0.08);
     }
     .noise-answer::before {
@@ -325,7 +325,7 @@
       display: block;
       width: 22px;
       height: 22px;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
       border-radius: 999px;
       background: var(--presence);
       box-shadow: 0 0 34px rgba(185, 228, 215, 0.72);
@@ -338,7 +338,7 @@
     .noise-answer-copy {
       margin-top: 8px;
       color: var(--muted);
-      font-size: 13px;
+      font-size: 12px;
       line-height: 1.45;
     }
     .noise-label {
@@ -352,18 +352,18 @@
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 12px;
-      margin-top: 16px;
+      margin-top: 12px;
     }
     .stat-chip {
       border: 1px solid var(--line);
       border-radius: 16px;
       background: rgba(250, 248, 231, 0.055);
-      padding: 13px;
+      padding: 10px 12px;
     }
     .stat-chip b {
       display: block;
       color: var(--cream);
-      font-size: 22px;
+      font-size: 18px;
       font-weight: 750;
       line-height: 1;
     }
@@ -528,29 +528,33 @@
         <div class="content">
           <div class="kicker">Market shift</div>
           <h2 class="wide-title">Visible supply is getting noisier.</h2>
-          <p class="sub">AI makes applications, resumes, and profile prose easier to manufacture. The recruiter still needs one clear answer.</p>
+          <p class="sub">Applications and profiles are easier to manufacture. The recruiter still needs one clear answer.</p>
           <div class="noise-map" aria-label="Many weak signals resolving into one live moment">
-            <span class="noise-line"></span>
-            <span class="noise-dot d1"></span>
-            <span class="noise-dot d2"></span>
-            <span class="noise-dot d3"></span>
-            <span class="noise-dot d4"></span>
-            <span class="noise-dot d5"></span>
-            <span class="noise-dot d6"></span>
-            <span class="noise-dot d7"></span>
-            <span class="noise-dot d8"></span>
-            <span class="noise-dot d9"></span>
-            <span class="noise-dot live d10"></span>
-            <div class="noise-label">A polished resume is no longer enough signal.</div>
-            <div class="noise-answer">
-              <div class="noise-answer-title">Verified private readiness</div>
-              <p class="noise-answer-copy">A relevant person is verified, opted in, protected, and available for a first conversation.</p>
+            <div class="noise-stack">
+              <div class="noise-column">
+                <div class="noise-chip">More resumes</div>
+                <div class="noise-chip">More profiles</div>
+              </div>
+              <div class="noise-column">
+                <div class="noise-chip">More outreach</div>
+                <div class="noise-chip">More polish</div>
+              </div>
+              <div class="noise-column">
+                <div class="noise-chip">More silence</div>
+                <div class="noise-chip">Less trust</div>
+              </div>
             </div>
+            <span class="noise-line"></span>
+            <div class="noise-answer">
+              <div class="noise-answer-title">Private readiness</div>
+              <p class="noise-answer-copy">A relevant person is protected, opted in, and available for a first conversation.</p>
+            </div>
+            <div class="noise-label">The product turns a noisy pool into one usable moment.</div>
           </div>
           <div class="stat-strip">
-            <div class="stat-chip"><b>+30%</b><span>LinkedIn applications reportedly rose over two years.</span></div>
-            <div class="stat-chip"><b>AI text</b><span>Candidate-authored materials are cheaper to generate and harder to trust.</span></div>
-            <div class="stat-chip"><b>Ghosting</b><span>No-response loops make timing and accountability part of the problem.</span></div>
+            <div class="stat-chip"><b>+30%</b><span>More applications reported over two years.</span></div>
+            <div class="stat-chip"><b>Text</b><span>Candidate-authored material is cheaper to produce.</span></div>
+            <div class="stat-chip"><b>Timing</b><span>No-response loops make availability matter.</span></div>
           </div>
         </div>
       </div>
