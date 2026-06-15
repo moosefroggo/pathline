@@ -1,5 +1,13 @@
 import { useState } from 'react'
-import { IconBolt, IconChevronLeft, IconLock, IconMicrophone, IconUser, IconVideo } from '@tabler/icons-react'
+import {
+  IconBolt,
+  IconChevronLeft,
+  IconLock,
+  IconMessageCircle,
+  IconMicrophone,
+  IconUser,
+  IconVideo,
+} from '@tabler/icons-react'
 import { LiveDot } from '../components/bits'
 import type { Candidate } from '../data'
 
@@ -27,7 +35,7 @@ export function GoLiveScreen({
 
       <div className="flex flex-1 flex-col items-center pt-5 text-center">
         <div className="mb-5 flex items-center gap-1.5 text-[12px] text-live-700">
-          <LiveDot pulse={false} /> You&rsquo;re both here, right now
+          <LiveDot pulse={false} /> You&rsquo;re both here
         </div>
 
         <div className="relative">
@@ -40,7 +48,7 @@ export function GoLiveScreen({
         <div className="mt-4 flex items-center gap-1.5 text-[17px] font-medium text-ink">
           {c.anonRole} <IconLock size={13} stroke={1.8} className="text-ink-3" />
         </div>
-        <div className="mt-1 text-[12px] text-ink-2">Window closes soon</div>
+        <div className="mt-1 text-[12px] text-ink-2">Ready for a short intro</div>
 
         <div className="pl-glass mt-5 inline-flex gap-1.5 rounded-[10px] p-1">
           <button
@@ -74,9 +82,9 @@ export function GoLiveScreen({
       <button
         type="button"
         onClick={onBack}
-        className="mt-3 text-center text-[12px] text-ink-2"
+        className="pl-glass mt-3 flex w-full items-center justify-center gap-1.5 rounded-[14px] py-3 text-[13px] font-medium text-ink transition active:scale-[0.98]"
       >
-        Message instead
+        <IconMessageCircle size={15} stroke={1.8} /> Message Instead
       </button>
     </div>
   )
