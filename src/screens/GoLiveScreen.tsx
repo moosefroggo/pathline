@@ -24,7 +24,7 @@ export function GoLiveScreen({
     >
       <div className="flex flex-1 flex-col items-center pt-9 text-center">
         <div className="mb-5 flex items-center gap-1.5 text-[12px] text-live-700">
-          <LiveDot /> You&rsquo;re both here, right now
+          <LiveDot /> you&rsquo;re both here, right now
         </div>
 
         <div className="relative flex items-center justify-center">
@@ -37,7 +37,7 @@ export function GoLiveScreen({
         <div className="mt-4 flex items-center gap-1.5 text-[17px] font-medium text-ink">
           {c.anonRole} <IconLock size={13} stroke={1.8} className="text-ink-3" />
         </div>
-        <div className="mt-1 text-[12px] text-ink-2">Active now · open for ~12 more min</div>
+        <div className="mt-1 text-[12px] text-ink-2">active now · open for ~12 more min</div>
 
         <div className="pl-glass mt-5 inline-flex gap-1.5 rounded-[10px] p-1">
           <button
@@ -47,7 +47,7 @@ export function GoLiveScreen({
               mode === 'audio' ? 'pl-glass-soft text-live-700' : 'text-ink-3'
             }`}
           >
-            <IconMicrophone size={13} stroke={1.8} /> Audio
+            <IconMicrophone size={13} stroke={1.8} /> audio
           </button>
           <button
             type="button"
@@ -56,7 +56,7 @@ export function GoLiveScreen({
               mode === 'video' ? 'pl-glass-soft text-live-700' : 'text-ink-3'
             }`}
           >
-            <IconVideo size={13} stroke={1.8} /> Video
+            <IconVideo size={13} stroke={1.8} /> video
           </button>
         </div>
       </div>
@@ -73,7 +73,7 @@ export function GoLiveScreen({
         onClick={onBack}
         className="mt-3 text-center text-[12px] text-ink-2"
       >
-        Send a message instead
+        send a message instead
       </button>
       <div className="mt-4 text-center text-[12px] leading-relaxed text-ink-3">
         Unscripted. No prep. You talk to the real person — that&rsquo;s the point.

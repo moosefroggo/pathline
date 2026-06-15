@@ -82,7 +82,7 @@ export function BoardScreen({ onSelect }: { onSelect: (c: Candidate) => void }) 
           <span className="pl-glass-soft flex h-[22px] w-[22px] items-center justify-center rounded-[7px] text-live-700">
             <IconLeaf size={14} stroke={2} />
           </span>
-          <span className="text-headline font-medium text-ink">Moments</span>
+          <span className="text-headline font-medium text-ink">moments</span>
           <span className="ml-auto">
             <Avatar initials={recruiter.initial} hue="coral" size="xs" />
           </span>
@@ -105,10 +105,10 @@ export function BoardScreen({ onSelect }: { onSelect: (c: Candidate) => void }) 
       </div>
 
       <div className="pl-bottom-glass mt-auto flex items-center justify-around border-t border-hairline-strong px-2 pt-2.5 pb-3 text-ink-3">
-        <IconBolt size={22} stroke={1.8} className="text-live-700" aria-label="Moments" />
-        <IconBriefcase size={22} stroke={1.8} aria-label="Roles" />
-        <IconMessageCircle size={22} stroke={1.8} aria-label="Messages" />
-        <IconUser size={22} stroke={1.8} aria-label="You" />
+        <IconBolt size={22} stroke={1.8} className="text-live-700" aria-label="moments" />
+        <IconBriefcase size={22} stroke={1.8} aria-label="roles" />
+        <IconMessageCircle size={22} stroke={1.8} aria-label="messages" />
+        <IconUser size={22} stroke={1.8} aria-label="you" />
       </div>
     </div>
   )
