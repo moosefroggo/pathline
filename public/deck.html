@@ -57,9 +57,77 @@
       overflow-y: auto;
     }
     .slide.active { display: flex; animation: enter 0.38s ease both; }
+    .slide.animating .kicker,
+    .slide.animating h1,
+    .slide.animating h2,
+    .slide.animating .sub,
+    .slide.animating .note {
+      animation: text-rise 0.7s cubic-bezier(0.2, 0.78, 0.16, 1) both;
+    }
+    .slide.animating h1,
+    .slide.animating h2 { animation-delay: 0.08s; }
+    .slide.animating .sub { animation-delay: 0.16s; }
+    .slide.animating .note { animation-delay: 0.24s; }
+    .slide.animating .bullets-label,
+    .slide.animating .bullets li {
+      animation: text-rise 0.62s cubic-bezier(0.2, 0.78, 0.16, 1) both;
+    }
+    .slide.animating .bullets-label { animation-delay: 0.16s; }
+    .slide.animating .bullets li:nth-child(1) { animation-delay: 0.22s; }
+    .slide.animating .bullets li:nth-child(2) { animation-delay: 0.3s; }
+    .slide.animating .bullets li:nth-child(3) { animation-delay: 0.38s; }
+    .slide.animating .bullets li:nth-child(4) { animation-delay: 0.46s; }
     @keyframes enter {
       from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes text-rise {
+      from { opacity: 0; transform: translateY(14px); filter: blur(8px); }
+      to { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+    @keyframes card-rise {
+      0% {
+        opacity: 0;
+        transform: translateY(24px) scale(0.965);
+        box-shadow: 0 0 0 rgba(0, 0, 0, 0), inset 0 1px 0 rgba(250, 248, 231, 0);
+      }
+      70% {
+        opacity: 1;
+        transform: translateY(-2px) scale(1.006);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    @keyframes row-sweep {
+      from { opacity: 0; transform: translateX(-18px); clip-path: inset(0 100% 0 0); }
+      to { opacity: 1; transform: translateX(0); clip-path: inset(0 0 0 0); }
+    }
+    @keyframes icon-draw {
+      from { opacity: 0; stroke-dashoffset: 84; transform: rotate(-2deg) scale(0.92); }
+      to { opacity: 1; stroke-dashoffset: 0; transform: rotate(0) scale(1); }
+    }
+    @keyframes chip-scatter {
+      from { opacity: 0; transform: translate(var(--x, 0), var(--y, 12px)) rotate(var(--r, -2deg)); }
+      to { opacity: 1; transform: translate(0, 0) rotate(0); }
+    }
+    @keyframes line-resolve {
+      from { opacity: 0; transform: scaleX(0); transform-origin: left center; }
+      to { opacity: 1; transform: scaleX(1); transform-origin: left center; }
+    }
+    @keyframes answer-pop {
+      0% { opacity: 0; transform: translateX(18px) scale(0.94); }
+      72% { opacity: 1; transform: translateX(-2px) scale(1.02); }
+      100% { opacity: 1; transform: translateX(0) scale(1); }
+    }
+    @keyframes pulse-dot {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 34px rgba(185, 228, 215, 0.72); }
+      50% { transform: scale(1.14); box-shadow: 0 0 48px rgba(185, 228, 215, 0.88); }
+    }
+    @keyframes phone-float {
+      from { opacity: 0; transform: translateY(18px) rotate(1.2deg) scale(0.965); }
+      to { opacity: 1; transform: translateY(0) rotate(0) scale(1); }
     }
 
     .shell {
@@ -143,6 +211,42 @@
       font-size: 12px;
       line-height: 1.45;
     }
+    .bullets {
+      margin-top: 22px;
+      display: grid;
+      gap: 13px;
+      max-width: 60ch;
+      padding: 0;
+      list-style: none;
+    }
+    .bullets li {
+      position: relative;
+      padding-left: 24px;
+      color: var(--cream-soft);
+      font-size: clamp(15px, 1.45vw, 20px);
+      line-height: 1.4;
+    }
+    .bullets li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.5em;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--presence);
+      box-shadow: 0 0 12px rgba(185, 228, 215, 0.5);
+    }
+    .bullets li b { color: var(--cream); font-weight: 650; }
+    .bullets-label {
+      margin-top: 24px;
+      color: var(--presence);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+    .bullets-label + .bullets { margin-top: 13px; }
 
     .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 30px; }
     .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 30px; }
@@ -158,6 +262,52 @@
       -webkit-backdrop-filter: blur(18px);
       padding: 20px;
     }
+    .slide.animating .card,
+    .slide.animating .flow-step,
+    .slide.animating .stat-chip,
+    .slide.animating .phone-embed {
+      animation: card-rise 0.72s cubic-bezier(0.18, 0.86, 0.25, 1) both;
+      animation-delay: calc(0.2s + var(--i, 0) * 0.075s);
+      will-change: transform, opacity;
+    }
+    .slide.animating .card:nth-child(1),
+    .slide.animating .flow-step:nth-child(1),
+    .slide.animating .stat-chip:nth-child(1) { --i: 1; }
+    .slide.animating .card:nth-child(2),
+    .slide.animating .flow-step:nth-child(2),
+    .slide.animating .stat-chip:nth-child(2) { --i: 2; }
+    .slide.animating .card:nth-child(3),
+    .slide.animating .flow-step:nth-child(3),
+    .slide.animating .stat-chip:nth-child(3) { --i: 3; }
+    .slide.animating .card:nth-child(4),
+    .slide.animating .flow-step:nth-child(4) { --i: 4; }
+    .slide.animating .flow-step:nth-child(5) { --i: 5; }
+    .slide.animating .flow-step:nth-child(6) { --i: 6; }
+    .slide.animating .doodle-icon svg path {
+      stroke-dasharray: 84;
+      animation: icon-draw 0.85s cubic-bezier(0.2, 0.72, 0.2, 1) both;
+      animation-delay: calc(0.34s + var(--i, 0) * 0.075s);
+    }
+    .card.with-icon { min-height: 174px; }
+    .doodle-icon {
+      width: 42px;
+      height: 42px;
+      margin-bottom: 16px;
+      color: var(--presence);
+    }
+    .doodle-icon svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 12px rgba(185, 228, 215, 0.18));
+    }
+    .doodle-icon .soft { stroke: rgba(250, 248, 231, 0.52); stroke-width: 1.6; }
+    .doodle-icon .fill-soft { fill: rgba(185, 228, 215, 0.12); }
     .card-title {
       color: var(--cream);
       font-size: 16px;
@@ -202,6 +352,12 @@
       padding: 15px 13px;
       min-height: 112px;
     }
+    .flow-step .doodle-icon {
+      width: 30px;
+      height: 30px;
+      margin: 13px 0 0;
+      opacity: 0.92;
+    }
     .flow-index {
       color: var(--presence);
       font-size: 12px;
@@ -210,6 +366,7 @@
       text-transform: uppercase;
     }
     .flow-label { margin-top: 18px; font-size: 14px; font-weight: 750; line-height: 1.25; }
+    .flow-step .doodle-icon + .flow-label { margin-top: 12px; }
 
     .split {
       display: grid;
@@ -217,46 +374,40 @@
       gap: 34px;
       align-items: center;
     }
-    .phone-card {
-      border: 1px solid var(--line-strong);
-      border-radius: 34px;
-      background: rgba(15, 23, 21, 0.5);
-      padding: 13px;
-      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(250, 248, 231, 0.08);
-    }
-    .phone-screen {
-      min-height: 420px;
-      border-radius: 25px;
-      background: linear-gradient(180deg, var(--gem-800), var(--gem-900));
-      padding: 20px;
+    /* The real prototype, embedded — not a redrawn copy. The iframe ships the
+       app's own iPhone frame, so we scale it to fit the slide rather than re-bezel. */
+    .phone-embed {
       display: flex;
-      flex-direction: column;
-      gap: 14px;
+      justify-content: center;
+      filter: drop-shadow(0 34px 70px rgba(0, 0, 0, 0.4));
     }
-    .mini-status { display: flex; justify-content: space-between; color: var(--cream-soft); font-size: 12px; }
-    .mini-count { font-family: var(--font-serif); font-size: 34px; line-height: 0.95; }
-    .mini-card {
-      border: 1px solid rgba(250, 248, 231, 0.1);
-      border-radius: 18px;
-      background: rgba(15, 23, 21, 0.48);
-      padding: 13px;
+    .phone-embed-inner {
+      width: 358px;
+      height: 734px;
+      transform: scale(0.58);
+      transform-origin: top center;
+      margin: -8px 0 -308px;
     }
-    .mini-card strong { display: block; font-size: 14px; }
-    .mini-card span { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; }
-    .mini-pill {
-      display: inline-flex;
-      margin-top: 10px;
-      border-radius: 999px;
-      background: rgba(185, 228, 215, 0.1);
-      padding: 5px 8px;
-      color: var(--presence);
-      font-size: 12px;
-      font-weight: 800;
+    .phone-embed iframe {
+      width: 358px;
+      height: 734px;
+      border: 0;
+      border-radius: 44px;
+      background: transparent;
+      color-scheme: normal;
     }
 
     .list { display: grid; gap: 14px; margin-top: 28px; }
     .row { display: grid; grid-template-columns: 96px 1fr; gap: 16px; border-bottom: 1px solid var(--line); padding-bottom: 14px; }
     .row:last-child { border-bottom: none; padding-bottom: 0; }
+    .slide.animating .row {
+      animation: row-sweep 0.72s cubic-bezier(0.19, 0.84, 0.2, 1) both;
+      animation-delay: calc(0.24s + var(--i, 0) * 0.08s);
+    }
+    .slide.animating .row:nth-child(1) { --i: 1; }
+    .slide.animating .row:nth-child(2) { --i: 2; }
+    .slide.animating .row:nth-child(3) { --i: 3; }
+    .slide.animating .row:nth-child(4) { --i: 4; }
     .row-label { color: var(--presence); font-size: 12px; font-weight: 850; letter-spacing: 0.09em; text-transform: uppercase; }
     .row-copy { color: var(--cream-soft); font-size: 15px; line-height: 1.45; }
     .row-copy span { color: var(--muted); }
@@ -295,10 +446,29 @@
       font-size: 12px;
       line-height: 1.25;
     }
+    .noise-column:nth-child(1) .noise-chip:nth-child(1) { --x: -26px; --y: -18px; --r: -5deg; }
+    .noise-column:nth-child(1) .noise-chip:nth-child(2) { --x: -16px; --y: 22px; --r: 4deg; }
+    .noise-column:nth-child(2) .noise-chip:nth-child(1) { --x: 4px; --y: -24px; --r: 3deg; }
+    .noise-column:nth-child(2) .noise-chip:nth-child(2) { --x: 12px; --y: 24px; --r: -4deg; }
+    .noise-column:nth-child(3) .noise-chip:nth-child(1) { --x: 22px; --y: -16px; --r: 5deg; }
+    .noise-column:nth-child(3) .noise-chip:nth-child(2) { --x: 30px; --y: 18px; --r: -3deg; }
+    .slide.animating .noise-chip {
+      animation: chip-scatter 0.68s cubic-bezier(0.19, 0.78, 0.2, 1) both;
+    }
+    .slide.animating .noise-column:nth-child(1) .noise-chip:nth-child(1) { animation-delay: 0.22s; }
+    .slide.animating .noise-column:nth-child(1) .noise-chip:nth-child(2) { animation-delay: 0.3s; }
+    .slide.animating .noise-column:nth-child(2) .noise-chip:nth-child(1) { animation-delay: 0.26s; }
+    .slide.animating .noise-column:nth-child(2) .noise-chip:nth-child(2) { animation-delay: 0.34s; }
+    .slide.animating .noise-column:nth-child(3) .noise-chip:nth-child(1) { animation-delay: 0.38s; }
+    .slide.animating .noise-column:nth-child(3) .noise-chip:nth-child(2) { animation-delay: 0.46s; }
     .noise-line {
       position: relative;
       height: 1px;
       background: linear-gradient(90deg, transparent, rgba(185, 228, 215, 0.18), rgba(185, 228, 215, 0.56));
+    }
+    .slide.animating .noise-line {
+      animation: line-resolve 0.54s ease-out both;
+      animation-delay: 0.68s;
     }
     .noise-line::after {
       content: '';
@@ -320,6 +490,10 @@
       padding: 17px;
       box-shadow: inset 0 1px 0 rgba(250, 248, 231, 0.08);
     }
+    .slide.animating .noise-answer {
+      animation: answer-pop 0.62s cubic-bezier(0.18, 0.86, 0.25, 1) both;
+      animation-delay: 0.9s;
+    }
     .noise-answer::before {
       content: '';
       display: block;
@@ -329,6 +503,9 @@
       border-radius: 999px;
       background: var(--presence);
       box-shadow: 0 0 34px rgba(185, 228, 215, 0.72);
+    }
+    .slide.animating .noise-answer::before {
+      animation: pulse-dot 1.45s ease-in-out 1.12s 2;
     }
     .noise-answer-title {
       color: var(--cream);
@@ -486,8 +663,18 @@
       .slide { padding: 9vh 5vw; }
       .split, .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
       .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .phone-card { display: none; }
+      .phone-embed { display: none; }
       .shell { border-radius: 24px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
     }
   </style>
 </head>
@@ -510,14 +697,20 @@
         <div class="content split">
           <div>
             <div class="kicker">Wedge</div>
-            <h1 class="wide-title">Senior talent is quietly open.</h1>
-            <p class="sub">The best candidates often cannot publicly signal open to work without creating career, reputation, or employer risk.</p>
-          <p class="note">Pathline is the private open-to-work layer for senior talent.</p>
+            <h1 class="wide-title">Senior talent, quietly open</h1>
+            <ul class="bullets">
+              <li>Senior talent, open to the right role</li>
+              <li>Public signal → career, reputation, employer risk</li>
+              <li>Pathline: the private open-to-work layer</li>
+            </ul>
           </div>
-          <div class="card">
+          <div class="card with-icon">
+            <div class="doodle-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><path class="fill-soft" d="M15 22c0-6 3.7-10 9.2-10s8.8 4 8.8 10"/><path d="M15 23c-.5-6.8 3-12 9-12 5.8 0 9.3 4.8 9 12"/><path d="M13 22.5c7.5-1.4 15.2-1.4 22.7.1 1.8.4 2.9 1.7 2.7 3.5l-1 9.9c-.2 1.6-1.4 2.8-3 3-6.9 1.1-13.8 1-20.8-.1-1.6-.3-2.7-1.5-2.9-3.1l-.8-9.9c-.2-1.7.7-3 2.1-3.4z"/><path d="M24 29v4"/><path class="soft" d="M9 17c1.5-1.4 3-2.5 4.8-3.4M36 13.7c1.6.8 2.9 1.8 4.2 3.1"/></svg>
+            </div>
             <div class="card-title">Core bet</div>
-            <p class="card-copy">If identity stays protected until mutual interest, more senior people can safely signal private readiness for the right role.</p>
-            <p class="fine">Identity lock is not a flourish. It is the mechanism that creates supply.</p>
+            <p class="card-copy">Identity protected until mutual interest → safe private readiness.</p>
+            <p class="fine">Identity lock creates the supply.</p>
           </div>
         </div>
       </div>
@@ -527,8 +720,11 @@
       <div class="shell">
         <div class="content">
           <div class="kicker">Market shift</div>
-          <h2 class="wide-title">Visible supply is getting noisier.</h2>
-          <p class="sub">Applications and profiles are easier to manufacture. The recruiter still needs one clear answer.</p>
+          <h2 class="wide-title">Visible supply, getting noisier</h2>
+          <ul class="bullets">
+            <li>More to fake every year</li>
+            <li>One answer still missing</li>
+          </ul>
           <div class="noise-map" aria-label="Many weak signals resolving into one live moment">
             <div class="noise-stack">
               <div class="noise-column">
@@ -547,14 +743,14 @@
             <span class="noise-line"></span>
             <div class="noise-answer">
               <div class="noise-answer-title">Private readiness</div>
-              <p class="noise-answer-copy">A relevant person is protected, opted in, and available for a first conversation.</p>
+              <p class="noise-answer-copy">Protected · opted in · available now.</p>
             </div>
-            <div class="noise-label">The product turns a noisy pool into one usable moment.</div>
+            <div class="noise-label">Noisy pool → one usable moment.</div>
           </div>
           <div class="stat-strip">
-            <div class="stat-chip"><b>+30%</b><span>More applications reported over two years.</span></div>
-            <div class="stat-chip"><b>Text</b><span>Candidate-authored material is cheaper to produce.</span></div>
-            <div class="stat-chip"><b>Timing</b><span>No-response loops make availability matter.</span></div>
+            <div class="stat-chip"><b>+30%</b><span>applications in two years</span></div>
+            <div class="stat-chip"><b>Text</b><span>authored prose, near-free to fake</span></div>
+            <div class="stat-chip"><b>Timing</b><span>ghosting makes it matter</span></div>
           </div>
         </div>
       </div>
@@ -564,13 +760,37 @@
       <div class="shell">
         <div class="content">
           <div class="kicker">Gap</div>
-          <h2 class="wide-title">Recruiters see the wrong pools.</h2>
-          <p class="sub">Visible applicants are noisy. Senior passive talent is hidden. The missing pool is privately open, verified, and reachable now.</p>
+          <h2 class="wide-title">Recruiters see the wrong pools</h2>
+          <ul class="bullets">
+            <li>Visible applicants → noisy</li>
+            <li>Passive seniors → hidden</li>
+            <li>Missing pool → open, verified, reachable now</li>
+          </ul>
           <div class="grid-4">
-            <div class="card"><div class="card-title">Private</div><p class="card-copy">The candidate can signal without becoming public supply.</p></div>
-            <div class="card"><div class="card-title">Verified</div><p class="card-copy">Source-tagged facts beat polished claims.</p></div>
-            <div class="card"><div class="card-title">Relevant</div><p class="card-copy">The moment is scoped to one role.</p></div>
-            <div class="card"><div class="card-title">Present</div><p class="card-copy">The window is live, consented, and perishable.</p></div>
+            <div class="card with-icon">
+              <div class="doodle-icon" aria-hidden="true">
+                <svg viewBox="0 0 48 48"><path d="M14 21c0-5.9 3.8-9.8 9.5-9.8 5.4 0 8.8 3.7 8.8 9.7"/><path d="M12.2 21.6c7.4-1.2 14.8-1.2 22.2 0 1.8.3 2.8 1.6 2.7 3.4l-.9 9.8c-.1 1.7-1.4 2.9-3 3.2-6.2.9-12.5.9-18.8 0-1.7-.3-2.9-1.5-3.1-3.2l-.8-9.8c-.1-1.7.6-3.1 1.7-3.4z"/><path class="soft" d="M20 31.5c2.4 1.4 4.9 1.5 7.7.2"/></svg>
+              </div>
+              <div class="card-title">Private</div><p class="card-copy">Signal without going public.</p>
+            </div>
+            <div class="card with-icon">
+              <div class="doodle-icon" aria-hidden="true">
+                <svg viewBox="0 0 48 48"><path class="fill-soft" d="M12 24.5c0-7 5.2-12.4 12-12.4s12 5.4 12 12.4-5.2 12.4-12 12.4-12-5.4-12-12.4z"/><path d="M12 24.5c0-7 5.2-12.4 12-12.4s12 5.4 12 12.4-5.2 12.4-12 12.4-12-5.4-12-12.4z"/><path d="M18.5 24.2l4 4.2 8.2-9"/><path class="soft" d="M11 14.8l-2.5-2.2M37.2 35.4l2.7 2.4M36.5 13.8l2.8-2.7"/></svg>
+              </div>
+              <div class="card-title">Verified</div><p class="card-copy">Source-tagged facts, not claims.</p>
+            </div>
+            <div class="card with-icon">
+              <div class="doodle-icon" aria-hidden="true">
+                <svg viewBox="0 0 48 48"><path d="M11.5 25c2.7-6.6 7-9.9 12.5-9.9S33.8 18.4 36.6 25c-2.8 6.6-7 9.9-12.6 9.9S14.2 31.6 11.5 25z"/><path class="fill-soft" d="M19.2 25c0-2.8 2.1-4.9 4.8-4.9s4.8 2.1 4.8 4.9-2.1 4.9-4.8 4.9-4.8-2.1-4.8-4.9z"/><path d="M19.2 25c0-2.8 2.1-4.9 4.8-4.9s4.8 2.1 4.8 4.9-2.1 4.9-4.8 4.9-4.8-2.1-4.8-4.9z"/><path class="soft" d="M8.6 18.8c1-1.3 2.1-2.4 3.4-3.4M39.2 18.8c-1-1.3-2.1-2.4-3.4-3.4"/></svg>
+              </div>
+              <div class="card-title">Relevant</div><p class="card-copy">Scoped to one role.</p>
+            </div>
+            <div class="card with-icon">
+              <div class="doodle-icon" aria-hidden="true">
+                <svg viewBox="0 0 48 48"><path class="fill-soft" d="M13 24c0-6 4.8-10.9 10.8-10.9S34.6 18 34.6 24 29.8 34.9 23.8 34.9 13 30 13 24z"/><path d="M13 24c0-6 4.8-10.9 10.8-10.9S34.6 18 34.6 24 29.8 34.9 23.8 34.9 13 30 13 24z"/><path d="M24 18.4v6l4.7 2.9"/><path class="soft" d="M38 18l2.8-2.2M9.7 16l-2.5-2M24 8.2V5"/></svg>
+              </div>
+              <div class="card-title">Present</div><p class="card-copy">Live · consented · perishable.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -580,12 +800,12 @@
       <div class="shell">
         <div class="content">
           <div class="kicker">Mechanism</div>
-          <h2 class="wide-title">Unlock hidden supply safely.</h2>
+          <h2 class="wide-title">Unlock hidden supply, safely</h2>
           <div class="list">
-            <div class="row"><div class="row-label">Protect</div><div class="row-copy">Identity stays locked until both sides choose the live moment.</div></div>
-            <div class="row"><div class="row-label">Verify</div><div class="row-copy">Facts come from work email and connected accounts, not resume prose.</div></div>
-            <div class="row"><div class="row-label">Consent</div><div class="row-copy">The candidate opens a private window for this role and this timing.</div></div>
-            <div class="row"><div class="row-label">Reveal</div><div class="row-copy">The moment ends in a live intro, a booked next step, or a clean no.</div></div>
+            <div class="row"><div class="row-label">Protect</div><div class="row-copy">Identity locked until both choose live.</div></div>
+            <div class="row"><div class="row-label">Verify</div><div class="row-copy">Work email + connected accounts, not prose.</div></div>
+            <div class="row"><div class="row-label">Consent</div><div class="row-copy">Private window — this role, this timing.</div></div>
+            <div class="row"><div class="row-label">Reveal</div><div class="row-copy">Live intro, booked step, or clean no.</div></div>
           </div>
         </div>
       </div>
@@ -597,14 +817,17 @@
           <div>
             <div class="kicker">Product</div>
             <h2>Recruiter flow</h2>
-            <p class="sub">Dana is hiring a Staff Product Engineer. Pathline opens when a protected, verified candidate privately signals readiness.</p>
+            <ul class="bullets">
+              <li>Hiring a Staff Product Engineer</li>
+              <li>Opens on private, verified readiness</li>
+            </ul>
             <div class="flow">
-              <div class="flow-step"><div class="flow-index">01</div><div class="flow-label">Push</div></div>
-              <div class="flow-step"><div class="flow-index">02</div><div class="flow-label">Presence board</div></div>
-              <div class="flow-step"><div class="flow-index">03</div><div class="flow-label">Moment brief</div></div>
-              <div class="flow-step"><div class="flow-index">04</div><div class="flow-label">Go live</div></div>
-              <div class="flow-step"><div class="flow-index">05</div><div class="flow-label">Identity reveal</div></div>
-              <div class="flow-step"><div class="flow-index">06</div><div class="flow-label">Book / close</div></div>
+              <div class="flow-step"><div class="flow-index">01</div><div class="doodle-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M16 17c0-3.9 3.3-7 7.8-7s7.8 3.1 7.8 7v3.5c0 2.2 1 4.1 2.6 5.4l1.1.9c.8.6.4 1.9-.6 2-7.2 1.2-14.4 1.2-21.6 0-1-.1-1.4-1.4-.6-2l1.1-.9c1.6-1.3 2.4-3.2 2.4-5.4V17z"/><path d="M20.5 32.3c1.2 2 5.1 2 6.4 0"/><path class="soft" d="M11 12.5l-2.4-2M36.5 12.5l2.7-2.1"/></svg></div><div class="flow-label">Push</div></div>
+              <div class="flow-step"><div class="flow-index">02</div><div class="doodle-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M11 16c7.5-2.8 18.5-2.8 26 0"/><path d="M13.5 24c6-2.1 15-2.1 21 0"/><path d="M17 32c4.1-1.4 9.9-1.4 14 0"/><path class="soft" d="M23.8 38h.3"/></svg></div><div class="flow-label">Presence board</div></div>
+              <div class="flow-step"><div class="flow-index">03</div><div class="doodle-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M14 9.5c6.3-1.3 12.7-1.3 19 0 1.7.3 2.8 1.5 3 3.2.8 6.8.8 13.7 0 20.6-.2 1.6-1.3 2.8-3 3.2-6.3 1.3-12.7 1.3-19 0-1.7-.4-2.8-1.6-3-3.2-.8-6.9-.8-13.8 0-20.6.2-1.7 1.3-2.9 3-3.2z"/><path class="soft" d="M17 18h13M17 24h10M17 30h8"/></svg></div><div class="flow-label">Moment brief</div></div>
+              <div class="flow-step"><div class="flow-index">04</div><div class="doodle-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M14 30.5c0-9.8 19.8-9.8 19.8 0"/><path d="M17 30.4c1.7 4.4 11.9 4.4 13.7 0"/><path class="soft" d="M10 23c2-3.4 4.8-5.8 8.3-7M37.2 23c-1.9-3.4-4.7-5.8-8.2-7"/></svg></div><div class="flow-label">Go live</div></div>
+              <div class="flow-step"><div class="flow-index">05</div><div class="doodle-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M14 25.5c2.4-5.9 5.9-8.8 10.4-8.8s8 2.9 10.4 8.8c-2.4 5.9-5.9 8.8-10.4 8.8S16.4 31.4 14 25.5z"/><path d="M21.1 25.5c0-2 1.4-3.5 3.3-3.5s3.3 1.5 3.3 3.5-1.4 3.5-3.3 3.5-3.3-1.5-3.3-3.5z"/><path class="soft" d="M24 12.5V9M37.5 17.4l2.3-2.3M10 15.1l2.4 2.3"/></svg></div><div class="flow-label">Identity reveal</div></div>
+              <div class="flow-step"><div class="flow-index">06</div><div class="doodle-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M13 15c6.8-1.3 13.6-1.3 20.4 0 1.6.3 2.6 1.5 2.8 3.1.5 4.8.5 9.7 0 14.5-.2 1.6-1.2 2.8-2.8 3.1-6.8 1.3-13.6 1.3-20.4 0-1.6-.3-2.6-1.5-2.8-3.1-.5-4.8-.5-9.7 0-14.5.2-1.6 1.2-2.8 2.8-3.1z"/><path d="M17 24.8l4.1 4 8.9-9.3"/><path class="soft" d="M17 10v6M30 10v6"/></svg></div><div class="flow-label">Book / close</div></div>
             </div>
             <div class="btn-row">
               <a class="btn primary" href="/" target="_blank">open prototype</a>
@@ -612,16 +835,16 @@
             </div>
             <div class="card alt-card">
               <div class="card-title">alternative tested</div>
-              <p class="card-copy">Solve Together had both sides work through a real role problem for 15 minutes. It was useful later in the process, but too heavy for the first connection. It felt like evaluation, wanted desktop space, and added friction before trust had started.</p>
+              <p class="card-copy">Solve Together · 15-min shared problem · too heavy for a first connection · felt like evaluation.</p>
             </div>
           </div>
-          <div class="phone-card">
-            <div class="phone-screen">
-              <div class="mini-status"><span>9:41</span><span>Pathline</span></div>
-              <div class="mini-count"><span class="accent">5</span> open moments</div>
-              <div class="mini-card"><div class="card-title">Senior PM</div><span>Series-B fintech, identity locked</span><div class="mini-pill">active now</div></div>
-              <div class="mini-card"><div class="card-title">Staff Engineer</div><span>public co, work email verified</span><div class="mini-pill">opted in</div></div>
-              <div class="mini-card"><div class="card-title">Design Engineer</div><span>Series-A startup, private window open</span><div class="mini-pill">start live</div></div>
+          <div class="phone-embed">
+            <div class="phone-embed-inner">
+              <iframe
+                src="/?embed=1&amp;screen=board"
+                title="Pathline prototype — live presence board"
+                loading="lazy"
+              ></iframe>
             </div>
           </div>
         </div>
@@ -632,14 +855,17 @@
       <div class="shell">
         <div class="content">
           <div class="kicker">Trust</div>
-          <h2 class="wide-title">Trust builds in layers.</h2>
-          <p class="sub">Pathline does not ask recruiters to trust another fake-polished resume. It composes enough provenance, intent, and presence to start.</p>
+          <h2 class="wide-title">Trust builds in layers</h2>
+          <ul class="bullets">
+            <li>Not another polished resume</li>
+            <li>Composed from provenance, intent, presence</li>
+          </ul>
           <div class="grid-3">
-            <div class="card"><div class="card-title">Facts</div><p class="card-copy">Work email, connected links, source tags.</p></div>
-            <div class="card"><div class="card-title">Protection</div><p class="card-copy">Name and face reveal only after mutual choice.</p></div>
-            <div class="card"><div class="card-title">Intent</div><p class="card-copy">Role, stage, comp, and timing as structured chips.</p></div>
+            <div class="card with-icon"><div class="doodle-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M14 9.5c6.3-1.3 12.7-1.3 19 0 1.7.3 2.8 1.5 3 3.2.8 6.8.8 13.7 0 20.6-.2 1.6-1.3 2.8-3 3.2-6.3 1.3-12.7 1.3-19 0-1.7-.4-2.8-1.6-3-3.2-.8-6.9-.8-13.8 0-20.6.2-1.7 1.3-2.9 3-3.2z"/><path d="M17.5 24l3.3 3.2 8-8.4"/><path class="soft" d="M18 15.8h10.5M18 31.2h7.5"/></svg></div><div class="card-title">Facts</div><p class="card-copy">Work email · connected links · source tags.</p></div>
+            <div class="card with-icon"><div class="doodle-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M14 21c0-5.9 3.8-9.8 9.5-9.8 5.4 0 8.8 3.7 8.8 9.7"/><path d="M12.2 21.6c7.4-1.2 14.8-1.2 22.2 0 1.8.3 2.8 1.6 2.7 3.4l-.9 9.8c-.1 1.7-1.4 2.9-3 3.2-6.2.9-12.5.9-18.8 0-1.7-.3-2.9-1.5-3.1-3.2l-.8-9.8c-.1-1.7.6-3.1 1.7-3.4z"/><path class="soft" d="M20 31.5c2.4 1.4 4.9 1.5 7.7.2"/></svg></div><div class="card-title">Protection</div><p class="card-copy">Name &amp; face reveal only on mutual choice.</p></div>
+            <div class="card with-icon"><div class="doodle-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M12.5 17.5c0-3.2 2.6-5.8 5.8-5.8 2.4 0 4.2 1 5.7 3.1 1.5-2.1 3.3-3.1 5.7-3.1 3.2 0 5.8 2.6 5.8 5.8 0 7.5-11.5 16.1-11.5 16.1S12.5 25 12.5 17.5z"/><path class="soft" d="M15.2 39c5.7 1.2 11.7 1.2 17.5 0"/></svg></div><div class="card-title">Intent</div><p class="card-copy">Role, stage, comp, timing — structured chips.</p></div>
           </div>
-          <p class="note">Liveness is one layer, not proof. Deeper identity and background checks stay downstream.</p>
+          <p class="note">Liveness = one layer, not proof · deeper checks stay downstream.</p>
         </div>
       </div>
     </section>
@@ -648,13 +874,19 @@
       <div class="shell">
         <div class="content">
           <div class="kicker">Business</div>
-          <h2 class="wide-title">Sell private access to readiness.</h2>
+          <h2 class="wide-title">Sell private access to readiness</h2>
           <div class="grid-3">
-            <div class="card"><div class="card-title">Buyer</div><p class="card-copy">Talent leaders hiring senior, sensitive, specialized roles.</p></div>
-            <div class="card"><div class="card-title">Pilot</div><p class="card-copy">Six to eight weeks across roles where passive supply matters.</p></div>
-            <div class="card"><div class="card-title">Pricing</div><p class="card-copy">Role-based subscription once qualified moments convert.</p></div>
+            <div class="card with-icon"><div class="doodle-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M15.5 36c.9-5.1 4-7.6 8.5-7.6s7.6 2.5 8.5 7.6"/><path d="M18.8 19.2c0-3 2.2-5.2 5.2-5.2s5.2 2.2 5.2 5.2-2.2 5.2-5.2 5.2-5.2-2.2-5.2-5.2z"/><path class="soft" d="M10 35.2c.6-3.6 2.5-5.8 5.6-6.5M38 35.2c-.6-3.6-2.5-5.8-5.6-6.5"/></svg></div><div class="card-title">Buyer</div><p class="card-copy">Talent leaders · senior, sensitive, specialized roles.</p></div>
+            <div class="card with-icon"><div class="doodle-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M12 30c7.6-9.5 16-12.2 25-8"/><path d="M30.6 18.6l6.6 3.3-4.1 6.1"/><path class="soft" d="M11.8 36.5c6.6 1.2 13.5.8 20.5-1.2M12 16.5c4.4-1.9 9-2.6 13.8-2"/></svg></div><div class="card-title">Pilot</div><p class="card-copy">6–8 weeks · roles where passive supply matters.</p></div>
+            <div class="card with-icon"><div class="doodle-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M17 12.5c4.8-1 9.3-1 14 0 1.4.3 2.2 1.3 2.3 2.7.4 5.8.4 11.6 0 17.5-.1 1.4-.9 2.4-2.3 2.7-4.7 1-9.2 1-14 0-1.4-.3-2.2-1.3-2.3-2.7-.4-5.9-.4-11.7 0-17.5.1-1.4.9-2.4 2.3-2.7z"/><path d="M20 29c2.2 1.5 5.9 1.4 7.4-.2 1.3-1.4.7-3.4-1.8-4.1l-3.2-.9c-2.5-.7-3-2.8-1.5-4.2 1.6-1.5 5.1-1.6 7-.2"/><path class="soft" d="M24 16.8v16"/></svg></div><div class="card-title">Pricing</div><p class="card-copy">Role-based subscription on qualified conversions.</p></div>
           </div>
-          <p class="note">Measure private windows opened, qualified first conversations, booked follow-ups, and recruiter confidence.</p>
+          <div class="bullets-label">Measure</div>
+          <ul class="bullets">
+            <li>Private windows opened</li>
+            <li>Qualified first conversations</li>
+            <li>Booked follow-ups</li>
+            <li>Recruiter confidence</li>
+          </ul>
         </div>
       </div>
     </section>
@@ -663,14 +895,18 @@
       <div class="shell">
         <div class="content">
           <div class="kicker">Risks</div>
-          <h2 class="wide-title">The hard parts are clear.</h2>
+          <h2 class="wide-title">The hard parts are clear</h2>
           <div class="list">
-            <div class="row"><div class="row-label">Supply</div><div class="row-copy">Will senior candidates open private windows often enough?</div></div>
-            <div class="row"><div class="row-label">Trust</div><div class="row-copy">Will recruiters act before seeing name, face, or full resume?</div></div>
-            <div class="row"><div class="row-label">Fraud</div><div class="row-copy">Verified facts and liveness raise trust, but cannot carry the full burden.</div></div>
-            <div class="row"><div class="row-label">Fit</div><div class="row-copy">The product has to sit cleanly before the ATS and deeper checks.</div></div>
+            <div class="row"><div class="row-label">Supply</div><div class="row-copy">Enough candidates opening windows?</div></div>
+            <div class="row"><div class="row-label">Trust</div><div class="row-copy">Recruiters acting before name, face, resume?</div></div>
+            <div class="row"><div class="row-label">Fraud</div><div class="row-copy">Facts + liveness raise trust — can't carry it alone.</div></div>
+            <div class="row"><div class="row-label">Fit</div><div class="row-copy">Must sit cleanly before ATS + deeper checks.</div></div>
           </div>
-          <p class="sub">The next step is to test the two riskiest assumptions: candidate consent to private availability and recruiter willingness to act on protected identity.</p>
+          <div class="bullets-label">Next — test the two riskiest bets</div>
+          <ul class="bullets">
+            <li>Candidate consent to private availability</li>
+            <li>Recruiter willingness to act on protected identity</li>
+          </ul>
         </div>
       </div>
     </section>
@@ -693,7 +929,16 @@
 
     function show(index) {
       current = Math.max(0, Math.min(total - 1, index));
-      slides.forEach((slide, i) => slide.classList.toggle('active', i === current));
+      slides.forEach((slide, i) => {
+        const isActive = i === current;
+        slide.classList.toggle('active', isActive);
+        slide.classList.remove('animating');
+        if (isActive) {
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => slide.classList.add('animating'));
+          });
+        }
+      });
       counter.textContent = `${pad(current + 1)} / ${pad(total)}`;
       progress.style.width = `${((current + 1) / total) * 100}%`;
     }

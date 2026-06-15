@@ -2,21 +2,16 @@ import { motion } from 'framer-motion'
 import { IconCalendarCheck, IconCircleCheck, IconRotate } from '@tabler/icons-react'
 import { Avatar } from '../components/bits'
 import type { Candidate } from '../data'
-import { revealTransition, screenTransition } from '../lib/motion'
+import { revealTransition } from '../lib/motion'
 
 export function BookedScreen({ c, onRestart }: { c: Candidate; onRestart: () => void }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={screenTransition}
-      className="flex flex-1 flex-col items-center px-5 pb-6 text-center"
-    >
+    <div className="flex flex-1 flex-col items-center px-5 pb-6 text-center">
       <div className="flex flex-1 flex-col items-center justify-center">
         <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
+          initial={{ scale: 0.86, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={revealTransition}
+          transition={{ ...revealTransition, delay: 0.18 }}
           className="relative"
         >
           <Avatar initials={c.initials} hue={c.hue} size="lg" />
@@ -48,6 +43,6 @@ export function BookedScreen({ c, onRestart }: { c: Candidate; onRestart: () => 
       >
         <IconRotate size={15} stroke={1.8} /> Replay the Demo
       </button>
-    </motion.div>
+    </div>
   )
 }
