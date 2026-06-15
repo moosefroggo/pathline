@@ -94,7 +94,7 @@ export function BriefScreen({
           onClick={onStart}
           className="pl-primary-action flex w-full items-center justify-center gap-1.5 rounded-[14px] py-3.5 text-subhead font-medium transition active:scale-[0.98]"
         >
-          <IconBolt size={16} stroke={2} /> Go live
+          <IconBolt size={16} stroke={1.8} /> Go live
         </button>
       </div>
     </div>

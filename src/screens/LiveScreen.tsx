@@ -69,9 +69,23 @@ export function LiveScreen({
 
       {/* self-view, tucked into the corner so it never collides with the reveal */}
       {phase === 'live' && (
-        <div className="pl-glass-soft absolute top-3 right-3 z-10 flex h-[58px] w-[44px] flex-col items-center justify-center gap-1 rounded-xl text-ink-4">
-          <IconVideo size={14} stroke={1.8} />
-          <span className="text-micro">You</span>
+        <div className="absolute top-3 right-3 z-10 h-[60px] w-[46px] overflow-hidden rounded-xl border border-hairline-strong shadow-[0_6px_16px_rgba(0,0,0,0.3)]">
+          <svg viewBox="0 0 46 60" preserveAspectRatio="xMidYMid slice" className="h-full w-full" aria-hidden="true">
+            <defs>
+              <linearGradient id="pl-selfbg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stopColor="#26352f" />
+                <stop offset="1" stopColor="#141e1b" />
+              </linearGradient>
+            </defs>
+            <rect width="46" height="60" fill="url(#pl-selfbg)" />
+            <path d="M3 60 C3 46 13 40 23 40 C33 40 43 46 43 60 Z" fill="#4f635e" />
+            <rect x="19" y="31" width="8" height="11" rx="4" fill="#c9b194" />
+            <circle cx="23" cy="22" r="10" fill="#d3bb9b" />
+            <path d="M12.5 21 C12.5 12 33.5 12 33.5 21 C33.5 15.5 29 11.5 23 11.5 C17 11.5 12.5 15.5 12.5 21 Z" fill="#39473f" />
+          </svg>
+          <span className="absolute inset-x-0 bottom-0 bg-night/55 text-center text-[9px] leading-[13px] font-medium text-ink-2">
+            You
+          </span>
         </div>
       )}
 

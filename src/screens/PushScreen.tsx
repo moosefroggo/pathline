@@ -17,7 +17,7 @@ export function PushScreen({ onOpen }: { onOpen: () => void }) {
       >
         <div className="mb-2 flex items-center gap-2">
           <span className="pl-glass-soft flex h-5 w-5 items-center justify-center rounded-md text-live-700">
-            <IconLeaf size={14} stroke={2} />
+            <IconLeaf size={14} stroke={1.8} />
           </span>
           <span className="text-caption tracking-wide text-ink-2">pathline</span>
           <span className="ml-auto text-caption text-ink-3">now</span>
@@ -30,7 +30,7 @@ export function PushScreen({ onOpen }: { onOpen: () => void }) {
       </button>
 
       <div className="mt-auto flex flex-col items-center gap-1 pt-8 text-ink-3">
-        <IconChevronUp size={16} stroke={2} />
+        <IconChevronUp size={16} stroke={1.8} />
         <span className="text-caption">tap to open</span>
       </div>
     </div>

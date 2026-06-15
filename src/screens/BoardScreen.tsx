@@ -101,7 +101,7 @@ export function BoardScreen({ onSelect }: { onSelect: (c: Candidate) => void }) 
       <div className="px-4 pt-3">
         <div className="flex items-center gap-2">
           <span className="pl-glass-soft flex h-[22px] w-[22px] items-center justify-center rounded-[7px] text-live-700">
-            <IconLeaf size={14} stroke={2} />
+            <IconLeaf size={14} stroke={1.8} />
           </span>
           <span className="text-headline font-medium text-ink">Moments</span>
           <button
@@ -121,8 +121,11 @@ export function BoardScreen({ onSelect }: { onSelect: (c: Candidate) => void }) 
             <Avatar initials={recruiter.initial} hue="coral" size="xs" />
           </button>
         </div>
-        <div className="mt-2 text-label text-ink-2">
-          {recruiter.role} · {recruiter.company}
+        <div className="mt-2 flex items-center gap-1.5 text-label text-ink-2">
+          <IconBriefcase size={13} stroke={1.8} className="shrink-0 text-ink-3" />
+          <span>
+            Hiring {recruiter.role} · {recruiter.company}
+          </span>
         </div>
         <div className="mt-2.5">
           <div className="font-serif text-[19px] font-medium whitespace-nowrap text-live-700">

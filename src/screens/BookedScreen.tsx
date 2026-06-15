@@ -16,7 +16,7 @@ export function BookedScreen({ c, onRestart }: { c: Candidate; onRestart: () => 
         >
           <Avatar initials={c.initials} hue={c.hue} size="lg" />
           <span className="absolute -right-1 -bottom-1 flex h-7 w-7 items-center justify-center rounded-full bg-live text-live-900">
-            <IconCircleCheck size={16} stroke={2} />
+            <IconCircleCheck size={16} stroke={1.8} />
           </span>
         </motion.div>
 

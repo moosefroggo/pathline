@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { Draggable } from 'gsap/Draggable'
 import { InertiaPlugin } from 'gsap/InertiaPlugin'
-import { IconBolt, IconClock } from '@tabler/icons-react'
+import { IconArrowRight, IconBolt, IconClock } from '@tabler/icons-react'
 import { Avatar, LiveDot } from './bits'
 import type { Candidate } from '../data'
 
@@ -149,15 +149,15 @@ export function PresenceCarousel({
   }
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col">
-      <div ref={stageRef} className="pl-carousel-stage relative flex-1 touch-none select-none">
+    <div className="flex min-h-0 flex-1 flex-col justify-center gap-5">
+      <div ref={stageRef} className="pl-carousel-stage relative h-[190px] touch-none select-none">
         {candidates.map((c, i) => (
           <div
             key={c.id}
             ref={(el) => {
               cardRefs.current[i] = el
             }}
-            className="pl-carousel-card absolute top-[46%] left-1/2 w-[256px]"
+            className="pl-carousel-card absolute top-1/2 left-1/2 w-[256px]"
             onClick={() => handleCard(i)}
           >
             <CardFace c={c} />
@@ -165,17 +165,26 @@ export function PresenceCarousel({
         ))}
       </div>
 
-      <div className="flex items-center justify-center gap-1.5" aria-hidden="true">
-        {candidates.map((c, i) => (
-          <span
-            key={c.id}
-            className={`h-1.5 rounded-full transition-all duration-300 ${
-              i === active ? 'w-4 bg-live' : 'w-1.5 bg-ink-4/50'
-            }`}
-          />
-        ))}
+      <div className="flex flex-col items-center gap-3 px-4">
+        <button
+          type="button"
+          onClick={() => onSelect(candidates[active])}
+          className="pl-primary-action flex w-full items-center justify-center gap-1.5 rounded-[14px] py-3 text-subhead font-medium transition active:scale-[0.98]"
+        >
+          Open moment <IconArrowRight size={16} stroke={1.8} />
+        </button>
+        <div className="flex items-center gap-1.5" aria-hidden="true">
+          {candidates.map((c, i) => (
+            <span
+              key={c.id}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                i === active ? 'w-4 bg-live' : 'w-1.5 bg-ink-4/50'
+              }`}
+            />
+          ))}
+        </div>
+        <div className="text-micro text-ink-4">Swipe to browse other moments</div>
       </div>
-      <div className="pb-3 pt-2 text-center text-micro text-ink-4">Swipe to browse · tap to open</div>
     </div>
   )
 }
