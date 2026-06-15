@@ -113,7 +113,7 @@ export function LiveScreen({
               <Avatar initials={recruiter.initial} hue="coral" size="sm" />
             </div>
           )}
-          <span className="absolute inset-x-0 bottom-0 bg-night/55 text-center text-[9px] leading-[13px] font-medium text-ink-2">
+          <span className="absolute inset-x-0 bottom-0 bg-night/55 text-center text-micro leading-[13px] font-medium text-ink-2">
             You
           </span>
         </div>
