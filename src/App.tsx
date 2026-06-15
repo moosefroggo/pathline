@@ -9,7 +9,7 @@ import { GoLiveScreen } from './screens/GoLiveScreen'
 import { LiveScreen } from './screens/LiveScreen'
 import { BookedScreen } from './screens/BookedScreen'
 import { candidates, type Candidate } from './data'
-import { screenTransition } from './lib/motion'
+import { screenStackVariants, screenTransition } from './lib/motion'
 
 type Screen = 'push' | 'board' | 'brief' | 'golive' | 'live' | 'booked'
 
@@ -35,9 +35,9 @@ export default function App() {
   return (
     <div className="flex min-h-full flex-col items-center justify-center gap-7 px-4 py-10">
       <nav aria-label="Switch view" className="pl-glass-pill fixed top-5 right-5 z-30 flex items-center gap-1 rounded-full p-1 text-caption font-medium">
-        <span className="rounded-full bg-live-200/15 px-3 py-1.5 text-live-700">app</span>
+        <span className="rounded-full bg-live-200/15 px-3 py-1.5 text-live-700">App</span>
         <a className="rounded-full px-3 py-1.5 text-ink-3 transition hover:text-ink" href="/deck.html">
-          deck
+          Deck
         </a>
       </nav>
 
@@ -54,14 +54,16 @@ export default function App() {
       </div>
 
       <PhoneFrame tone={screen === 'live' ? 'dark' : 'light'}>
-        <AnimatePresence mode="wait" initial={false}>
+        <AnimatePresence initial={false} custom={direction}>
           <motion.div
             key={screen}
-            initial={{ opacity: 0, x: direction > 0 ? 34 : -34 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: direction > 0 ? -28 : 28 }}
+            custom={direction}
+            variants={screenStackVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
             transition={screenTransition}
-            className="flex min-h-0 flex-1 flex-col"
+            className="absolute inset-0 flex min-h-0 flex-col"
           >
             {screen === 'push' && <PushScreen onOpen={() => go('board')} />}
             {screen === 'board' && (

@@ -39,7 +39,7 @@ export function BriefScreen({
           onClick={onBack}
           className="flex items-center gap-0.5 text-body text-ink-2"
         >
-          <IconChevronLeft size={16} stroke={1.8} /> moments
+          <IconChevronLeft size={16} stroke={1.8} /> Moments
         </button>
 
         <motion.div variants={container} initial="hidden" animate="show">
@@ -51,14 +51,14 @@ export function BriefScreen({
                 <IconLock size={12} stroke={1.8} className="text-ink-3" />
               </div>
               <div className="flex items-center gap-1.5 text-caption text-live-700">
-                <LiveDot /> active now · replies in {c.repliesIn}
+                <LiveDot /> Active Now · replies in {c.repliesIn}
               </div>
             </div>
           </motion.div>
 
           <motion.div variants={item}>
             <SectionLabel icon={<IconRosetteDiscountCheck size={14} className="text-live-700" />}>
-              facts
+              Facts
             </SectionLabel>
             <div className="pl-glass rounded-xl px-3 py-1">
               {c.verified.map((v, i) => (
@@ -78,7 +78,7 @@ export function BriefScreen({
 
           <motion.div variants={item}>
             <SectionLabel icon={<IconBolt size={14} className="text-amber-700" />}>
-              behavior
+              Behavior
             </SectionLabel>
             <div className="grid grid-cols-3 gap-1.5">
               {[
@@ -95,7 +95,7 @@ export function BriefScreen({
           </motion.div>
 
           <motion.div variants={item}>
-            <SectionLabel icon={<IconTarget size={14} className="text-iris" />}>intent</SectionLabel>
+            <SectionLabel icon={<IconTarget size={14} className="text-iris" />}>Intent</SectionLabel>
             <div className="flex flex-wrap gap-1.5">
               {c.declared.map((d) => (
                 <Chip key={d}>{d}</Chip>
@@ -109,7 +109,7 @@ export function BriefScreen({
           >
             <IconLock size={15} stroke={1.8} className="text-ink-2" />
             <span className="text-caption leading-snug text-ink">
-              name &amp; face unlock when you both go live.
+              Name &amp; Face unlock when you both go live.
             </span>
           </motion.div>
         </motion.div>

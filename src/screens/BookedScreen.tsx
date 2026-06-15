@@ -27,15 +27,15 @@ export function BookedScreen({ c, onRestart }: { c: Candidate; onRestart: () => 
 
         <div className="mt-4 text-[18px] font-medium text-ink">You&rsquo;re connected with {c.name}</div>
         <div className="pl-glass-pill mt-2 flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-[13px] text-ink">
-          <IconCalendarCheck size={16} stroke={1.8} className="text-live-700" /> booked · {c.bookSlot}
+          <IconCalendarCheck size={16} stroke={1.8} className="text-live-700" /> Booked · {c.bookSlot}
         </div>
 
         <div className="pl-glass mt-6 w-full rounded-2xl px-4 py-3.5">
           <div className="text-[13px] leading-relaxed text-ink">
-            connection made in ~4 min.
+            Connection made in ~4 min.
           </div>
           <div className="mt-1 text-[12px] text-ink-4">
-            industry average: 75% of applicants never hear back.
+            Industry average: 75% of applicants never hear back.
           </div>
         </div>
         <div className="mt-3 text-[12px] text-ink-3">0 cold messages sent · 0 résumés read</div>
@@ -46,7 +46,7 @@ export function BookedScreen({ c, onRestart }: { c: Candidate; onRestart: () => 
         onClick={onRestart}
         className="pl-glass flex w-full items-center justify-center gap-1.5 rounded-[14px] py-3 text-[13px] font-medium text-ink transition active:scale-[0.98]"
       >
-        <IconRotate size={15} stroke={1.8} /> replay the demo
+        <IconRotate size={15} stroke={1.8} /> Replay the Demo
       </button>
     </motion.div>
   )

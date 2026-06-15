@@ -25,7 +25,7 @@ export function PushScreen({ onOpen }: { onOpen: () => void }) {
         <div className="text-[15px] font-medium text-ink">A Senior PM just opened a moment</div>
         <div className="mt-1 flex items-center gap-1.5 text-[12px] text-ink-2">
           <LiveDot />
-          active now · for your {recruiter.role} role
+          Active Now · for your {recruiter.role} role
         </div>
       </button>
 

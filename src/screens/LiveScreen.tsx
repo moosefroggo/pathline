@@ -61,10 +61,10 @@ export function LiveScreen({
       <div className="flex items-center justify-center pt-3.5 text-center">
         {phase === 'live' ? (
           <span className="pl-glass-pill inline-flex items-center gap-1.5 rounded-lg px-3 py-1 text-caption text-live-200">
-            <span className="h-1.5 w-1.5 rounded-full bg-live" /> live · {label}
+            <span className="h-1.5 w-1.5 rounded-full bg-live" /> Live · {label}
           </span>
         ) : (
-          <span className="text-label text-ink-4">connecting&hellip;</span>
+          <span className="text-label text-ink-4">Connecting&hellip;</span>
         )}
       </div>
 
@@ -72,7 +72,7 @@ export function LiveScreen({
       {phase === 'live' && (
         <div className="pl-glass-soft absolute top-3 right-3 z-10 flex h-[58px] w-[44px] flex-col items-center justify-center gap-1 rounded-xl text-ink-4">
           <IconVideo size={14} stroke={1.6} />
-          <span className="text-micro">you</span>
+          <span className="text-micro">You</span>
         </div>
       )}
 
@@ -114,7 +114,7 @@ export function LiveScreen({
                 transition={{ ...riseTransition, delay: 0.22 }}
                 className="pl-glass-pill mt-4 inline-flex items-center gap-1 rounded-md px-2.5 py-1 text-micro text-ink"
               >
-                <IconLockOpen size={11} stroke={1.9} /> identity unlocked
+                <IconLockOpen size={11} stroke={1.9} /> Identity Unlocked
               </motion.span>
               <motion.div
                 initial={{ opacity: 0, y: 8 }}
@@ -157,8 +157,8 @@ export function LiveScreen({
             className="pl-glass mb-4 flex w-full items-center gap-2 rounded-xl px-3 py-2.5 transition active:scale-[0.98]"
           >
             <IconCalendar size={16} stroke={1.8} className="text-live-700" />
-            <span className="text-body text-ink">book 15 min · {c.bookSlot}</span>
-            <span className="ml-auto text-caption font-medium text-live-700">add</span>
+            <span className="text-body text-ink">Book 15 Min · {c.bookSlot}</span>
+            <span className="ml-auto text-caption font-medium text-live-700">Add</span>
           </motion.button>
         )}
       </AnimatePresence>

@@ -54,7 +54,7 @@ export function PhoneFrame({
             <Battery dark={dark} />
           </span>
         </div>
-        <div className="pl-noscroll relative z-10 flex min-h-0 flex-1 flex-col overflow-y-auto">
+        <div className="pl-noscroll relative z-10 min-h-0 flex-1 overflow-hidden">
           {children}
         </div>
       </div>
