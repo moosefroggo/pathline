@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion'
 import {
   IconBolt,
   IconBriefcase,
@@ -11,7 +10,6 @@ import {
 } from '@tabler/icons-react'
 import { Avatar, LiveDot } from '../components/bits'
 import { useCountdown } from '../lib/hooks'
-import { riseTransition } from '../lib/motion'
 import { atsBacklog, candidates, openMomentsCount, recruiter, type Candidate } from '../data'
 
 function Card({ c, onSelect }: { c: Candidate; onSelect: () => void }) {
@@ -29,7 +27,7 @@ function Card({ c, onSelect }: { c: Candidate; onSelect: () => void }) {
           <span className="ml-auto text-micro text-ink-4">window closed</span>
         </div>
         <div className="mt-2.5 flex items-center gap-1 text-caption text-ink-4">
-          <IconClock size={12} stroke={1.8} /> this moment just passed — be quicker next time
+          <IconClock size={12} stroke={1.8} /> this moment just passed, be quicker next time
         </div>
       </div>
     )
@@ -100,16 +98,11 @@ export function BoardScreen({ onSelect }: { onSelect: (c: Candidate) => void }) 
         </div>
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 6 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={riseTransition}
-        className="mt-3 flex flex-col gap-2.5 px-4 pb-4"
-      >
+      <div className="mt-3 flex flex-col gap-2.5 px-4 pb-4">
         {candidates.map((c) => (
           <Card key={c.id} c={c} onSelect={() => onSelect(c)} />
         ))}
-      </motion.div>
+      </div>
 
       <div className="pl-bottom-glass mt-auto flex items-center justify-around border-t border-hairline-strong px-2 pt-2.5 pb-3 text-ink-3">
         <IconBolt size={22} stroke={1.8} className="text-live-700" aria-label="Moments" />

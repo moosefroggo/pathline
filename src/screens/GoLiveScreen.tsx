@@ -75,7 +75,7 @@ export function GoLiveScreen({
       >
         Send a message instead
       </button>
-      <div className="mt-4 text-center text-[10px] leading-relaxed text-ink-3">
+      <div className="mt-4 text-center text-[12px] leading-relaxed text-ink-3">
         Unscripted. No prep. You talk to the real person — that&rsquo;s the point.
       </div>
     </motion.div>

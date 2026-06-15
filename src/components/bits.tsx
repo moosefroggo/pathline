@@ -18,7 +18,7 @@ const hueClasses: Record<AvatarHue, string> = {
 export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
 const sizeClasses: Record<AvatarSize, string> = {
-  xs: 'h-5 w-5 text-[10px]',
+  xs: 'h-5 w-5 text-[12px]',
   sm: 'h-[30px] w-[30px] text-[12px]',
   md: 'h-11 w-11 text-[15px]',
   lg: 'h-24 w-24 text-[34px]',
@@ -75,7 +75,7 @@ export function SourceTag({ source, sourceIcon }: Pick<VerifiedSignal, 'source' 
           ? IconUsers
           : IconMail
   return (
-    <span className="pl-glass-pill flex shrink-0 items-center gap-1 rounded-md px-2 py-[3px] text-[10px] text-ink-2">
+    <span className="pl-glass-pill flex shrink-0 items-center gap-1 rounded-md px-2 py-[3px] text-[12px] text-ink-2">
       <Icon size={12} stroke={1.7} />
       {source}
     </span>
@@ -86,11 +86,11 @@ export function SectionLabel({ icon, children }: { icon: ReactNode; children: Re
   return (
     <div className="mt-4 mb-2 flex items-center gap-1.5">
       <span className="flex items-center">{icon}</span>
-      <span className="text-[11px] text-ink-3">{children}</span>
+      <span className="text-[12px] text-ink-3">{children}</span>
     </div>
   )
 }
 
 export function Chip({ children }: { children: ReactNode }) {
-  return <span className="pl-glass-pill rounded-md px-2.5 py-1 text-[11px] text-ink">{children}</span>
+  return <span className="pl-glass-pill rounded-md px-2.5 py-1 text-[12px] text-ink">{children}</span>
 }

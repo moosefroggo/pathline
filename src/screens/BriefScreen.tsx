@@ -4,7 +4,6 @@ import {
   IconChevronLeft,
   IconCircleCheck,
   IconLock,
-  IconQuote,
   IconRosetteDiscountCheck,
   IconTarget,
 } from '@tabler/icons-react'
@@ -60,10 +59,9 @@ export function BriefScreen({
             </div>
           </motion.div>
 
-          {/* Verified — the protagonist: stronger container + larger items */}
           <motion.div variants={item}>
             <SectionLabel icon={<IconRosetteDiscountCheck size={14} className="text-live-700" />}>
-              Verified
+              Facts
             </SectionLabel>
             <div className="pl-glass rounded-xl px-3 py-1">
               {c.verified.map((v, i) => (
@@ -82,21 +80,8 @@ export function BriefScreen({
           </motion.div>
 
           <motion.div variants={item}>
-            <SectionLabel icon={<IconQuote size={14} className="text-iris" />}>
-              Vouched by peers
-            </SectionLabel>
-            <div className="pl-glass rounded-xl px-3 py-2.5">
-              <div className="text-label leading-snug text-ink">{c.vouch.quote}</div>
-              <div className="mt-1.5 text-caption text-ink-3">
-                — {c.vouch.by} · <span className="text-live-700">verified</span>
-                {c.vouch.more > 0 ? ` · +${c.vouch.more} more` : ''}
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div variants={item}>
             <SectionLabel icon={<IconBolt size={14} className="text-amber-700" />}>
-              Track record
+              Behavior
             </SectionLabel>
             <div className="grid grid-cols-3 gap-1.5">
               {[
@@ -113,7 +98,7 @@ export function BriefScreen({
           </motion.div>
 
           <motion.div variants={item}>
-            <SectionLabel icon={<IconTarget size={14} className="text-iris" />}>Declared</SectionLabel>
+            <SectionLabel icon={<IconTarget size={14} className="text-iris" />}>Intent</SectionLabel>
             <div className="flex flex-wrap gap-1.5">
               {c.declared.map((d) => (
                 <Chip key={d}>{d}</Chip>
@@ -142,7 +127,7 @@ export function BriefScreen({
           <IconBolt size={16} stroke={2} /> Start live moment · 2 min
         </button>
         <div className="mt-2 text-center text-micro text-ink-3">
-          Both present · guaranteed reply
+          Both present · identity protected
         </div>
       </div>
     </motion.div>

@@ -19,6 +19,13 @@ export default function App() {
 
   return (
     <div className="flex min-h-full flex-col items-center justify-center gap-7 px-4 py-10">
+      <nav aria-label="Switch view" className="pl-glass-pill fixed top-5 right-5 z-30 flex items-center gap-1 rounded-full p-1 text-caption font-medium">
+        <span className="rounded-full bg-live-200/15 px-3 py-1.5 text-live-700">App</span>
+        <a className="rounded-full px-3 py-1.5 text-ink-3 transition hover:text-ink" href="/deck.html">
+          Deck
+        </a>
+      </nav>
+
       <div className="flex flex-col items-center gap-1.5">
         <div className="flex items-center gap-2">
           <span className="pl-glass-soft flex h-6 w-6 items-center justify-center rounded-[7px] text-live-700">
@@ -27,7 +34,7 @@ export default function App() {
           <span className="font-serif text-[20px] font-medium text-ink">Pathline</span>
         </div>
         <div className="text-label text-ink-3">
-          Meet in the moment — a recruiter-side prototype
+          Pathline - recruiter demo
         </div>
       </div>
 

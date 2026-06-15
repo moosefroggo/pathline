@@ -59,8 +59,8 @@
   --text-subhead: 15px;
   --text-body: 13px;
   --text-label: 12px;
-  --text-caption: 11px;
-  --text-micro: 10px;
+  --text-caption: 12px;
+  --text-micro: 12px;
 }
 
 @layer base {

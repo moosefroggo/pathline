@@ -38,7 +38,7 @@ export function BookedScreen({ c, onRestart }: { c: Candidate; onRestart: () => 
             Industry average: 75% of applicants never hear back.
           </div>
         </div>
-        <div className="mt-3 text-[11px] text-ink-3">0 cold messages sent · 0 résumés read</div>
+        <div className="mt-3 text-[12px] text-ink-3">0 cold messages sent · 0 résumés read</div>
       </div>
 
       <button

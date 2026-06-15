@@ -140,7 +140,7 @@ export function LiveScreen({
               transition={riseTransition}
               className="pl-glass mt-6 max-w-[260px] rounded-2xl px-3.5 py-2.5 text-body leading-snug text-ink"
             >
-              &ldquo;{c.liveLine}&rdquo;
+              {c.liveLine}
             </motion.div>
           )}
         </AnimatePresence>
