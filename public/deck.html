@@ -181,15 +181,16 @@
       box-shadow: 0 0 14px rgba(185, 228, 215, 0.58);
     }
     h1, h2 {
-      max-width: 13ch;
+      max-width: 18ch;
       font-family: var(--font-serif);
       font-size: clamp(42px, 6.2vw, 86px);
       font-weight: 600;
       letter-spacing: 0;
       line-height: 0.94;
+      text-wrap: balance;
     }
-    h2 { max-width: 14ch; font-size: clamp(38px, 5vw, 72px); }
-    .wide-title { max-width: 17ch; }
+    h2 { max-width: 20ch; font-size: clamp(38px, 5vw, 72px); }
+    .wide-title { max-width: 26ch; }
     .accent { color: var(--presence); }
     .sub {
       max-width: 68ch;
@@ -689,6 +690,7 @@
   <nav class="mode-switch" aria-label="Switch view">
     <a href="/">app</a>
     <span>deck</span>
+    <a href="/?style">style</a>
   </nav>
 
   <main class="deck" id="deck">
