@@ -50,7 +50,7 @@ export function PhoneFrame({
           <span>9:41</span>
           <span className="flex items-center gap-1.5">
             <SignalBars dark={dark} />
-            <IconWifi size={15} stroke={2} />
+            <IconWifi size={18} stroke={2.15} />
             <Battery dark={dark} />
           </span>
         </div>
