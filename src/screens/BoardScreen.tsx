@@ -62,14 +62,13 @@ function Card({ c, onSelect }: { c: Candidate; onSelect: () => void }) {
         </span>
       </div>
 
-      <div className="mt-2.5 flex flex-wrap gap-1.5">
-        <span className="pl-glass-pill flex items-center gap-1 rounded-md px-2 py-[3px] text-micro text-amber-700">
-          <IconBolt size={14} stroke={1.8} /> {c.trigger}
-        </span>
+      <div className="mt-2.5 flex items-start gap-1.5 text-caption text-amber-700">
+        <IconBolt size={14} stroke={1.8} className="mt-px shrink-0" />
+        <span>{c.trigger}</span>
       </div>
 
-      <div className="mt-2 flex items-center gap-2.5 whitespace-nowrap text-micro text-ink-3">
-        <span className="flex shrink-0 items-center gap-1 tabular-nums">
+      <div className="mt-1.5 flex items-center gap-2.5 whitespace-nowrap text-micro text-ink-3">
+        <span className="flex shrink-0 items-center gap-1.5 tabular-nums">
           <IconClock size={14} stroke={1.8} /> {c.openedAgo}
         </span>
         <span className="shrink-0">replies {c.repliesIn}</span>

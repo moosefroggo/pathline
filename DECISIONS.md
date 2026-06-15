@@ -4,6 +4,23 @@ A lightweight record of the load-bearing calls and *why*, so the reasoning survi
 
 ---
 
+## D-007 · The presence board is a calm, scannable list — signals are lines, not badges
+
+**Context.** The Moments board is the first real surface: a few people in an open moment right now. It briefly grew a 3D-angled, overlapping card stack over a WebGL "presence" shader, with each card boxing its why-now trigger (e.g. "Layoffs at her co confirmed · Jun 10") in a pill.
+
+**Decision.**
+- **Board = a flat, flush-aligned, evenly-spaced vertical list.** No 3D cascade, no overlap, no shader.
+- **The why-now trigger is an inline signal line** (leading bolt icon + amber text), not a badge. Badges/chips stay reserved for short, enumerable tokens (declared-intent chips, the live "now").
+
+**Why.**
+1. **Presence over volume; the moment is the hero.** A leaning deck of overlapping cards hides each card's own signal behind the next one and reads as spectacle — the opposite of "reduce cognitive load." A calm list lets each present person be read in full.
+2. **Avoid generic-AI aesthetics.** A decorative WebGL shimmer is exactly the generic-AI flourish the brand avoids; warmth comes from clarity, not effects.
+3. **A pill is a token affordance; the trigger is a sentence.** Boxing sentence-length news in a chip can't wrap gracefully, competes with the real chips elsewhere, and created a third left-edge (the pill's inner padding) that broke the card's alignment. As a signal line, the bolt and clock icons form one clean left rail and long triggers can breathe.
+
+**Consequence.** The board stays legible and human at a glance; chip styling now means one thing (short structured tokens), and behavioral signals read as what they are — short human sentences about why this person is here, now.
+
+---
+
 ## D-006 · No visible seconds timer in the connection flow
 
 **Context.** The prototype used live second-by-second timers in two places: the candidate cards counted down to a closing window, and the call state counted up during the live intro. That made the flow feel urgent, but also made it feel stressful.
