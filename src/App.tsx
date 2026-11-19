@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { IconLeaf } from '@tabler/icons-react'
 import { PhoneFrame } from './components/PhoneFrame'
+import { PathlineMark } from './components/PathlineMark'
 import { PushScreen } from './screens/PushScreen'
+import { WorkbenchIntro } from './screens/WorkbenchIntro'
 import { BoardScreen } from './screens/BoardScreen'
 import { BriefScreen } from './screens/BriefScreen'
 import { GoLiveScreen } from './screens/GoLiveScreen'
@@ -35,6 +36,11 @@ const screenOrder: Record<Screen, number> = {
 const params = new URLSearchParams(window.location.search)
 const isEmbed = params.has('embed')
 const isStyle = params.has('style')
+const isWorkbench = params.has('workbench') && window.parent !== window
+const workbenchOrigin = document.referrer ? new URL(document.referrer).origin : ''
+const allowedWorkbench = new Set([
+  'https://workbench-henna.vercel.app', 'http://localhost:4173', 'http://127.0.0.1:4173',
+])
 const initialScreen: Screen =
   params.get('screen') && params.get('screen')! in screenOrder
     ? (params.get('screen') as Screen)
@@ -45,6 +51,33 @@ export default function App() {
   const [direction, setDirection] = useState(1)
   const [screenMotion, setScreenMotion] = useState<ScreenMotion>('open')
   const [selected, setSelected] = useState<Candidate>(candidates[0])
+  const [intro, setIntro] = useState({ progress: 0, reduced: false })
+  const guided = isWorkbench && allowedWorkbench.has(workbenchOrigin)
+
+  useEffect(() => {
+    if (!guided) return
+    function onMessage(event: MessageEvent) {
+      if (event.source !== window.parent || event.origin !== workbenchOrigin) return
+      const data = event.data
+      if (data?.type !== 'workbench:pathline:intro' || !Number.isFinite(data.progress)) return
+      setIntro({ progress: Math.max(0, Math.min(1, data.progress)), reduced: data.reduced === true })
+    }
+    function onWheel(event: WheelEvent) {
+      if (event.defaultPrevented || event.ctrlKey || event.deltaY >= 0) return
+      const scrollArea = event.target instanceof Element ? event.target.closest('.overflow-y-auto') : null
+      if (scrollArea && scrollArea.scrollTop > 0) return
+      event.preventDefault()
+      const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? window.innerHeight : 1
+      window.parent.postMessage({ type: 'workbench:pathline:scroll', delta: event.deltaY * unit }, workbenchOrigin)
+    }
+    window.addEventListener('message', onMessage)
+    window.addEventListener('wheel', onWheel, { passive: false })
+    window.parent.postMessage({ type: 'workbench:pathline:ready' }, workbenchOrigin)
+    return () => {
+      window.removeEventListener('message', onMessage)
+      window.removeEventListener('wheel', onWheel)
+    }
+  }, [guided])
 
   // Let the phone sit flush on the deck's dark glass — no app page background.
   useEffect(() => {
@@ -71,8 +104,7 @@ export default function App() {
     setScreen(nextScreen)
   }
 
-  const phone = (
-    <PhoneFrame tone={screen === 'live' ? 'dark' : 'light'}>
+  const screens = (
       <AnimatePresence initial={false} custom={{ direction, motion: screenMotion }}>
         <motion.div
           key={screen}
@@ -127,7 +159,12 @@ export default function App() {
             )}
           </motion.div>
         </AnimatePresence>
-      </PhoneFrame>
+  )
+
+  const phone = (
+    <PhoneFrame tone={screen === 'live' ? 'dark' : 'light'}>
+      {guided ? <WorkbenchIntro {...intro}>{screens}</WorkbenchIntro> : screens}
+    </PhoneFrame>
   )
 
   if (isStyle) {
@@ -152,9 +189,7 @@ export default function App() {
 
       <div className="flex flex-col items-center gap-1.5">
         <div className="flex items-center gap-2">
-          <span className="pl-glass-soft flex h-6 w-6 items-center justify-center rounded-[7px] text-live-700">
-            <IconLeaf size={16} stroke={1.8} />
-          </span>
+          <PathlineMark size="header" />
           <span className="font-serif text-[20px] font-medium text-ink">Pathline</span>
         </div>
         <div className="text-label text-ink-3">

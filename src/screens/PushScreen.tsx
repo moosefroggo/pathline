@@ -1,4 +1,5 @@
-import { IconChevronUp, IconLeaf } from '@tabler/icons-react'
+import { IconChevronUp } from '@tabler/icons-react'
+import { PathlineMark } from '../components/PathlineMark'
 import { candidates, recruiter } from '../data'
 
 export function PushScreen({ onOpen }: { onOpen: () => void }) {
@@ -15,9 +16,7 @@ export function PushScreen({ onOpen }: { onOpen: () => void }) {
         className="pl-glass-panel mt-10 w-full rounded-[20px] p-3.5 text-left transition active:scale-[0.98]"
       >
         <div className="mb-2 flex items-center gap-2">
-          <span className="pl-glass-soft flex h-5 w-5 items-center justify-center rounded-md text-live-700">
-            <IconLeaf size={14} stroke={1.8} />
-          </span>
+          <PathlineMark size="notification" />
           <span className="text-caption tracking-wide text-ink-2">pathline</span>
           <span className="ml-auto text-caption text-ink-3">now</span>
         </div>
