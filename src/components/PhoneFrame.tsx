@@ -49,7 +49,7 @@ export function PhoneFrame({
           <span>9:41</span>
           <span className="flex items-center gap-1.5">
             <SignalBars dark={dark} />
-            <svg viewBox="0 0 16 16" className="h-[13px] w-[13px] fill-current shrink-0" aria-hidden="true">
+            <svg viewBox="0 0 16 16" className="h-[17px] w-[17px] fill-current shrink-0" aria-hidden="true">
               <path d="M8 13.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm-3.83-5.02a5.42 5.42 0 0 1 7.66 0l-1.06 1.06a3.92 3.92 0 0 0-5.54 0L4.17 8.48Zm-2.12-2.12a8.42 8.42 0 0 1 11.9 0l-1.06 1.06a6.92 6.92 0 0 0-9.78 0L2.05 6.36Z"/>
             </svg>
             <Battery dark={dark} />
