@@ -61,6 +61,11 @@ export default function App() {
       const data = event.data
       if (data?.type !== 'workbench:pathline:intro' || !Number.isFinite(data.progress)) return
       setIntro({ progress: Math.max(0, Math.min(1, data.progress)), reduced: data.reduced === true })
+      if (data.progress <= .64) {
+        setDirection(-1)
+        setScreenMotion('reset')
+        setScreen('push')
+      }
     }
     function onWheel(event: WheelEvent) {
       if (event.defaultPrevented || event.ctrlKey || event.deltaY >= 0) return
