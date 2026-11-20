@@ -79,9 +79,11 @@ function CardFace({ c }: { c: Candidate }) {
 export function PresenceCarousel({
   candidates,
   onSelect,
+  guided = false,
 }: {
   candidates: Candidate[]
   onSelect: (c: Candidate) => void
+  guided?: boolean
 }) {
   const stageRef = useRef<HTMLDivElement>(null)
   const cardRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -113,6 +115,7 @@ export function PresenceCarousel({
     if (!stage) return
 
     render(0)
+    if (guided) return
 
     // One-shot entrance on first mount: center card rises first, side cards fan out.
     if (!hasAnimated.current) {
@@ -181,7 +184,7 @@ export function PresenceCarousel({
       dragRef.current = null
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [n])
+  }, [n, guided])
 
   function goTo(i: number) {
     // Find shortest cyclic path from current position to target index.
@@ -215,6 +218,10 @@ export function PresenceCarousel({
   }
 
   function handleCard(i: number) {
+    if (guided) {
+      onSelect(candidates[0])
+      return
+    }
     if (movedRef.current) return
     if (i === active) onSelect(candidates[i])
     else goTo(i)
@@ -222,7 +229,7 @@ export function PresenceCarousel({
 
   return (
     <div className="flex min-h-0 flex-1 flex-col justify-center gap-2">
-      <div ref={stageRef} className="pl-carousel-stage relative h-[390px] touch-none select-none">
+      <div ref={stageRef} className={`pl-carousel-stage relative h-[390px] select-none ${guided ? 'touch-pan-y' : 'touch-none'}`}>
         {candidates.map((c, i) => (
           <div
             key={c.id}

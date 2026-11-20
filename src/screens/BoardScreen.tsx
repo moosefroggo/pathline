@@ -175,7 +175,7 @@ function RolesSheet({ onClose }: { onClose: () => void }) {
   )
 }
 
-export function BoardScreen({ onSelect }: { onSelect: (c: Candidate) => void }) {
+export function BoardScreen({ onSelect, guided = false }: { onSelect: (c: Candidate) => void; guided?: boolean }) {
   const [showProfile, setShowProfile] = useState(false)
   const [showRoles, setShowRoles] = useState(false)
 
@@ -206,7 +206,7 @@ export function BoardScreen({ onSelect }: { onSelect: (c: Candidate) => void }) 
         </div>
       </div>
 
-      <PresenceCarousel candidates={candidates} onSelect={onSelect} />
+      <PresenceCarousel candidates={candidates} onSelect={onSelect} guided={guided} />
 
       <div className="pl-bottom-glass mt-auto flex items-center justify-around border-t border-ink/8 px-2 pt-2 pb-3 text-ink-3">
         <TabItem icon={<IconBolt size={20} stroke={1.8} />} label="Moments" active />

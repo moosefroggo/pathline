@@ -4,6 +4,8 @@ import { PhoneFrame } from './components/PhoneFrame'
 import { PathlineMark } from './components/PathlineMark'
 import { PushScreen } from './screens/PushScreen'
 import { WorkbenchIntro } from './screens/WorkbenchIntro'
+import { type WalkthroughScreen, walkthrough } from './lib/workbench-walkthrough'
+import { WorkbenchWalkthrough } from './screens/WorkbenchWalkthrough'
 import { BoardScreen } from './screens/BoardScreen'
 import { BriefScreen } from './screens/BriefScreen'
 import { GoLiveScreen } from './screens/GoLiveScreen'
@@ -51,7 +53,7 @@ export default function App() {
   const [direction, setDirection] = useState(1)
   const [screenMotion, setScreenMotion] = useState<ScreenMotion>('open')
   const [selected, setSelected] = useState<Candidate>(candidates[0])
-  const [intro, setIntro] = useState({ progress: 0, reduced: false })
+  const [intro, setIntro] = useState({ progress: 0, walkthrough: null as number | null, reduced: false })
   const guided = isWorkbench && allowedWorkbench.has(workbenchOrigin)
 
   useEffect(() => {
@@ -60,7 +62,11 @@ export default function App() {
       if (event.source !== window.parent || event.origin !== workbenchOrigin) return
       const data = event.data
       if (data?.type !== 'workbench:pathline:intro' || !Number.isFinite(data.progress)) return
-      setIntro({ progress: Math.max(0, Math.min(1, data.progress)), reduced: data.reduced === true })
+      setIntro({
+        progress: Math.max(0, Math.min(1, data.progress)),
+        walkthrough: Number.isFinite(data.walkthrough) ? Math.max(0, Math.min(1, data.walkthrough)) : null,
+        reduced: data.reduced === true,
+      })
       if (data.progress <= .64) {
         setDirection(-1)
         setScreenMotion('reset')
@@ -69,7 +75,7 @@ export default function App() {
     }
     function scrollWorkbench(event: Event, delta: number) {
       if (event.defaultPrevented || !event.cancelable || delta === 0) return
-      const area = event.target instanceof Element ? event.target.closest('.overflow-y-auto') : null
+      const area = event.target instanceof Element && !event.target.closest('[data-workbench-screen]') ? event.target.closest('.overflow-y-auto') : null
       if (area && (delta < 0 ? area.scrollTop > 0 : area.scrollTop + area.clientHeight < area.scrollHeight - 1)) return
       event.preventDefault()
       window.parent.postMessage({ type: 'workbench:pathline:scroll', delta }, workbenchOrigin)
@@ -186,9 +192,36 @@ export default function App() {
         </AnimatePresence>
   )
 
+  const scrollGuided = guided && intro.walkthrough !== null
+  function seekWalkthrough(target: WalkthroughScreen) {
+    const step = walkthrough.find((beat) => beat.screen === target)
+    if (!step) return
+    window.parent.postMessage({ type: 'workbench:pathline:seek', progress: step.start + step.transition }, workbenchOrigin)
+  }
+
+  function guidedScreen(step: WalkthroughScreen, progress: number) {
+    const candidate = candidates[0]
+    const surface = step === 'live' ? 'bg-night' : 'pl-phone-surface'
+    const content = {
+      push: () => <PushScreen onOpen={() => seekWalkthrough('board')} guided />,
+      board: () => <BoardScreen onSelect={() => seekWalkthrough('brief')} guided />,
+      brief: () => <BriefScreen c={candidate} onBack={() => seekWalkthrough('board')} onStart={() => seekWalkthrough('golive')} progress={progress} />,
+      golive: () => <GoLiveScreen c={candidate} onBack={() => seekWalkthrough('brief')} onStart={() => seekWalkthrough('live')} />,
+      live: () => <LiveScreen c={candidate} onBook={() => seekWalkthrough('booked')} onEnd={() => seekWalkthrough('board')} progress={progress} />,
+      booked: () => <BookedScreen c={candidate} onRestart={() => seekWalkthrough('push')} />,
+    }
+    return <div className={`flex min-h-0 flex-1 flex-col ${surface}`}>{content[step]()}</div>
+  }
+
   const phone = (
-    <PhoneFrame tone={screen === 'live' ? 'dark' : 'light'}>
-      {guided ? <WorkbenchIntro {...intro}>{screens}</WorkbenchIntro> : screens}
+    <PhoneFrame tone={!scrollGuided && screen === 'live' ? 'dark' : 'light'}>
+      {guided ? (
+        <WorkbenchIntro {...intro}>
+          {scrollGuided
+            ? <WorkbenchWalkthrough progress={intro.walkthrough ?? 0} reduced={intro.reduced} render={guidedScreen} />
+            : screens}
+        </WorkbenchIntro>
+      ) : screens}
     </PhoneFrame>
   )
 

@@ -2,7 +2,7 @@ import { IconChevronUp } from '@tabler/icons-react'
 import { PathlineMark } from '../components/PathlineMark'
 import { candidates, recruiter } from '../data'
 
-export function PushScreen({ onOpen }: { onOpen: () => void }) {
+export function PushScreen({ onOpen, guided = false }: { onOpen: () => void; guided?: boolean }) {
   return (
     <div className="flex flex-1 flex-col px-3 pb-6">
       <div className="pt-16 text-center">
@@ -28,7 +28,7 @@ export function PushScreen({ onOpen }: { onOpen: () => void }) {
 
       <div className="mt-auto flex flex-col items-center gap-1 pt-8 text-ink-3">
         <IconChevronUp size={16} stroke={1.8} />
-        <span className="text-caption">tap to open</span>
+        <span className="text-caption">{guided ? 'scroll or tap to open' : 'tap to open'}</span>
       </div>
     </div>
   )

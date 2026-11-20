@@ -35,22 +35,31 @@ export function LiveScreen({
   c,
   onBook,
   onEnd,
+  progress,
 }: {
   c: Candidate
   onBook: () => void
   onEnd: () => void
+  progress?: number
 }) {
-  const [phase, setPhase] = useState<'ringing' | 'live'>('ringing')
-  const [showCaption, setShowCaption] = useState(false)
-  const [showBook, setShowBook] = useState(false)
-  const [confirmedIntents, setConfirmedIntents] = useState<string[]>([])
+  const guided = progress !== undefined
+  const [callPhase, setCallPhase] = useState<'ringing' | 'live'>('ringing')
+  const [elapsed, setElapsed] = useState(0)
   const [cameraStream, setCameraStream] = useState<MediaStream | null>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
 
-  useTimeout(() => setPhase('live'), phase === 'ringing' ? 3200 : null)
+  const phase = guided ? progress >= .15 ? 'live' : 'ringing' : callPhase
+  const time = guided ? Math.max(0, (progress - .15) / .8) * 8000 : elapsed
+  const showCaption = time >= 3400
+  const showBook = time >= 7600
+  const confirmedIntents = [4400, 5600, 6800].flatMap((threshold, index) =>
+    time >= threshold ? [c.declared[index === 2 ? 3 : index]] : []
+  )
+
+  useTimeout(() => setCallPhase('live'), !guided && callPhase === 'ringing' ? 3200 : null)
 
   useEffect(() => {
-    if (phase !== 'live') return
+    if (guided || phase !== 'live' || !navigator.mediaDevices?.getUserMedia) return
 
     let activeStream: MediaStream | null = null
 
@@ -69,7 +78,7 @@ export function LiveScreen({
         activeStream.getTracks().forEach((track) => track.stop())
       }
     }
-  }, [phase])
+  }, [guided, phase])
 
   useEffect(() => {
     if (videoRef.current && cameraStream) {
@@ -78,30 +87,12 @@ export function LiveScreen({
   }, [cameraStream])
 
   useEffect(() => {
-    if (phase !== 'live') return
-    setConfirmedIntents([])
-    const t1 = setTimeout(() => setShowCaption(true), 3400)
-    
-    // Simulating live speech analytical confirmation of candidate intents
-    const tc1 = setTimeout(() => {
-      setConfirmedIntents(prev => [...prev, c.declared[0]])
-    }, 4400)
-    const tc2 = setTimeout(() => {
-      setConfirmedIntents(prev => [...prev, c.declared[1]])
-    }, 5600)
-    const tc3 = setTimeout(() => {
-      setConfirmedIntents(prev => [...prev, c.declared[3]])
-    }, 6800)
-
-    const t2 = setTimeout(() => setShowBook(true), 7600)
-    return () => {
-      clearTimeout(t1)
-      clearTimeout(tc1)
-      clearTimeout(tc2)
-      clearTimeout(tc3)
-      clearTimeout(t2)
-    }
-  }, [phase, c])
+    if (guided || phase !== 'live') return
+    const timers = [3400, 4400, 5600, 6800, 7600].map((threshold) =>
+      setTimeout(() => setElapsed(threshold), threshold)
+    )
+    return () => timers.forEach(clearTimeout)
+  }, [guided, phase])
 
   return (
     <div className="flex flex-1 flex-col px-4 pb-5 text-white">
@@ -156,7 +147,7 @@ export function LiveScreen({
               key="live"
               initial={{ opacity: 0, scale: 0.94, y: 8 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={revealTransition}
+              transition={guided ? { duration: 0 } : revealTransition}
               className="flex flex-col items-center"
             >
               <div className="relative flex items-center justify-center">
@@ -196,9 +187,11 @@ export function LiveScreen({
         <AnimatePresence>
           {showCaption && (
             <motion.div
+              key="caption"
+              exit={{ opacity: 0 }}
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={riseTransition}
+              transition={guided ? { duration: 0 } : riseTransition}
               className="mt-6 flex flex-col gap-2 w-full max-w-[260px]"
             >
               <div className="pl-glass rounded-2xl px-3.5 py-2.5 text-body leading-snug text-ink text-left">
@@ -250,7 +243,7 @@ export function LiveScreen({
           opacity: showBook ? 1 : 0,
           marginBottom: showBook ? 16 : 0,
         }}
-        transition={riseTransition}
+        transition={guided ? { duration: 0 } : riseTransition}
         className="overflow-hidden w-full shrink-0"
       >
         <button

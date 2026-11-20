@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef } from 'react'
 import {
   IconBolt,
   IconChevronLeft,
@@ -13,14 +14,23 @@ export function BriefScreen({
   c,
   onBack,
   onStart,
+  progress,
 }: {
   c: Candidate
   onBack: () => void
   onStart: () => void
+  progress?: number
 }) {
+  const details = useRef<HTMLDivElement>(null)
+  useLayoutEffect(() => {
+    const panel = details.current
+    if (panel && progress !== undefined) {
+      panel.scrollTop = (panel.scrollHeight - panel.clientHeight) * Math.max(0, (progress - .25) / .75)
+    }
+  }, [progress])
   return (
     <div className="flex h-full min-h-0 flex-1 flex-col overflow-hidden">
-      <div className="pl-noscroll min-h-0 flex-1 overflow-y-auto px-4 pt-[42px] pb-4">
+      <div ref={details} className="pl-noscroll min-h-0 flex-1 overflow-y-auto px-4 pt-[42px] pb-4">
         <button
           type="button"
           onClick={onBack}
