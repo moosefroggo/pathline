@@ -4,12 +4,12 @@ import { Avatar } from '../components/bits'
 import type { Candidate } from '../data'
 import { revealTransition } from '../lib/motion'
 
-export function BookedScreen({ c, onRestart }: { c: Candidate; onRestart: () => void }) {
+export function BookedScreen({ c, onRestart, guided = false }: { c: Candidate; onRestart: () => void; guided?: boolean }) {
   return (
     <div className="flex flex-1 flex-col items-center px-5 pt-8 pb-6 text-center">
       <div className="flex flex-1 flex-col items-center justify-center">
         <motion.div
-          initial={{ scale: 0.86, opacity: 0 }}
+          initial={guided ? false : { scale: 0.86, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ ...revealTransition, delay: 0.18 }}
           className="relative"

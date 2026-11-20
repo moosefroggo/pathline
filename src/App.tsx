@@ -207,8 +207,8 @@ export default function App() {
       board: () => <BoardScreen onSelect={() => seekWalkthrough('brief')} guided />,
       brief: () => <BriefScreen c={candidate} onBack={() => seekWalkthrough('board')} onStart={() => seekWalkthrough('golive')} progress={progress} />,
       golive: () => <GoLiveScreen c={candidate} onBack={() => seekWalkthrough('brief')} onStart={() => seekWalkthrough('live')} />,
-      live: () => <LiveScreen c={candidate} onBook={() => seekWalkthrough('booked')} onEnd={() => seekWalkthrough('board')} progress={progress} />,
-      booked: () => <BookedScreen c={candidate} onRestart={() => seekWalkthrough('push')} />,
+      live: () => <LiveScreen c={candidate} onBook={() => seekWalkthrough('booked')} onEnd={() => seekWalkthrough('board')} progress={progress} reduced={intro.reduced} />,
+      booked: () => <BookedScreen c={candidate} onRestart={() => seekWalkthrough('push')} guided />,
     }
     return <div className={`flex min-h-0 flex-1 flex-col ${surface}`}>{content[step]()}</div>
   }

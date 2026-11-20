@@ -1,8 +1,8 @@
 import { useLayoutEffect, useRef, type ReactNode } from 'react'
-import { screenStackVariants, smoothEase } from '../lib/motion'
+import { screenStackVariants } from '../lib/motion'
 import { type WalkthroughScreen, walkthrough } from '../lib/workbench-walkthrough'
 
-const easing = `cubic-bezier(${smoothEase.join(',')})`
+const easing = 'cubic-bezier(.32, .12, .28, 1)'
 
 function layerKeyframe(pose: ReturnType<typeof screenStackVariants.enter> | ReturnType<typeof screenStackVariants.center> | ReturnType<typeof screenStackVariants.exit>) {
   const { x = 0, y = 0, scale = 1, opacity = 1, filter = 'blur(0px)' } = pose as {
@@ -37,7 +37,10 @@ const poses = walkthrough.map(({ motion }) => {
   const direction = { direction: 1, motion }
   return {
     enter: layerKeyframe(screenStackVariants.enter(direction)),
-    exit: layerKeyframe(screenStackVariants.exit(direction)),
+    // Keep the outgoing surface behind the incoming screen throughout the reveal.
+    exit: motion === 'drill'
+      ? layerKeyframe(screenStackVariants.exit(direction))
+      : { ...rest, transform: 'translate(0px, 0px) scale(1.025)' },
   }
 })
 
@@ -53,7 +56,7 @@ export function WorkbenchWalkthrough({ progress, reduced, render }: {
   const transition = previous && !reduced ? Math.min(1, (progress - step.start) / step.transition) : 1
   const beat = Math.max(0, Math.min(1, (progress - step.start - step.transition) / ((next?.start ?? 1) - step.start - step.transition)))
   return (
-    <div className="absolute inset-0 overflow-hidden" data-workbench-screen={step.screen}>
+    <div className="absolute inset-0 overflow-hidden bg-night" data-workbench-screen={step.screen}>
       {previous && transition < 1 && (
         <TransitionLayer key={previous.screen} from={rest} to={poses[index].exit} progress={transition} interactive={false}>
           {render(previous.screen, 1)}

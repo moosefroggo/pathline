@@ -13,8 +13,10 @@ import { Avatar } from '../components/bits'
 import { useTimeout } from '../lib/hooks'
 import { recruiter, type Candidate } from '../data'
 import { revealTransition, riseTransition, smoothEase } from '../lib/motion'
+import { easeRange } from '../lib/workbench-walkthrough'
 
 const WAVE = [10, 18, 26, 14, 22, 30, 16, 24, 12, 20, 9]
+const scrub = { duration: 0 }
 
 function Waveform() {
   return (
@@ -36,11 +38,13 @@ export function LiveScreen({
   onBook,
   onEnd,
   progress,
+  reduced = false,
 }: {
   c: Candidate
   onBook: () => void
   onEnd: () => void
   progress?: number
+  reduced?: boolean
 }) {
   const guided = progress !== undefined
   const [callPhase, setCallPhase] = useState<'ringing' | 'live'>('ringing')
@@ -48,18 +52,19 @@ export function LiveScreen({
   const [cameraStream, setCameraStream] = useState<MediaStream | null>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
 
-  const phase = guided ? progress >= .15 ? 'live' : 'ringing' : callPhase
-  const time = guided ? Math.max(0, (progress - .15) / .8) * 8000 : elapsed
+  const connect = guided ? easeRange(progress, .1, .38, reduced) : Number(callPhase === 'live')
+  const identity = guided ? easeRange(progress, .23, .48, reduced) : 1
+  const time = guided ? Math.max(0, (progress - .18) / .7) * 8000 : elapsed
   const showCaption = time >= 3400
   const showBook = time >= 7600
-  const confirmedIntents = [4400, 5600, 6800].flatMap((threshold, index) =>
-    time >= threshold ? [c.declared[index === 2 ? 3 : index]] : []
-  )
+  const caption = guided ? easeRange(time, 2950, 4250, reduced) : Number(showCaption)
+  const booking = guided ? easeRange(time, 6150, 7700, reduced) : Number(showBook)
+  const signalTimes = [4400, 5600, Infinity, 6800]
 
   useTimeout(() => setCallPhase('live'), !guided && callPhase === 'ringing' ? 3200 : null)
 
   useEffect(() => {
-    if (guided || phase !== 'live' || !navigator.mediaDevices?.getUserMedia) return
+    if (guided || callPhase !== 'live' || !navigator.mediaDevices?.getUserMedia) return
 
     let activeStream: MediaStream | null = null
 
@@ -78,7 +83,7 @@ export function LiveScreen({
         activeStream.getTracks().forEach((track) => track.stop())
       }
     }
-  }, [guided, phase])
+  }, [guided, callPhase])
 
   useEffect(() => {
     if (videoRef.current && cameraStream) {
@@ -87,28 +92,49 @@ export function LiveScreen({
   }, [cameraStream])
 
   useEffect(() => {
-    if (guided || phase !== 'live') return
+    if (guided || callPhase !== 'live') return
     const timers = [3400, 4400, 5600, 6800, 7600].map((threshold) =>
       setTimeout(() => setElapsed(threshold), threshold)
     )
     return () => timers.forEach(clearTimeout)
-  }, [guided, phase])
+  }, [guided, callPhase])
 
   return (
     <div className="flex flex-1 flex-col px-4 pb-5 text-white">
-      <div className="flex items-center justify-center pt-[46px] text-center">
-        {phase === 'live' ? (
-          <span className="pl-glass-pill inline-flex items-center gap-1.5 rounded-lg px-3 py-1 text-caption text-live-200">
+      <div className="grid justify-items-center pt-[46px] text-center">
+        {(guided || callPhase === 'live') && (
+          <motion.span
+            initial={false}
+            animate={{ opacity: connect }}
+            transition={scrub}
+            aria-hidden={connect < .5}
+            className="pl-glass-pill col-start-1 row-start-1 inline-flex items-center gap-1.5 rounded-lg px-3 py-1 text-caption text-live-200"
+          >
             <span className="h-1.5 w-1.5 rounded-full bg-live" /> Live
-          </span>
-        ) : (
-          <span className="text-label text-ink-4">Connecting&hellip;</span>
+          </motion.span>
+        )}
+        {(guided || callPhase === 'ringing') && (
+          <motion.span
+            initial={false}
+            animate={{ opacity: 1 - connect }}
+            transition={scrub}
+            aria-hidden={connect >= .5}
+            className="col-start-1 row-start-1 self-center text-label text-ink-4"
+          >
+            Connecting&hellip;
+          </motion.span>
         )}
       </div>
 
       {/* self-view, tucked into the corner so it never collides with the reveal */}
-      {phase === 'live' && (
-        <div className="absolute top-11 right-3 z-10 h-[108px] w-[80px] overflow-hidden rounded-2xl border border-hairline-strong shadow-[0_6px_20px_rgba(0,0,0,0.4)] bg-night">
+      {connect > 0 && (
+        <motion.div
+          initial={false}
+          animate={{ opacity: connect, y: guided && !reduced ? -6 * (1 - connect) : 0 }}
+          transition={scrub}
+          aria-hidden={connect < .5}
+          className="absolute top-11 right-3 z-10 h-[108px] w-[80px] overflow-hidden rounded-2xl border border-hairline-strong shadow-[0_6px_20px_rgba(0,0,0,0.4)] bg-night"
+        >
           {cameraStream ? (
             <video
               ref={videoRef}
@@ -125,73 +151,88 @@ export function LiveScreen({
           <span className="absolute inset-x-0 bottom-0 bg-night/55 text-center text-micro leading-[13px] font-medium text-ink-2">
             You
           </span>
-        </div>
+        </motion.div>
       )}
 
       <div className="flex flex-1 flex-col items-center pt-8 text-center">
-        <AnimatePresence mode="wait">
-          {phase === 'ringing' ? (
-            <motion.div
-              key="ring"
-              exit={{ opacity: 0, scale: 0.96 }}
-              transition={{ duration: 0.5, ease: smoothEase }}
-              className="relative flex items-center justify-center"
-            >
-              <span className="pl-ring absolute h-[104px] w-[104px] rounded-full bg-live-200" />
-              <span className="pl-glass-soft flex h-[104px] w-[104px] items-center justify-center rounded-full text-ink-4">
-                <IconUser size={40} stroke={1.8} />
-              </span>
-            </motion.div>
-          ) : (
-            <motion.div
-              key="live"
-              initial={{ opacity: 0, scale: 0.94, y: 8 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={guided ? { duration: 0 } : revealTransition}
-              className="flex flex-col items-center"
-            >
-              <div className="relative flex items-center justify-center">
-                <motion.span
-                  aria-hidden="true"
-                  initial={{ opacity: 0, scale: 0.74 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 1.1, ease: smoothEase }}
-                  className="pl-glow pointer-events-none absolute h-[210px] w-[210px] rounded-full"
-                />
-                <Avatar initials={c.initials} hue={c.hue} size="xl" />
-              </div>
-              <motion.span
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ ...riseTransition, delay: 0.22 }}
-                className="pl-glass-pill mt-4 inline-flex items-center gap-1 rounded-md px-2.5 py-1 text-micro text-ink"
-              >
-                <IconLockOpen size={14} stroke={1.8} /> Revealed
-              </motion.span>
+        <div className="grid justify-items-center">
+          <AnimatePresence mode={guided ? 'sync' : 'wait'}>
+            {(guided || callPhase === 'ringing') && (
               <motion.div
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ ...riseTransition, delay: 0.34 }}
-                className="mt-2.5 font-serif text-[26px] font-medium text-white"
+                key="ring"
+                initial={false}
+                animate={{ opacity: 1 - connect }}
+                exit={{ opacity: 0, scale: 0.96 }}
+                transition={guided ? scrub : { duration: 0.5, ease: smoothEase }}
+                aria-hidden={connect >= .5}
+                className="relative col-start-1 row-start-1 flex h-[104px] items-center justify-center"
               >
-                {c.name}
+                <span className="pl-ring absolute h-[104px] w-[104px] rounded-full bg-live-200" />
+                <span className="pl-glass-soft flex h-[104px] w-[104px] items-center justify-center rounded-full text-ink-4">
+                  <IconUser size={40} stroke={1.8} />
+                </span>
               </motion.div>
-              <div className="mt-1 text-caption text-ink-3">{c.realRole}</div>
-              <div className="mt-5">
-                <Waveform />
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            )}
+            {(guided || callPhase === 'live') && (
+              <motion.div
+                key="live"
+                initial={guided ? false : { opacity: 0, scale: 0.94, y: 8 }}
+                animate={{ opacity: connect, scale: .94 + .06 * connect, y: 0 }}
+                transition={guided ? scrub : revealTransition}
+                aria-hidden={connect < .5}
+                className="col-start-1 row-start-1 flex flex-col items-center"
+              >
+                <div className="relative flex items-center justify-center">
+                  <motion.span
+                    aria-hidden="true"
+                    initial={guided ? false : { opacity: 0, scale: 0.74 }}
+                    animate={{ opacity: identity, scale: .74 + .26 * identity }}
+                    transition={guided ? scrub : { duration: 1.1, ease: smoothEase }}
+                    className="pl-glow pointer-events-none absolute h-[210px] w-[210px] rounded-full"
+                  />
+                  <Avatar initials={c.initials} hue={c.hue} size="xl" />
+                </div>
+                <motion.span
+                  initial={guided ? false : { opacity: 0, y: 6 }}
+                  animate={{ opacity: identity, y: 6 * (1 - identity) }}
+                  transition={guided ? scrub : { ...riseTransition, delay: 0.22 }}
+                  className="pl-glass-pill mt-4 inline-flex items-center gap-1 rounded-md px-2.5 py-1 text-micro text-ink"
+                >
+                  <IconLockOpen size={14} stroke={1.8} /> Revealed
+                </motion.span>
+                <motion.div
+                  initial={guided ? false : { opacity: 0, y: 8 }}
+                  animate={{ opacity: identity, y: 8 * (1 - identity) }}
+                  transition={guided ? scrub : { ...riseTransition, delay: 0.34 }}
+                  className="mt-2.5 font-serif text-[26px] font-medium text-white"
+                >
+                  {c.name}
+                </motion.div>
+                <motion.div
+                  initial={false}
+                  animate={{ opacity: identity }}
+                  transition={scrub}
+                  className="mt-1 text-caption text-ink-3"
+                >
+                  {c.realRole}
+                </motion.div>
+                <motion.div initial={false} animate={{ opacity: identity }} transition={scrub} className="mt-5">
+                  <Waveform />
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
         <AnimatePresence>
-          {showCaption && (
+          {(guided || showCaption) && (
             <motion.div
               key="caption"
               exit={{ opacity: 0 }}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={guided ? { duration: 0 } : riseTransition}
+              initial={guided ? false : { opacity: 0, y: 8 }}
+              animate={{ opacity: caption, y: 8 * (1 - caption) }}
+              transition={guided ? scrub : riseTransition}
+              aria-hidden={caption < .5}
               className="mt-6 flex flex-col gap-2 w-full max-w-[260px]"
             >
               <div className="pl-glass rounded-2xl px-3.5 py-2.5 text-body leading-snug text-ink text-left">
@@ -206,24 +247,27 @@ export function LiveScreen({
                   <span>Live Signals</span>
                 </div>
                 <div className="flex flex-wrap gap-1 mt-0.5">
-                  {c.declared.map((intent) => {
-                    const isConfirmed = confirmedIntents.includes(intent);
+                  {c.declared.map((intent, index) => {
+                    const threshold = signalTimes[index] ?? Infinity
+                    const signal = guided && Number.isFinite(threshold)
+                      ? easeRange(time, threshold - 450, threshold + 450, reduced)
+                      : Number(time >= threshold)
                     return (
                       <motion.span
                         key={intent}
                         initial={false}
                         animate={{
-                          opacity: isConfirmed ? 1 : 0.28,
-                          borderColor: isConfirmed ? 'rgba(185, 228, 215, 0.3)' : 'rgba(250, 248, 231, 0.06)',
-                          backgroundColor: isConfirmed ? 'rgba(185, 228, 215, 0.1)' : 'transparent',
+                          opacity: 0.28 + 0.72 * signal,
+                          borderColor: `rgba(185, 228, 215, ${.06 + .24 * signal})`,
+                          backgroundColor: `rgba(185, 228, 215, ${.1 * signal})`,
                         }}
-                        transition={{ duration: 0.35, ease: 'easeOut' }}
+                        transition={guided ? scrub : { duration: 0.35, ease: 'easeOut' }}
                         className="inline-flex items-center gap-1 rounded-[5px] border px-1.5 py-0.5 text-micro font-medium text-ink"
                       >
                         <IconCircleCheck
                           size={10}
                           stroke={2}
-                          className={isConfirmed ? 'text-live-700' : 'text-ink-4/40'}
+                          className="text-live-700"
                         />
                         {intent}
                       </motion.span>
@@ -237,14 +281,16 @@ export function LiveScreen({
       </div>
 
       <motion.div
-        initial={{ height: 0, opacity: 0, marginBottom: 0 }}
+        initial={guided ? false : { height: 0, opacity: 0, marginBottom: 0 }}
         animate={{
-          height: showBook ? 'auto' : 0,
-          opacity: showBook ? 1 : 0,
-          marginBottom: showBook ? 16 : 0,
+          height: guided || showBook ? 'auto' : 0,
+          opacity: booking,
+          y: guided ? 12 * (1 - booking) : 0,
+          marginBottom: guided || showBook ? 16 : 0,
         }}
-        transition={guided ? { duration: 0 } : riseTransition}
-        className="overflow-hidden w-full shrink-0"
+        transition={guided ? scrub : riseTransition}
+        inert={booking < .5}
+        className="w-full shrink-0 overflow-hidden"
       >
         <button
           type="button"
