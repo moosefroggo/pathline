@@ -67,20 +67,40 @@ export default function App() {
         setScreen('push')
       }
     }
-    function onWheel(event: WheelEvent) {
-      if (event.defaultPrevented || event.ctrlKey || event.deltaY >= 0) return
-      const scrollArea = event.target instanceof Element ? event.target.closest('.overflow-y-auto') : null
-      if (scrollArea && scrollArea.scrollTop > 0) return
+    function scrollWorkbench(event: Event, delta: number) {
+      if (event.defaultPrevented || !event.cancelable || delta === 0) return
+      const area = event.target instanceof Element ? event.target.closest('.overflow-y-auto') : null
+      if (area && (delta < 0 ? area.scrollTop > 0 : area.scrollTop + area.clientHeight < area.scrollHeight - 1)) return
       event.preventDefault()
+      window.parent.postMessage({ type: 'workbench:pathline:scroll', delta }, workbenchOrigin)
+    }
+    function onWheel(event: WheelEvent) {
+      if (event.ctrlKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return
       const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? window.innerHeight : 1
-      window.parent.postMessage({ type: 'workbench:pathline:scroll', delta: event.deltaY * unit }, workbenchOrigin)
+      scrollWorkbench(event, event.deltaY * unit)
+    }
+    let touch: { x: number; y: number } | null = null
+    function onTouchStart(event: TouchEvent) {
+      const point = event.touches[0]
+      touch = event.touches.length === 1 ? { x: point.clientX, y: point.clientY } : null
+    }
+    function onTouchMove(event: TouchEvent) {
+      if (!touch || event.touches.length !== 1) return
+      const point = event.touches[0]
+      const delta = touch.y - point.clientY
+      if (Math.abs(delta) > Math.abs(touch.x - point.clientX)) scrollWorkbench(event, delta)
+      touch = { x: point.clientX, y: point.clientY }
     }
     window.addEventListener('message', onMessage)
     window.addEventListener('wheel', onWheel, { passive: false })
+    window.addEventListener('touchstart', onTouchStart, { passive: true })
+    window.addEventListener('touchmove', onTouchMove, { passive: false })
     window.parent.postMessage({ type: 'workbench:pathline:ready' }, workbenchOrigin)
     return () => {
       window.removeEventListener('message', onMessage)
       window.removeEventListener('wheel', onWheel)
+      window.removeEventListener('touchstart', onTouchStart)
+      window.removeEventListener('touchmove', onTouchMove)
     }
   }, [guided])
 
